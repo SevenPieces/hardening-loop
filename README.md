@@ -41,9 +41,9 @@ Clone into your harness's skills directory, keeping the directory name equal to
 the `name:` in the frontmatter:
 
 ```sh
-git clone <repo-url> ${DSH_HOME:-$HOME/.dsh}/skills/hardening-loop
+git clone https://github.com/SevenPieces/hardening-loop.git ${DSH_HOME:-$HOME/.dsh}/skills/hardening-loop
 # Claude Code
-git clone <repo-url> ~/.claude/skills/hardening-loop
+git clone https://github.com/SevenPieces/hardening-loop.git ~/.claude/skills/hardening-loop
 ```
 
 ## Use
