@@ -1,0 +1,29 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Logs and local environment
+*.log
+.env
+.env.*
+
+# Dependencies - this skill ships prose only and has no dependencies, so this
+# only guards against a stray install
+node_modules/
+
+# Run artifacts. A hardening run belongs to its target: the report, the findings
+# file and any scratch state go to the working directory the run is pointed at,
+# never into this repository. The skill defines no fixed file name, and the
+# patterns below are not a naming convention to follow: they are speculative
+# globs that catch a stray in-tree run, and a run stays free to name its output
+# anything (see README.md).
+.hardening/
+hardening-report-*.md
+hardening-state.json
+*.findings.json

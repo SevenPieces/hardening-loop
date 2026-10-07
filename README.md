@@ -1,0 +1,176 @@
+# hardening-loop
+
+An agent skill that runs an adversarial, evidence-driven verify-and-fix loop
+against a target - a skill, plugin, feature, module, repository, service,
+pipeline, library or app - until no known issue remains at any severity.
+
+Every finding is classified, reproduced or explicitly marked non-reproducible,
+fixed where valid, covered by a regression test or a recorded justification, and
+re-verified. The loop
+repeats on every finding it produces, including the ones its own fixes create
+and the process-compliance findings it raises against itself. A Gate - goal
+check, compliance check, no open item, and one extra clean verification step -
+decides when the run is done. The output is a report for review, and nothing is
+pushed.
+
+## What a run produces
+
+| Output | Purpose |
+|---|---|
+| A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, sensitive-information scan, and the exact push command(s) pending approval |
+| Regression tests | One per input finding - or a recorded justification where none can be written; added to the target's suite, or to a runner added for the purpose where none existed and one was feasible |
+| A locally merged branch | All commits merged locally to the branch the invocation names - `main` when it names none - and never pushed; a target that is not under version control records its baseline identity and the applied change-sets instead |
+
+The skill writes its report, its findings and any scratch state into the working
+directory the run is pointed at - never into the skill's own directory - and
+defines no fixed file name for them: the `.gitignore` patterns for those
+artifacts are a speculative safety net for a stray in-tree run, not a naming
+convention the run follows. It has no dependencies, no scripts and no network
+requirements of its own.
+
+## Requirements
+
+- A skill-capable agent harness (DeepSeek Harness, Claude Code, ...).
+- Whatever the *target* needs to run, test and reproduce - the skill supplies
+  process, not tooling.
+- Read access to the target and, in findings-driven mode, to the findings files.
+
+## Install
+
+Clone into your harness's skills directory, keeping the directory name equal to
+the `name:` in the frontmatter:
+
+```sh
+git clone <repo-url> ${DSH_HOME:-$HOME/.dsh}/skills/hardening-loop
+# Claude Code
+git clone <repo-url> ~/.claude/skills/hardening-loop
+```
+
+## Use
+
+```
+hardening-loop target=skills/daily-news-briefing mode=baseline
+hardening-loop target=skills/daily-news-briefing mode=findings-driven findings=findings/2026-10-01.md refs=runs/ branch=release/0.5
+hardening-loop target=repo:payments-service mode=findings-driven findings=findings/,issues/q3-audit.md refs=runs/2026-09-30/,runs/2026-10-01/
+hardening-loop target=repo:payments-service mode=baseline baseline=v1.4.0
+hardening-loop target=plugin:auth-adapter mode=findings-driven findings=issues/q3-audit.md
+```
+
+The same parameters may be given as a prompt instead: "harden the
+daily-news-briefing skill until nothing is left" resolves to
+`target=skills/daily-news-briefing mode=baseline branch=main`. Either form is
+normalized into the target declaration and stated back before the run starts.
+
+The work is merged back to the branch the invocation named - `main` when it
+named none - and is never pushed. A target that is not under version control has
+no branch to merge into: its baseline identity and the applied change-sets are
+recorded instead.
+
+Two entry modes:
+
+- **baseline** - no input findings; scope comes from reconnaissance and an
+  adversarial hypothesis list.
+- **findings-driven** - the input findings are the starting backlog.
+
+In both modes the input findings are the *minimum* backlog, not the scope.
+
+A run against a large target usually belongs in its own session: the loop is
+long, and the report is the handoff back.
+
+## Parameters
+
+| Parameter | Canonical key | Required | Default when omitted | Meaning | Example |
+|---|---|---|---|---|---|
+| target | `target=` | yes | - | What is being hardened: a name, a path, or a `kind:name` identifier | `target=skills/daily-news-briefing`, `target=repo:payments-service` |
+| mode | `mode=` | no | `baseline` | `baseline` derives scope from reconnaissance; `findings-driven` starts from the input findings | `mode=findings-driven` |
+| input findings | `findings=` | no | `none` | One or more findings files, or a directory of them, that seed the backlog; naming any makes the run findings-driven unless `mode=` was stated explicitly, in which case the conflict is resolved with the operator first. Several paths are comma-separated, and a directory contributes its `.md` files | `findings=findings/2026-10-01.md,findings/2026-10-02.md` or `findings=findings/` |
+| reference artifacts | `refs=` | no | `none` | One or more paths or directories of read-only evidence - prior runs, outputs, delivered artifacts - used for triage and reproduction. Several paths are comma-separated, a directory contributes its contents recursively, and nothing under any of them is written to | `refs=runs/2026-10-01/,runs/2026-10-02/` or `refs=runs/` |
+| baseline / milestone | `baseline=` | no | the target's state as found at Phase 0 | The revision that "no regression" is measured against: a commit, a tag or a version. Without one, Phase 0 records the as-found identity - a revision, or a manifest of file hashes that stands in for it | `baseline=v1.4.0` |
+| merge target branch | `branch=` | no | `main` | The branch the work is merged back to locally, and never pushed; `none` when the target is not under version control or when `branch=none` is stated explicitly | `branch=release/0.5` |
+| constraints | `constraints=` | no | `none` | Access, environment, time or tooling limits the run must respect; quote it when it contains spaces | `constraints="no network, 2h budget"` |
+| extra skills | `skills=` | no | `none` | Skills to invoke in addition to the detected methodology framework (Superpowers where available); each is mapped to the step it serves and logged | `skills=brainstorming,writing-skills` |
+
+Notes:
+
+- Only `target` is required; every other parameter has a default, in the table
+  above. The baseline default is the notable one: with no `baseline=`, Phase 0
+  records the target's state as found - a revision, or a manifest of file hashes
+  that stands in for one - and "no regression" is measured against that.
+- An explicitly stated `none` is conclusive-absent. Anything still unknown that
+  would change the scope or the stopping rule is asked for before Phase 0 rather
+  than guessed.
+- Parameters may be assigned canonically or implied by a prompt; either way they
+  resolve into the target declaration in `SKILL.md`, which is stated back before
+  the run starts so it can be corrected.
+
+## How the loop works
+
+```
+Reconnaissance -> Goal (falsifiable exit criteria) -> Plan
+      -> Triage / scope scan
+      -> Baseline verification (always, before any change)
+      -> Action  <------------------------------+
+      -> Verification (independent)             |
+           any finding? --- yes --- fix --------+
+                   |
+                   no
+      -> Adversarial sweep (over the current state)
+           any finding? --- yes --- fix --------+
+                   |
+                   no
+      -> Extra pass (one full verification, once
+         the adversarial sweep over the final
+         state has come back clean)
+           any finding? --- yes --- fix --------+
+                   |
+                   no
+      -> Gate (goal check, compliance, no open item, extra pass clean)
+           any finding? --- yes --- fix --------+
+                   |
+                   no
+      -> Report
+```
+
+The baseline verification runs even when the backlog is empty. Every `fix` arrow
+returns to Action, and Action is followed by Verification, the Adversarial sweep
+and the Extra pass, so a finding from any check - Verification, the Adversarial
+sweep, the Extra pass or the Gate - is re-gated only after the verification step,
+a fresh adversarial sweep over the new state and the extra pass have all run
+again.
+
+The Gate only opens when the goal check passes, the compliance check passes, no
+open item remains, and one extra full verification step is clean: the Gate is
+never opened on a single clean pass. A finding in that extra pass is not a Gate
+failure - it returns to the action step like any other finding, and re-runs the
+verification step, the adversarial sweep over the new state and the extra pass
+again before the Gate is retried. "One" means the extra pass is not chained after
+a clean result, not that it runs only once. If an open item can be closed
+reasonably, it is closed; if it cannot, it is documented for review and the run
+does not push.
+
+## File map
+
+| File | Contents |
+|---|---|
+| `SKILL.md` | The process: target declaration and input forms, principles, classification, open-item policy, Phases 0-7, the loop rule, the Gate, stop conditions |
+| `reference/capabilities.md` | The seven conditional capabilities - methodology framework, delegation, production mode, delivered artifacts, reference artifacts, input findings, test runner - with the Phase 0 probe sequence, mandatory behavior and fallbacks |
+| `reference/coverage.md` | Coverage as three coverage passes plus regression: fourteen categories with what closes each, how to sample, and which technique tests which claim |
+| `reference/report-template.md` | The reporting template the Gate is checked against |
+| `examples/findings-driven-run.md` | A condensed worked run showing the loop catching findings its own fixes created |
+
+## Design notes
+
+- **Evidence over assertion.** Every claim in the report traces to a command,
+  log, diff or output.
+- **Independence.** A change is verified by a different party than the one that
+  implemented it: a subagent where delegation is available, or a separate pass
+  that re-reads the target from disk where it is not.
+- **No silent deferral.** An open item is closed or documented - never dropped.
+- **Process compliance is itself graded.** An unmet requirement is a finding,
+  and it blocks the Gate like any other.
+- **Read-only means read-only.** Reference, delivered and production artifacts
+  are never disturbed, and nothing is copied out of them unsanitized.
+
+## License
+
+MIT - see `LICENSE`.
