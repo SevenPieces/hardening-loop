@@ -17,10 +17,12 @@ Coverage is grouped into three coverage passes, and regression closes:
    people who maintain it.
 
 A unit or integration test closes a change-set row. It never closes the
-production-mode requirement. Running a pipeline's deterministic subset directly
-- its parsers, gates and renderers - closes the change-set rows and the Pass 1
-categories other than functional correctness; the real workload closes Pass 1's
-functional-correctness category and Pass 3's production-isolation category.
+production-mode requirement. A deterministic subset - a pipeline's parsers,
+gates and renderers run directly - closes change-set rows only, and never a Pass
+1 category; when the production entry point cannot run at all, the subset run is
+evidence for the change-set block, and the unclosed Pass 1 category is recorded
+as a gap. The real workload closes Pass 1's functional-correctness category and
+Pass 3's production-isolation category.
 
 Regression is the closing check, not a fourth pass: everything that worked
 before still works.
