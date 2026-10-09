@@ -236,9 +236,9 @@ implementation order; test strategy and coverage matrix
 built from `reference/coverage.md`, including one regression test per input
 finding or its recorded justification; verification strategy - the baseline
 verification before any change, then production-like executions in an instance
-isolated from production, plus repeated-execution simulation where feasible; the production-mode run, quoted
+isolated from production, plus repeated-execution simulation where feasible; the production workload, quoted
 verbatim: the exact command and the exact inputs from the capability
-declaration - a plan that names no production run, and no blocking constraint
+declaration - a plan that names no production workload, and no blocking constraint
 preventing one, is a plan for an unverified change-set; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
 isolated work branch or worktree the changes will be made on, one follow-up
 commit per batch (the set of related fixes one action step carries), with no
@@ -286,9 +286,10 @@ one traversal of the whole of `reference/coverage.md` - all three coverage passe
 plus regression and the production workload named in the plan - except the
 baseline verification, which runs the same traversal as found and omits the
 production workload. It runs as the baseline verification, after each batch, and
-once more as the Gate's extra pass. An **execution** is one
-execution of the target, as in a repeated, concurrent or scheduled execution. The
-loop runs rounds until a verification step is clean.
+once more as the Gate's extra pass. An **execution** - one execution of the
+target, as in a repeated, concurrent or scheduled execution - is also called the
+**production workload**; "run" alone always means the engagement. The loop runs
+rounds until a verification step is clean.
 
 **Baseline verification.** Before any change, run one verification pass over the
 target as it was found: `reference/coverage.md` defines what that pass must
@@ -296,7 +297,7 @@ reach. Its findings join the backlog, and anything already broken here is
 recorded as a finding rather than a regression. A run whose backlog is empty
 still starts here, so every run verifies at least once. The baseline verification
 does not include the production workload - it runs first as found; the declared
-production run starts with the first verification step after the baseline
+production workload starts with the first verification step after the baseline
 verification, which is the Gate's extra pass when no batch lands in between.
 Any execution of the target during the baseline verification - including the
 Phase 0 test-runner probe - uses the isolated copy of state and inputs before it
