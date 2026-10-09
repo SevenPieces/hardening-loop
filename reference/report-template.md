@@ -36,10 +36,12 @@ skipped skill, with reason and remediation.
 |---|---|---|---|---|---|---|
 "Isolation" records whether the delegate had inherited context - a fresh agent,
 or a continuation of the implementer - and the agent that staffed the role, so
-the table shows which agent staffed which role. List any required role that was
-not delegated, every role the run could not staff separately - with the agent
-that held it, the reason, and the Gate's compliance finding - and any delegate
-that failed or returned nothing, each with reason and remediation.
+the table shows which agent staffed which role. Each pass names the revision it
+covered (commit id, or the manifest of file hashes) and the agent that ran it; a
+pass without a named revision is recorded as covering nothing. List any required
+role that was not delegated, every role the run could not staff separately - with
+the agent that held it, the reason, and the Gate's compliance finding - and any
+delegate that failed or returned nothing, each with reason and remediation.
 
 ## 6. Process-compliance summary
 Pass/fail against goal setting, methodology use and delegation, including the
@@ -103,6 +105,10 @@ identity in place of the branch and the commits.
 Including the baseline verification, each adversarial sweep and its re-runs, the
 Gate's extra pass, the repeated-execution simulation and the independent
 verifier, with the commands and their output.
+
+Each pass names the revision it covered (commit id, or the manifest of file
+hashes) and the agent that ran it; a pass without a named revision is recorded as
+covering nothing.
 
 ## 13. Open item log
 Open items are not findings and do not take finding IDs; they are identified by
