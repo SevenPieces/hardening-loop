@@ -296,6 +296,9 @@ still starts here, so every run verifies at least once. The baseline verificatio
 does not include the production workload - it runs first as found; the declared
 production run starts with the first verification step after the baseline
 verification, which is the Gate's extra pass when no batch lands in between.
+Any execution of the target during the baseline verification - including the
+Phase 0 test-runner probe - uses the isolated copy of state and inputs before it
+runs; production is never the working instance.
 
 Action step, per batch. Batches come from the triaged input findings (mode B),
 the reconnaissance-derived backlog (mode A), and the baseline verification.
