@@ -14,6 +14,10 @@ heading.
 The goal in one or two sentences; the exit criteria as a checklist; the
 non-goals and out-of-scope items; the stopping rule.
 
+Goal: the harness goal's id, the objective it was armed with, and its final
+state (achieved, pending review, or not fully achieved). When goal tracking was
+absent, write "not applicable" and where the goal lived instead.
+
 ## 2. Exit criteria scorecard
 | Criterion | Pass / Fail | Evidence |
 |---|---|---|
