@@ -233,8 +233,8 @@ input findings and a re-audit of the target as it actually behaves;
 implementation order; test strategy and coverage matrix
 built from `reference/coverage.md`, including one regression test per input
 finding or its recorded justification; verification strategy - the baseline
-verification before any change, then isolated production-like executions plus
-repeated-execution simulation where feasible; the production-mode run, quoted
+verification before any change, then production-like executions in an instance
+isolated from production, plus repeated-execution simulation where feasible; the production-mode run, quoted
 verbatim: the exact command and the exact inputs from the capability
 declaration - a plan that names no production run, and no blocking constraint
 preventing one, is a plan for an unverified change-set; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
@@ -374,7 +374,9 @@ Verification step, per action step:
 - Run the pass against the coverage in `reference/coverage.md`: it defines what a
   verification must reach, and the report records the matrix the pass produced.
 - Run the production-mode workload named in the plan and the capability
-  declaration - the target's own entry point, on its real inputs - in isolation.
+  declaration: the target's own entry point on its real inputs, with its real
+  dependencies, in an instance isolated from production (its state and inputs
+  copied under a scratch output directory).
   A subset, a test suite or a representative path never satisfies this bullet;
   when it cannot run unrestricted, name the constraint, name what it removes, and
   run the same entry point reduced only in inputs. When it cannot run at all, name
