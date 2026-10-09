@@ -43,13 +43,14 @@ skipped skill, with reason and remediation.
 "Isolation" records whether the delegate was a fresh agent; a delegate that
 continues the implementer's context is a self-held-role degradation, recorded
 with its reason and the Gate's compliance finding - never a normal isolation
-value - along with the agent that staffed the role, so
-the table shows which agent staffed which role. Each pass names the revision it
-covered (commit id, or the manifest of file hashes) and the agent that ran it; a
-pass without a named revision is recorded as covering nothing. List any required
-role that was not delegated, every role the run could not staff separately - with
-the agent that held it, the reason, and the Gate's compliance finding - and any
-delegate that failed or returned nothing, each with reason and remediation. Each
+value. The table also records the agent that staffed the role, so it shows
+which agent staffed which role. Each pass names the revision it covered - the
+commit id, or the manifest of file hashes that stands in for one - together
+with the agent that ran it; a pass without a named revision is recorded as
+covering nothing. List any required role that was not delegated, every role the
+run could not staff separately - with the agent that held it, the reason, and
+the Gate's compliance finding - and any delegate that failed or returned
+nothing, each with reason and remediation. Each
 such degradation is raised as a process-compliance finding in this run, with the
 next ID in the single §7 / §9 sequence; it blocks the Gate until remediated or
 explicitly escalated as a decision.

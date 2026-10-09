@@ -301,10 +301,10 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
   delegation is present (see `reference/capabilities.md`); where it is not, the
   role is recorded as the self-held degradation the capability declaration names
   and the Gate raises as a process-compliance finding. No pass separate from the
-  implementation closes it. Where the target has no test suite, add a
-  runner if one is feasible: a test that would have caught the finding is the
-  deliverable, not a justification for skipping it. Only when that is genuinely
-  infeasible, record the absence as an open item.
+  implementation closes it. Where the target has no test suite, add a runner if
+  one is feasible: a test that would have caught the finding is the deliverable,
+  not a justification for skipping it. Only when that is genuinely infeasible,
+  record the absence as an open item.
 - Make each batch its own follow-up commit on the isolated work branch or
   worktree, and **close the batch before leaving this step**: every change the
   batch contains is committed, the worktree is clean, and no implementation for
