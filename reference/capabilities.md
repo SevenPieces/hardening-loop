@@ -14,7 +14,7 @@ to be holding.
 |---|---|---|---|
 | Methodology framework (for example Superpowers) | A skill index or skill list is available | Enumerate it; map skills to the steps they serve; invoke them; log the evidence; no-skip rule applies | Follow the built-in process in `SKILL.md`; log the unavailability |
 | Subagents / delegation | A delegation API is available | Delegation-first; independent reviewer and verifier roles kept apart from implementation; log the evidence | The orchestrator (the main agent) performs those roles in separate independent passes; log why |
-| Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. **The probe records the exact command line and the exact input set a real run would use, and they must be executable by this session as written; "there is a real entry point" is not the probe result.** Read-only probes may send output to stdout or to a scratch path outside the target. | Run an isolated production-like workload as part of every verification step | Run the closest representative workload, in isolation |
+| Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. **The probe records the exact command line and the exact input set a real run would use, and they must be executable by this session as written; "there is a real entry point" is not the probe result.** Read-only probes may send output to stdout or to a scratch path outside the target. | **If present:** Run the target's real workload - its own entry point, on real inputs, against its real dependencies, in an isolated instance - as part of every verification step. Production-like means the real path, not a subset of it. | **Fallback:** Only when the real entry point cannot run at all. The fallback is the real entry point restricted by a named constraint, never a different path: name the constraint, name what it removes from the run, and record the nearest executable subset of the same entry point. A test suite is not the closest-to-production workload; it is a different path. |
 | Goal tracking | The harness exposes a goal primitive (create / get / update goal) | Arm the goal from Phase 1 before Phase 2 and keep it active until the Gate; record its id and final state in the report | The goal lives in the report and the round log; log the unavailability |
 | Delivered / published artifacts | Artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint | Treat it as read-only; never disturb it | Mark not applicable |
 | Reference artifacts | One or more paths or directories were provided at invocation | Read-only evidence for triage and reproduction | Build sanitized fixtures from samples |
@@ -168,7 +168,12 @@ the implementation notes.
 
 **Read-only rule.** Reference artifacts and delivered artifacts are inputs, not
 workspaces. Nothing is written to them, and nothing from them is copied into
-the target, tests, fixtures, commits or reports without sanitization.
+the target, tests, fixtures, commits or reports without sanitization. When the
+real workload writes, run it against a copy of its state and inputs under a
+scratch output directory, using the target's own environment or configuration
+override, so production isolation and the read-only rule are both satisfied. If
+the target has no such override, that is a blocking constraint to escalate, not
+a reason to fall back silently.
 
 **Evidence rule.** Every capability decision - detected, absent, or used as a
 fallback - appears in the report with the command, tool output or observation
