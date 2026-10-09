@@ -198,15 +198,11 @@ is a finding, not an input.
 sharing a mutable path - a state file, a fixture directory, the work branch's
 index - is serialized or split so that only one writer touches it.
 
-**Failed delegation.** A delegate that fails, stalls or returns nothing is
-re-delegated or logged as an open item. The orchestrator does not silently
-absorb the work and continue as though the role had been exercised.
-
-A failed, stalled or empty delegate is re-delegated, not absorbed: the role is
-re-dispatched to an agent that holds no other role in this run, or the run
-escalates the failure as an open item under the Stop conditions. No role is
-taken over by the orchestrator, by the implementer's agent, or by any agent
-already staffing another role. The only staffings that satisfy the independence
+**Failed delegation.** A failed, stalled or empty delegate is re-delegated, not
+absorbed: the role is re-dispatched to an agent that holds no other role in this
+run, or the run escalates the failure as an open item under the Stop conditions.
+No role is taken over by the orchestrator, by the implementer's agent, or by any
+agent already staffing another role. The only staffings that satisfy the independence
 rule are a separate agent for the role, or a recorded degradation with a
 Gate-visible compliance finding; "the role was folded into another delegation"
 is no longer available, because no agent holds more than one role.
