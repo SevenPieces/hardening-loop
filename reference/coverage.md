@@ -9,7 +9,8 @@ verification step is not reused as a sweep result. Phase 2's coverage matrix is
 built from here, and the Gate reads the exit criteria against it: an area left
 unexamined is a gap to state, not a silence to keep.
 
-Coverage is grouped into three coverage passes, and regression plus the production workload close it:
+Coverage is grouped into three coverage passes, and regression plus the
+production workload close it:
 
 1. **Behaviour** - what the target does.
 2. **Non-functional** - the properties it must hold while doing it.
