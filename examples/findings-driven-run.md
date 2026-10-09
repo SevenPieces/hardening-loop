@@ -121,6 +121,8 @@ covered. Finding 4 is a documentation link with no behaviour to test, and findin
 5 edits process text with no behaviour to execute: both are documentation-only
 changes, closed by the rendering, link and example check `reference/coverage.md`
 requires for one, and recorded as justified rather than silently skipped. The
+independent test-design agent writes and runs the regression tests for findings 1,
+2 and 3; they land in the batch before its commit closes. The
 security/privacy agent scans the target, the diffs and the reference artifacts
 for credentials and machine-specific values; one absolute path in a fixture is
 replaced with the `$HOME`-relative form, and the replacement is named in the diff
@@ -131,10 +133,11 @@ The action step closed the batch as commit `a1c9f02`; the close-of-batch gate to
 the verification step and the finding log report against it; the Phase 5 sweep is
 taken up later, at the revision the Round-2 verification reports clean.
 
-Verification (against the same matrix and the same revision): the independent
-test-design agent writes the regression tests for findings 1, 2 and 3, and the
-verification agent runs them - designed and run by agents that did not implement
-them. The verifier then runs the scripts in a scratch directory outside the
+Verification (against the same matrix and the same revision): the regression
+tests for findings 1, 2 and 3 are already in `a1c9f02`, written and run by the
+independent test-design agent, so the verification agent only re-runs those
+committed tests against the frozen revision, never writes them. The verifier
+then runs the scripts in a scratch directory outside the
 target - once, twice in a row, and twice at the same time - and runs the declared
 production-mode workload - the documented sample-regeneration command, on the
 shipped sample inputs - in that scratch directory; the delivered artifacts from
