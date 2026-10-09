@@ -8,13 +8,13 @@ whenToUse: Any request to thoroughly verify and fix, harden, audit to zero, or a
 
 ## What this is
 
-An adversarial, evidence-driven, closed-loop verify-and-fix process. It runs
-against a target until one of three endings: the Gate is satisfied - no known
-issue or finding at any severity, every open item closed, the baseline still
-holds, and process compliance is verifiable; or the run ends as "pending review"
-with the remaining open items documented; or it ends "not fully achieved", with
-an unmet criterion recorded and its gap accepted. An unachieved ending - pending
-review or not fully achieved - documents its gap and pushes nothing.
+An adversarial, evidence-driven, closed-loop verify-and-fix process. A run ends
+in exactly one of three states: achieved (the Gate is satisfied - no known issue
+or finding at any severity, every open item closed, the baseline still holds, and
+process compliance is verifiable); pending review (open items documented with
+closure attempts, nothing pushed); or not fully achieved (an unmet criterion
+whose gap is accepted). An unachieved ending - pending review or not fully
+achieved - documents its gap and pushes nothing.
 
 The loop is the point. Every finding - input finding, regression, newly
 discovered, introduced by this run's own fixes, or process-compliance - returns
