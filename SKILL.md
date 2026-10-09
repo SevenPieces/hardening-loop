@@ -219,12 +219,13 @@ verbatim: the exact command and the exact inputs from the capability
 declaration - a plan that names no production run, and no blocking constraint
 preventing one, is a plan for an unverified change-set; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
 isolated work branch or worktree the changes will be made on, one follow-up
-commit per fix, with no rewriting of existing history; open-item handling; and
+commit per batch (the set of related fixes one action step carries), with no
+rewriting of existing history; open-item handling; and
 risks, rollback and cleanup.
 
 **Version control.** The isolated work branch or worktree, the one follow-up
-commit per fix and the no-rewriting rule apply when the target is under version
-control. When it is not - or `branch=none` was stated explicitly - the
+commit per batch (the set of related fixes one action step carries) and the
+no-rewriting rule apply when the target is under version control. When it is not - or `branch=none` was stated explicitly - the
 declaration records that, the Phase 0 baseline identity (the manifest of file
 hashes recorded for a target with no revision) is the as-found reference, and
 each fix lands as one discrete described change-set in place of a commit; Phase 7
