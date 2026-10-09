@@ -16,10 +16,12 @@ The goal in one or two sentences; the exit criteria as a checklist; the
 non-goals and out-of-scope items; the stopping rule.
 
 Goal: the harness goal's id, the objective it was armed with, and its final
-state (achieved, pending review, or not fully achieved), and that it closed only
-once the merge the run made was complete - or once the change-sets landed when
-there is no merge target. When goal tracking was absent, write "not applicable"
-and where the goal lived instead.
+state (achieved, pending review, or not fully achieved). When the Gate opened,
+note that it closed only once the local merge covered the approved revision - or
+once the change-sets had landed when there is no merge target; when the run ended
+"pending review" or "not fully achieved", the goal closed in that state and no
+merge exists. When goal tracking was absent, write "not applicable" and where the
+goal lived instead.
 
 ## 2. Exit criteria scorecard
 | Criterion | Pass / Fail | Evidence |
