@@ -108,9 +108,9 @@ produce findings depend on behaviour the batch itself introduces.
 The five input findings are one batch: no other defect has joined the backlog,
 the run is too small to split them, and one verification step closes them
 together. The derivation's candidates are not separate fixes and not §7 rows:
-they are carried into that same pass, which examines them against the Reliability
-and the Runtime/repeated-execution categories, and records the findings they
-produce.
+they are carried into that same pass, which examines them against the Reliability,
+the Runtime/repeated-execution and the Documentation and maintainability
+categories, and records the findings they produce.
 
 Actions: finding 1 changes one reference file to name the other as normative;
 finding 2 adds an argument check and a non-zero exit; finding 3 records the run
