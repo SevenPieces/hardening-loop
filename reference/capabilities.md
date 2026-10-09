@@ -212,9 +212,10 @@ rule are a separate agent for the role, or a recorded degradation with a
 Gate-visible compliance finding; "the role was folded into another delegation"
 is no longer available, because no agent holds more than one role.
 
-Re-delegation is bounded: after the second failure the run reports the role's
-outcome as a known gap with a compliance finding, rather than dispatching in a
-loop.
+Re-delegation is bounded: after the second failure the run stops dispatching that
+role and records it as an open item with a Gate compliance finding, then ends
+"pending review" - or "not fully achieved" when the operator explicitly accepts
+the gap - rather than dispatching in a loop.
 
 **Parallelism.** Independent workstreams within one role's scope run concurrently
 where that is safe; the role table is fixed, so concurrency never shares an agent
