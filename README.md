@@ -11,10 +11,12 @@ repeats on every finding it produces, including the ones its own fixes create
 and the process-compliance findings it raises against itself. A Gate - goal
 check, compliance check, no open item, and one extra clean verification step -
 decides when the run is done. The output is a report for review, and nothing is
-pushed. A run ends in exactly one of three states: achieved (the Gate is
-satisfied); pending review (open items documented with closure attempts, nothing
-pushed); or not fully achieved (an unmet criterion whose gap is accepted and
-recorded). A pending-review report documents each item that stays open with its
+pushed. A run ends in exactly one of three states: achieved (the Gate is satisfied
+with no accepted gap against a criterion or role); pending review (open items
+documented with closure attempts, nothing pushed); or not fully achieved (an
+unmet criterion whose gap is accepted and recorded) - an accepted gap makes the
+Gate satisfied but the run "not fully achieved". A pending-review report
+documents each item that stays open with its
 closure attempt; a finding could not be carried to the Gate unresolved except as
 a decision escalated under Stop conditions, and the report names which rule
 applies.
