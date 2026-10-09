@@ -9,10 +9,12 @@ whenToUse: Any request to thoroughly verify and fix, harden, audit to zero, or a
 ## What this is
 
 An adversarial, evidence-driven, closed-loop verify-and-fix process. It runs
-against a target until one of two endings: the Gate is satisfied - no known issue
-or finding at any severity, every open item closed, the baseline still holds, and
-process compliance is verifiable - or the run ends as "pending review", with the
-remaining open items documented and nothing pushed.
+against a target until one of three endings: the Gate is satisfied - no known
+issue or finding at any severity, every open item closed, the baseline still
+holds, and process compliance is verifiable; or the run ends as "pending review"
+with the remaining open items documented; or it ends "not fully achieved", with
+an unmet criterion recorded and its gap accepted. An unachieved ending - pending
+review or not fully achieved - documents its gap and pushes nothing.
 
 The loop is the point. Every finding - input finding, regression, newly
 discovered, introduced by this run's own fixes, or process-compliance - returns
@@ -209,8 +211,9 @@ the change-set landing). At minimum:
 Then define "done" in observable terms (the specific evidence required, not
 adjectives), the non-goals and out-of-scope items, and the stopping rule: the
 goal is achieved only when the Gate is satisfied. If it cannot be achieved, do
-not silently redefine it - mark it "not fully achieved", document the gap, and
-record an open item.
+not silently redefine it: document the gap, end as "pending review" when an open
+item remains or as "not fully achieved" when the unmet criterion is an accepted
+gap, and record an open item for anything still unresolved.
 
 ### Phase 2 - Planning
 Produce a concise plan covering: goal, exit criteria, non-goals and stopping
@@ -418,10 +421,16 @@ count. Feed every finding back into the loop.
 
 ### Phase 6 - Gate
 - Goal check: every exit criterion pass/fail with concrete evidence. A partial
-  criterion does not pass.
+  criterion does not pass. A run ends in exactly one of three states: achieved;
+  pending review (open items documented with closure attempts, nothing pushed);
+  or not fully achieved (an unmet criterion, for example a self-held role the
+  operator accepted). The report's section 1 goal record names which.
 - Compliance check: methodology and delegation requirements met with evidence,
   and the goal was set up front. Any unmet requirement is a finding, and blocks
-  the Gate.
+  the Gate - except a degradation the declaration records and the operator has
+  explicitly accepted, which closes its compliance finding and, since this check
+  is against the declared staffing, does not by itself block it; it leaves the
+  run "not fully achieved" (`reference/capabilities.md`).
 - Run one extra full verification step after the last finding, once the
   adversarial sweep over the final state has come back clean - the adversarial
   sweep is what proves the last change was attacked. One, not a repeating rule: a
@@ -433,8 +442,9 @@ count. Feed every finding back into the loop.
   chained after a clean result, not that it runs only once.
 - Only when that extra pass is clean, the goal check passes, the compliance
   check passes, and no open item remains is the goal achieved.
-- A criterion that passes only because a remaining item is documented leaves the
-  goal not fully achieved: the run ends as "pending review" and does not push.
+- A criterion that passes only because a remaining item is documented does not
+  make the run achieved: it ends as "pending review", the goal record in section
+  1 says so, and it does not push.
 - If an open item remains that cannot reasonably be closed, mark it "pending
   review", document it, and do not push - **and the documentation must carry a
   closure attempt: what was tried, what it produced, and why it failed.** One of

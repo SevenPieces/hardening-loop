@@ -145,6 +145,13 @@ verification over that revision before the Gate may open, run by an agent that
 holds no other role; when the run has no such agent to free, it escalates under
 Stop conditions rather than closing the role itself. See **Independence rule**.
 
+An escalated degradation stays a compliance finding until the operator
+explicitly accepts the degradation or supplies a separate agent. An accepted
+degradation is recorded in section 1 as "not fully achieved" and does not by
+itself block the Gate, since the Gate's compliance check is against the declared
+staffing, not against a satisfied independence floor; supplying a separate agent
+remediates the role and removes the degradation.
+
 **Instruction-budget note.** The cost of this rule is more agents, not more
 rounds: every role can run against one frozen batch, and a role with nothing to
 do on a given batch records that as its result rather than being dropped. The
