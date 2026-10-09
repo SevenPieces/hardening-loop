@@ -481,7 +481,8 @@ count. Feed every finding back into the loop.
   the applied change-sets and the baseline identity there instead.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
-  without explicit approval, and the report carries the exact command(s).
+  without explicit approval, and the report carries the exact command(s) when one
+  exists - a run with no branch or remote records "no push target".
 - Leave read-only inputs untouched and uncommitted.
 - Finalize the report (see `reference/report-template.md`) for review before any
   push. Its Gate-facing sections - §2 scorecard, §3 capability declaration, §6

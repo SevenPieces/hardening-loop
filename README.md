@@ -21,7 +21,7 @@ open with the closure attempt that was made.
 
 | Output | Purpose |
 |---|---|
-| A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, sensitive-information scan, and the exact push command(s) pending approval |
+| A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, sensitive-information scan, and the exact push command(s) pending approval when a branch or remote exists; a run with no merge target records "no push target" instead |
 | Regression tests | One per input finding - or a recorded justification where none can be written; added to the target's suite, or to a runner added for the purpose where none existed and one was feasible |
 | A locally merged branch | The revision the Gate approved - the one the extra pass verified - merged locally to the branch the invocation names - `main` when it names none - and never pushed; anything landing after that pass voids the Gate and re-enters the loop, and a target that is not under version control records its baseline identity and the applied change-sets instead |
 

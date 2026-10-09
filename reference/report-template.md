@@ -153,4 +153,5 @@ What remains uncertain, and the decisions taken where the requirement was open.
 The branch the work was merged back to, the local merge state, and the exact
 push command(s) - `git push`, a package or image publish, a deployment - pending
 approval. When there is no branch to merge into, record "no merge target" and
-the applied change-sets in place of the merge state.
+the applied change-sets in place of the merge state; when there is no branch or
+remote to push to, record "no push target" in place of the command(s).
