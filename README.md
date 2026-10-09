@@ -14,9 +14,10 @@ decides when the run is done. The output is a report for review, and nothing is
 pushed. A run ends in exactly one of three states: achieved (the Gate is
 satisfied); pending review (open items documented with closure attempts, nothing
 pushed); or not fully achieved (an unmet criterion whose gap is accepted and
-recorded). A pending-review report carries documented open items that are not
-findings closed, and the reason each one stays open with the closure attempt that
-was made.
+recorded). A pending-review report documents each item that stays open with its
+closure attempt; a finding could not be carried to the Gate unresolved except as
+a decision escalated under Stop conditions, and the report names which rule
+applies.
 
 ## What a run produces
 
