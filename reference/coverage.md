@@ -27,8 +27,8 @@ Pass 3's production-isolation category. In the baseline verification the
 production workload is deliberately absent; functional correctness and production
 isolation are recorded there as deferred to the first verification step after the
 baseline verification, not as open items. The production workload is part of
-every post-baseline traversal: it runs as part of each verification step after
-the baseline verification and once more in the Gate's extra pass.
+every post-baseline traversal: it runs as part of every verification step over a
+batch, and once more in the Gate's extra pass.
 
 Regression is the closing check, not a fourth pass: everything that worked
 before still works.
