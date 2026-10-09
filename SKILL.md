@@ -9,12 +9,13 @@ whenToUse: Any request to thoroughly verify and fix, harden, audit to zero, or a
 ## What this is
 
 An adversarial, evidence-driven, closed-loop verify-and-fix process. A run ends
-in exactly one of three states: achieved (the Gate is satisfied - no known issue
-or finding at any severity, every open item closed, the baseline still holds, and
-process compliance is verifiable); pending review (open items documented with
-closure attempts, nothing pushed); or not fully achieved (an unmet criterion
-whose gap is accepted). An unachieved ending - pending review or not fully
-achieved - documents its gap and pushes nothing.
+in exactly one of three states: achieved (the Gate is satisfied with no accepted
+gap against a criterion or role - no known issue or finding at any severity,
+every open item closed, the baseline still holds, and process compliance is
+verifiable); pending review (open items documented with closure attempts,
+nothing pushed); or not fully achieved (an unmet criterion whose gap is
+accepted). An unachieved ending - pending review or not fully achieved -
+documents its gap and pushes nothing.
 
 The loop is the point. Every finding - input finding, regression, newly
 discovered, introduced by this run's own fixes, or process-compliance - returns
@@ -187,11 +188,12 @@ verification pass is clean. The exit criteria below are how the goal is
 falsified, not the goal itself: satisfying them while the Gate is shut does not
 achieve the goal, and the goal stays open. Arm the harness goal with that
 objective and leave it active across rounds. Close the harness goal when the run
-ends - on Gate satisfaction, or as "pending review" / "not fully achieved" when
-it does not. On Gate satisfaction, close it only once the merge covers exactly
-the revision the Gate approved - or the change-sets have landed when there is no
-merge target; when the run ends "pending review" or "not fully achieved", there
-is no approved revision and no merge to wait for, so close it in that state. If
+ends, in the state the run ended in. On Gate satisfaction - achieved, or "not
+fully achieved" when a gap against a criterion has been accepted - close it only
+once the merge covers exactly the revision the Gate approved, or the change-sets
+have landed when there is no merge target. An accepted gap still leaves the Gate
+satisfied, so the goal is closed the same way; only "pending review" has no
+approved revision and no merge to wait for, so it is closed in that state. If
 the Gate's revision is voided after the goal closed and the loop re-enters, reopen
 the goal before the next action step. The report's section 1 records the closing
 state, and for a Gate-satisfied close that it came after the merge (or the

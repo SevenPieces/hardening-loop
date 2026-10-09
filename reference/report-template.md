@@ -18,10 +18,12 @@ non-goals and out-of-scope items; the stopping rule.
 Goal: the harness goal's id, the objective it was armed with, and its final
 state (achieved, pending review, or not fully achieved). When the Gate opened,
 note that it closed only once the local merge covered the approved revision - or
-once the change-sets had landed when there is no merge target; when the run ended
-"pending review" or "not fully achieved", the goal closed in that state and no
-merge exists. When goal tracking was absent, write "not applicable" and where the
-goal lived instead.
+once the change-sets had landed when there is no merge target. An accepted gap
+still leaves the Gate satisfied, so a "not fully achieved" run is closed the same
+way, once that merge or landing covers the approved revision; only a "pending
+review" run closes in that state, with no approved revision and no merge to wait
+for. When goal tracking was absent, write "not applicable" and where the goal
+lived instead.
 
 ## 2. Exit criteria scorecard
 | Criterion | Pass / Fail | Evidence |
