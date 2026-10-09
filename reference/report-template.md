@@ -126,8 +126,7 @@ unless the declaration named another - the baseline identity recorded in Phase 0
 (a revision, or the manifest of file hashes that stands in for one, together with
 whether the tree was dirty at Phase 0 when the target is under version control),
 the commits in order, and the files touched. When the target has no branch to
-merge into,
-write "no merge target" and list the applied per-batch change-sets - the
+merge into, write "no merge target" and list the applied per-batch change-sets - the
 no-version-control substitute for a commit - and the baseline identity in place
 of the branch and the commits.
 
