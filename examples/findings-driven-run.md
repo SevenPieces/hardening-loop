@@ -128,7 +128,8 @@ so the sanitization can be checked.
 
 The action step closed the batch as commit `a1c9f02`; the close-of-batch gate took
 `a1c9f02` - the tree was clean and no implementation was still running - and
-the verification step, the sweep and the finding log all report against it.
+the verification step and the finding log report against it; the Phase 5 sweep is
+taken up later, at the revision the Round-2 verification reports clean.
 
 Verification (against the same matrix and the same revision): the independent
 test-design agent writes the regression tests for findings 1, 2 and 3, and the
