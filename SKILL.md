@@ -168,8 +168,14 @@ follow-up action, or decision-required item.
 - Inspect the reference artifacts read-only, as evidence - every path given.
 
 ### Phase 1 - Goal setting (before the plan)
-State one explicit, measurable goal in one or two sentences, then define
-falsifiable exit criteria as a checklist. At minimum:
+State one explicit, measurable goal whose terminal condition **is** the Gate -
+the goal is not achieved until every exit criterion passes, the compliance check
+passes, the adversarial sweep over the final state is clean, and the extra
+verification pass is clean. The exit criteria below are how the goal is
+falsified, not the goal itself: satisfying them while the Gate is shut does not
+achieve the goal, and the goal stays open. Arm the harness goal with that
+objective and leave it active across rounds; do not close it before the Gate
+opens. At minimum:
 
 - [ ] Every input finding is triaged, reproduced or explicitly marked
       non-reproducible with reasoning, fixed where valid, and covered by a
