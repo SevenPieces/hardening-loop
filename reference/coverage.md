@@ -24,8 +24,8 @@ evidence for the change-set block, and the unclosed Pass 1 category is recorded
 as a gap. The real workload closes Pass 1's functional-correctness category and
 Pass 3's production-isolation category. In the baseline verification the
 production workload is deliberately absent; functional correctness and production
-isolation are recorded there as deferred to the first post-batch pass, not as open
-items.
+isolation are recorded there as deferred to the first verification step after the
+baseline verification, not as open items.
 
 Regression is the closing check, not a fourth pass: everything that worked
 before still works.
@@ -33,8 +33,11 @@ before still works.
 Every category is either covered, marked not applicable *with the missing
 surface named*, or recorded as an open item - except in the baseline verification,
 where the two categories the production workload closes are recorded as deferred
-to the first post-batch pass rather than as open items. "Not applicable" is a
-claim that needs a reason; the "applies when" column is what decides it.
+to the first verification step after the baseline verification rather than as open
+items. When no batch lands, the Gate's extra pass is that step and closes the
+deferral; the Gate may not open with a category still recorded as deferred. "Not
+applicable" is a claim that needs a reason; the "applies when" column is what
+decides it.
 
 ## Absent behaviour
 

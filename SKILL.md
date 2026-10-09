@@ -294,7 +294,8 @@ reach. Its findings join the backlog, and anything already broken here is
 recorded as a finding rather than a regression. A run whose backlog is empty
 still starts here, so every run verifies at least once. The baseline verification
 does not include the production workload - it runs first as found; the declared
-production run starts with the first post-batch verification step.
+production run starts with the first verification step after the baseline
+verification, which is the Gate's extra pass when no batch lands in between.
 
 Action step, per batch. Batches come from the triaged input findings (mode B),
 the reconnaissance-derived backlog (mode A), and the baseline verification.
