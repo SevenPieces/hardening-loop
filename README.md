@@ -93,7 +93,7 @@ long, and the report is the handoff back.
 | input findings | `findings=` | no | `none` | One or more findings files, or a directory of them, that seed the backlog; naming any makes the run findings-driven unless `mode=` was stated explicitly, in which case the conflict is resolved with the operator first. Several paths are comma-separated, and a directory contributes its `.md` files | `findings=findings/2026-10-01.md,findings/2026-10-02.md` or `findings=findings/` |
 | reference artifacts | `refs=` | no | `none` | One or more paths or directories of read-only evidence - prior runs, outputs, delivered artifacts - used for triage and reproduction. Several paths are comma-separated, a directory contributes its contents recursively, and nothing under any of them is written to | `refs=runs/2026-10-01/,runs/2026-10-02/` or `refs=runs/` |
 | baseline / milestone | `baseline=` | no | the target's state as found at Phase 0 | The revision that "no regression" is measured against: a commit, a tag or a version. Without one, Phase 0 records the as-found identity - a revision, or a manifest of file hashes that stands in for it | `baseline=v1.4.0` |
-| merge target branch | `branch=` | no | `main` | The branch the work is merged back to locally, and never pushed; `none` when the target is not under version control or when `branch=none` is stated explicitly | `branch=release/0.5` |
+| merge target branch | `branch=` | no | `main` when the target is under version control; `none` when it is not under version control, or when `branch=none` is stated | The branch the work is merged back to locally, and never pushed | `branch=release/0.5` |
 | constraints | `constraints=` | no | `none` | Access, environment, time or tooling limits the run must respect; quote it when it contains spaces | `constraints="no network, 2h budget"` |
 | extra skills | `skills=` | no | `none` | Skills to invoke in addition to the detected methodology framework (Superpowers where available); each is mapped to the step it serves and logged | `skills=brainstorming,writing-skills` |
 
@@ -132,7 +132,7 @@ Reconnaissance -> Goal (falsifiable exit criteria) -> Plan
                    |
                    no
       -> Gate (goal check, compliance, no open item, extra pass clean)
-           any finding? --- yes --- fix --------+
+           Gate fails?  --- yes --- fix --------+
                    |
                    no
       -> Report
