@@ -15,8 +15,10 @@ The goal in one or two sentences; the exit criteria as a checklist; the
 non-goals and out-of-scope items; the stopping rule.
 
 Goal: the harness goal's id, the objective it was armed with, and its final
-state (achieved, pending review, or not fully achieved). When goal tracking was
-absent, write "not applicable" and where the goal lived instead.
+state (achieved, pending review, or not fully achieved), and that it closed only
+once the merge the run made was complete - or once the change-sets landed when
+there is no merge target. When goal tracking was absent, write "not applicable"
+and where the goal lived instead.
 
 ## 2. Exit criteria scorecard
 | Criterion | Pass / Fail | Evidence |
@@ -38,8 +40,10 @@ skipped skill, with reason and remediation.
 ## 5. Delegation log
 | Role | Phase | Isolation | Task | Inputs | Outputs | Landing point |
 |---|---|---|---|---|---|---|
-"Isolation" records whether the delegate had inherited context - a fresh agent,
-or a continuation of the implementer - and the agent that staffed the role, so
+"Isolation" records whether the delegate was a fresh agent; a delegate that
+continues the implementer's context is a self-held-role degradation, recorded
+with its reason and the Gate's compliance finding - never a normal isolation
+value - along with the agent that staffed the role, so
 the table shows which agent staffed which role. Each pass names the revision it
 covered (commit id, or the manifest of file hashes) and the agent that ran it; a
 pass without a named revision is recorded as covering nothing. List any required
