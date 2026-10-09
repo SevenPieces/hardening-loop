@@ -40,8 +40,8 @@ review is out of scope for this skill.
 ## Target declaration
 
 Fill this in before Phase 0. A field the invocation neither states nor implies is
-filled by its default (see the Defaults paragraph below) - or, when it has no
-default, left as `<...>` and asked about rather than guessed.
+filled by its default in the Defaults paragraph below; a field with no default
+there is left as `<...>` and asked about rather than guessed.
 
 | Field | Canonical key | Value |
 |---|---|---|
@@ -56,10 +56,11 @@ default, left as `<...>` and asked about rather than guessed.
 
 An explicitly stated `none` is conclusive-absent. `target` is the only required
 parameter; every other field has a default (see the Defaults paragraph below)
-or is implied by the request. Anything still unknown that would change the scope or the stopping rule
-is asked for before starting, never silently guessed. `mode=baseline` and the
-`baseline=` field are different things: the mode says where the scope comes from,
-the field names the state that regression is measured against.
+or is implied by the request. Anything still unknown that would change the scope
+or the stopping rule is asked for before starting, never silently guessed.
+`mode=baseline` and the `baseline=` field are different things: the mode says
+where the scope comes from, the field names the state that regression is measured
+against.
 
 ### Input forms
 
@@ -370,11 +371,13 @@ is what establishes which behaviors those are.
 finding introduced by this run's own fixes, or a process-compliance finding -
 return to the action step, fix it - as recommended where the finding carries a
 recommendation, otherwise as the next round's action step decides - and repeat
-the verification step. "Fix it" means the finding is closed in this run, or
-escalated as a decision under Stop conditions. A finding may not be carried to
-the Gate unresolved because closing it would invalidate earlier verification -
-re-running that verification is what the loop exists to do. Continue until no
-finding of any level remains.
+the verification step. Re-entering the action step is a full action step: the new
+batch carries every obligation below, including the sensitive-information scan,
+the sanitization check, the test update and the batch closure. "Fix it" means the
+finding is closed in this run, or escalated as a decision under Stop
+conditions. A finding may not be carried to the Gate unresolved because closing
+it would invalidate earlier verification - re-running that verification is what
+the loop exists to do. Continue until no finding of any level remains.
 
 ### Phase 5 - Adversarial sweep
 The sweep does not need its own close-of-batch gate - the verification step that
