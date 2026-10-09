@@ -99,65 +99,84 @@ the run is too small to split them, and one verification step closes them
 together. The derivation's candidates are not separate fixes: they are carried
 into that same pass and into the Phase 5 sweep.
 
-Actions: F1 changes one reference file to name the other as normative; F2 adds
-an argument check and a non-zero exit; F3 records the run start and derives the
-window end from it; F4 fixes the link; F5 adds a Gate line requiring the
-verification record. F4 is a
-documentation link with no behaviour to test - a link check closes it - and F5 is
-a process gap closed by the Gate line it adds; those two are recorded as
-justified rather than silently skipped.
+Actions: finding 1 changes one reference file to name the other as normative;
+finding 2 adds an argument check and a non-zero exit; finding 3 records the run
+start and derives the window end from it; finding 4 fixes the link; finding 5
+adds a Gate line requiring the verification record. Finding 4 is a documentation
+link with no behaviour to test - a link check closes it - and finding 5 is a
+process gap closed by the Gate line it adds; those two are recorded as justified
+rather than silently skipped. The security/privacy agent scans the target, the
+diffs and the reference artifacts for credentials and machine-specific values;
+one absolute path in a fixture is replaced with the `$HOME`-relative form, and
+the replacement is named in the diff so the sanitization can be checked.
 
-Sensitive-information scan: the target, the diffs and the reference artifacts were scanned
-for credentials and machine-specific values; one absolute path in a fixture was
-replaced with the `$HOME`-relative form, and the replacement is named in the diff
-so the sanitization can be checked.
+The action step closed the batch as commit `a1c9f02`; the close-of-batch gate
+took `a1c9f02` - the tree was clean and no implementation was still running - and
+the verification step, the sweep and the finding log all report against it.
 
-Verification (against the same matrix): the independent verifier designs and
-runs the regression tests for F1, F2 and F3 itself - they are not the
-implementer's - then runs the scripts in a scratch directory outside the target,
-twice in a row, and checks the delivered artifacts from the
-baseline execution are byte-identical. **Finding V1 (Medium):** the second
-execution of the script rewrites a state file it should only read, so the two
-executions disagree -
-a regression introduced by the F3 fix.
+Verification (against the same matrix and the same revision): the independent
+test-design agent writes the regression tests for findings 1, 2 and 3, and the
+verification agent runs them - designed and run by agents that did not implement
+them. The verifier then runs the scripts in a scratch directory outside the
+target, twice in a row, and runs the declared production-mode workload - the
+documented sample-regeneration command, on the shipped sample inputs - in that
+scratch directory; the delivered artifacts from the baseline execution are
+byte-identical. **Finding 6 (Medium):** the second execution of the script
+rewrites a state file it should only read, so the two executions disagree - a
+regression introduced by the finding-3 fix.
 
 ### Round 2
 
-Action: the F3 fix now writes its derived state to the scratch path and leaves
-the input state file untouched. A regression test asserts two consecutive
-executions produce the same derived state.
+Action: the finding-3 fix now writes its derived state to the scratch path and
+leaves the input state file untouched. A regression test asserts two consecutive
+executions produce the same derived state. The step closes the batch as commit
+`b7e4410`; the close-of-batch gate takes `b7e4410`, and verification reports
+against it, clean - and Phase 5 still has to run before the Gate, so this is not
+yet the last pass.
 
-Verification: clean - and Phase 5 still has to run before the Gate, so this is
-not yet the last pass.
+### Close-of-batch gate, exercised
+
+When Round 1's batch was first handed over it was not clean - the link fix for
+finding 4 was still uncommitted - so the close-of-batch gate did not pass. It did
+not start verification: it returned the round to the action step, which finished
+the commit as `a1c9f02`, and the gate took that revision on the retry. That
+return is the gate working, not a finding: verifying the half-committed tree
+would have produced evidence for a revision that never existed.
 
 ## Phase 5 - Adversarial sweep
 
-Findings: a concurrent execution of the two scripts interleaves on the state file
-(Medium); a documentation claim about "always" was false for the empty-input
-case (Low); no privilege, injection or logging-hygiene issues found.
+The sweep attacks `b7e4410`, the revision the Round-2 verification reported
+clean, and reports every finding against it. Findings: a concurrent execution of
+the two scripts interleaves on the state file (Medium, finding 7); a
+documentation claim about "always" was false for the empty-input case (Low,
+finding 8); no privilege, injection or logging-hygiene issues found.
 
 ## Loop re-entry - Round 3
 
 Both findings return to the action step. The state file gains a lock file and a
-test for the concurrent case, and the "always" claim is reworded. The
+test for the concurrent case, and the "always" claim is reworded. The step closes
+the batch as commit `d4f0a15`; the close-of-batch gate takes `d4f0a15` and the
 verification step is clean.
 
 ## Phase 5 re-run - Adversarial sweep
 
-The adversarial sweep runs again over the new state, because the fix is new
-attack surface. This time it comes back clean: the lock file holds under a
-concurrent run, and no new assumption fails.
+The adversarial sweep runs again, because the fix is new attack surface: it
+attacks `d4f0a15`, the revision the Round-3 verification reported clean. This
+time it comes back clean: the lock file holds under a concurrent run, and no new
+assumption fails.
 
 ## Phase 6 - Gate
 
 The last finding is behind us and the adversarial sweep that followed it is
-clean, so per the Gate rule one extra full verification step runs: the malformed-argument case, the consecutive-execution case,
-the concurrent case and the sample regeneration. Clean again, so the Gate opens.
+clean, so per the Gate rule one extra full verification step runs over the final
+revision `d4f0a15`: the malformed-argument case, the consecutive-execution case,
+the concurrent case and the sample regeneration. Clean again, so the Gate opens -
+and only that revision is what Phase 7 merges.
 
 | Criterion | Result | Evidence |
 |---|---|---|
-| Input findings triaged, reproduced, fixed, regression-tested | Pass | Triage table; regression tests for F1, F2 and F3, a link check for F4, the Gate line for F5 |
-| No known finding at any severity | Pass | Round 3 verification and the extra pass after it, both clean |
+| Input findings triaged, reproduced, fixed, regression-tested | Pass | Triage table; regression tests for findings 1, 2 and 3, a link check for finding 4, the Gate line for finding 5 |
+| No known finding at any severity | Pass | Round 3 verification, the sweep re-run and the extra pass after them, all clean over `d4f0a15` |
 | No open item remains | Pass | Open item log is empty |
 | Capability requirements met | Pass | Skill usage log, delegation log |
 | Baseline holds | Pass | The pre-change behaviours re-run: the reference files read the same, the scripts keep their exit codes, and the sample still regenerates |
@@ -167,14 +186,16 @@ the concurrent case and the sample regeneration. Clean again, so the Gate opens.
 
 ## Phase 7 - Completion
 
-Commits merged locally on `release/0.5`, the branch the invocation named -
-`main` when it names none - and nothing pushed. The report lists the exact push
-command(s) and waits for approval. Read-only inputs are unmodified and uncommitted.
+The revision the Gate approved - `d4f0a15`, the one the extra pass verified - is
+merged locally on `release/0.5`, the branch the invocation named, and nothing is
+pushed; anything landing after that pass re-enters the loop rather than riding
+along. The report lists the exact push command(s) and waits for approval.
+Read-only inputs are unmodified and uncommitted.
 
 ## What the loop actually caught
 
-Three of the eight findings - V1, the concurrency issue, and the false "always" -
-were invisible in the input findings: V1 surfaced when the verification step ran
-again after a fix, and the other two turned into findings only under the
+Three of the eight findings - 6, the concurrency issue, and the false "always" -
+were invisible in the input findings: finding 6 surfaced when the verification
+step ran again after a fix, and the other two turned into findings only under the
 adversarial sweep. That is the loop's whole value: the second finding is usually
 created by the fix for the first.
