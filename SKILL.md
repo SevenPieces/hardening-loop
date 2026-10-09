@@ -42,8 +42,7 @@ review is out of scope for this skill.
 ## Target declaration
 
 Fill this in before Phase 0. A field the invocation neither states nor implies is
-filled by its default in the Defaults paragraph below; a field with no default
-there is left as `<...>` and asked about rather than guessed.
+filled by its default in the Defaults paragraph below.
 
 | Field | Canonical key | Value |
 |---|---|---|
