@@ -153,7 +153,7 @@ does not push.
 | File | Contents |
 |---|---|
 | `SKILL.md` | The process: target declaration and input forms, principles, classification, open-item policy, Phases 0-7, the loop rule, the Gate, stop conditions |
-| `reference/capabilities.md` | The seven conditional capabilities - methodology framework, delegation, production mode, delivered artifacts, reference artifacts, input findings, test runner - with the Phase 0 probe sequence, mandatory behavior and fallbacks |
+| `reference/capabilities.md` | The eight conditional capabilities - methodology framework, delegation, production mode, goal tracking, delivered artifacts, reference artifacts, input findings, test runner - with the Phase 0 probe sequence, mandatory behavior and fallbacks |
 | `reference/coverage.md` | Coverage as three coverage passes plus regression: fourteen categories with what closes each, how to sample, and which technique tests which claim |
 | `reference/report-template.md` | The reporting template the Gate is checked against |
 | `examples/findings-driven-run.md` | A condensed worked run showing the loop catching findings its own fixes created |

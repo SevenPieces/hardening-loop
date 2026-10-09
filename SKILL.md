@@ -46,7 +46,7 @@ default, left as `<...>` and asked about rather than guessed.
 | Field | Canonical key | Value |
 |---|---|---|
 | target | `target=` | <name, path or identifier> |
-| mode | `mode=` | baseline \| findings-driven |
+| mode | `mode=` | baseline or findings-driven |
 | input findings | `findings=` | <one or more paths, or a directory, or none> |
 | reference artifacts | `refs=` | <one or more paths or directories, or none> |
 | baseline / milestone | `baseline=` | <commit, tag, version, or the state as found> |

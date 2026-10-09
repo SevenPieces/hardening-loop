@@ -16,10 +16,14 @@ hardening-loop target=skills/example-skill mode=findings-driven \
 
 - Target is a documented skill: `SKILL.md` plus three `reference/` files and two scripts.
 - Capabilities detected: methodology framework present (skill index available),
-  delegation present, no production entry point (fallback: closest representative
-  run in a scratch directory), delivered artifacts present (`runs/`, shipped
-  outside the repository),
-  reference artifacts provided, input findings provided, test runner present.
+  delegation present, production mode present (the documented sample-regeneration
+  command is the entry point, and its real inputs are the shipped sample inputs),
+  goal tracking present (goal armed in Phase 1, id recorded), delivered artifacts
+  present (`runs/`, shipped outside the repository), reference artifacts
+  provided, input findings provided, test runner present. This is the full set of
+  eight - the declaration table in the run's report carries one evidence row for
+  each; the production row carries the command and its inputs, not the word
+  `present`.
 - Baseline `v0.4.2` still installs, so "no regression" means: the reference
   documents keep their meaning, the scripts keep their exit codes, and a fresh
   execution still produces a complete deliverable.
@@ -29,6 +33,11 @@ hardening-loop target=skills/example-skill mode=findings-driven \
 *Close every finding in `findings/2026-10-01.md`, re-audit the skill against
 its own documented behavior, and leave no known finding at any severity -
 including the process-compliance ones - with the `v0.4.2` behavior intact.*
+
+The harness goal is armed with that objective as `goal:hardening-0.5`, and the
+declaration records the id. The goal stays active until the Gate opens - every
+round below re-checks that it is still open, and it is closed only after the
+Gate's extra pass and the goal check both pass.
 
 Exit criteria as the checklist from `SKILL.md`, plus two run-specific ones:
 the two scripts keep their documented exit codes, and the sample deliverable is
