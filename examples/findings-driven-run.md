@@ -91,8 +91,8 @@ backlog's rows, and the derivation's candidates are carried into Phase 4, where
 the verification step examines them against the Reliability, the
 Runtime/repeated-execution and the Documentation and maintainability categories.
 That examination is what turns the concurrency and the "always" claim into the
-§9 findings 7 and 8 - verification
-findings, and the Phase 5 sweep re-attacks both.
+§9 findings 7 and 8 - verification findings, and the Phase 5 sweep re-attacks
+both.
 
 ## Phase 4 - Verification-action loop
 
