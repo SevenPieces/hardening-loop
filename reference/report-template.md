@@ -75,11 +75,11 @@ named here as the reason the run is "not fully achieved".
 ## 7. Triage table
 The backlog as triaged: the input findings (mode B) and the reconnaissance-derived
 candidates that became defects at triage - mode A derives them from
-reconnaissance, and a mode B run derives them after triage. Derived candidates
-with no defect at triage time are carried downstream and recorded with the
-findings they produce, not as section 7 rows; only input findings and triaged
-defects become backlog rows. Defects discovered later, while working the backlog,
-belong in §9.
+reconnaissance, and a mode B run derives them after triage. Only input findings
+and defects present at triage time become backlog rows. A derived candidate with
+no defect at triage time is carried downstream as work to examine, never as a
+section 7 row, and is reported only with the finding it later produces in §9.
+Defects discovered later, while working the backlog, belong in §9.
 
 Findings carry one ID scheme across the whole report: a single sequence, never
 per-source prefixes. §7 and §9 share the sequence; an item that moves between
