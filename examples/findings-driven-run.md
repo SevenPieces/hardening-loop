@@ -137,7 +137,8 @@ leaves the input state file untouched. A regression test asserts two consecutive
 executions produce the same derived state. The step closes the batch as commit
 `b7e4410`; the close-of-batch gate took `b7e4410`, and verification reports
 against it, clean - and Phase 5 still has to run before the Gate, so this is not
-yet the last pass.
+yet the last pass. The security/privacy agent re-scans the new diff and records
+nothing found.
 
 ### Close-of-batch gate, exercised
 
@@ -161,7 +162,8 @@ finding 8); no privilege, injection or logging-hygiene issues found.
 Both findings return to the action step. The state file gains a lock file and a
 test for the concurrent case, and the "always" claim is reworded. The step closes
 the batch as commit `d4f0a15`; the close-of-batch gate took `d4f0a15` and the
-verification step is clean.
+verification step is clean. The security/privacy agent re-scans the new diff and
+records nothing found.
 
 ## Phase 5 re-run - Adversarial sweep
 
