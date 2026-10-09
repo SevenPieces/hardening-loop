@@ -459,12 +459,17 @@ count. Feed every finding back into the loop.
 - Compliance check: methodology and delegation requirements met with evidence,
   and the goal was set up front. Any unmet requirement is a finding, and blocks
   the Gate - except a degradation the declaration records and the operator has
-  explicitly accepted. Accepting it closes its compliance finding, and since this
+  explicitly accepted. Accepting it closes its compliance finding; since this
   check is against the declared staffing rather than a satisfied independence
-  floor, it does not by itself block the Gate: the check is reported as "passed
-  with a recorded accepted degradation" rather than as a plain pass, and report
-  §6 carries that wording and names it as the reason the run is "not fully
-  achieved" (`reference/capabilities.md`).
+  floor, for the roles the independence rule does not bind it does not by itself
+  block the Gate: the check is reported as "passed with a recorded accepted
+  degradation" rather than as a plain pass, and report §6 carries that wording and
+  names it as the reason the run is "not fully achieved"
+  (`reference/capabilities.md`). A revision produced under an accepted
+  implementation or context-isolation degradation is the exception: acceptance
+  closes the compliance finding but not report §5, so the Gate stays blocked
+  until a clean pass by an agent holding no other role exists, or the run stays
+  open and escalates.
 - Run one extra full verification step after the last finding, once the
   adversarial sweep over the final state has come back clean - the adversarial
   sweep is what proves the last change was attacked. One, not a repeating rule: a

@@ -14,8 +14,10 @@ decides when the run is done. The output is a report for review, and nothing is
 pushed. A run ends in exactly one of three states: achieved (the Gate is satisfied
 with no accepted gap against a criterion or role); pending review (open items
 documented with closure attempts, nothing pushed); or not fully achieved (an
-unmet criterion whose gap is accepted and recorded) - an accepted gap makes the
-Gate satisfied but the run "not fully achieved". A pending-review report
+unmet criterion whose gap is accepted and recorded) - once any revision produced
+under an accepted implementation or context-isolation degradation has had its
+clean independent pass, an accepted gap leaves the Gate satisfied but the run
+"not fully achieved". A pending-review report
 documents each item that stays open with its
 closure attempt; a finding could not be carried to the Gate unresolved except as
 a decision escalated under Stop conditions, and the report names which rule
@@ -182,7 +184,10 @@ does not push.
 - **Process compliance is itself graded.** An unmet requirement is a finding,
   and it blocks the Gate like any other - except a degradation the declaration
   records and the operator has explicitly accepted, which closes its compliance
-  finding and leaves the run "not fully achieved".
+  finding. For the roles the independence rule does not bind it leaves the run
+  "not fully achieved"; a revision produced under an accepted implementation or
+  context-isolation degradation still needs a clean pass by an agent holding no
+  other role before the Gate, or the run stays open and escalates.
 - **Read-only means read-only.** Reference, delivered and production artifacts
   are never disturbed, and nothing is copied out of them unsanitized.
 
