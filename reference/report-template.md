@@ -51,10 +51,12 @@ with the agent that ran it; a pass without a named revision is recorded as
 covering nothing. List any required role that was not delegated, every role the
 run could not staff separately - with the agent that held it, the reason, and
 the Gate's compliance finding - and any delegate that failed or returned
-nothing, each with reason and remediation. Each
-such degradation is raised as a process-compliance finding in this run, with the
-next ID in the single §7 / §9 sequence; it blocks the Gate until remediated or
-explicitly escalated as a decision.
+nothing, each with reason and remediation. An unaccepted degradation is raised
+as a process-compliance finding in this run, with the next ID in the single
+§7 / §9 sequence, and blocks the Gate as a compliance finding. A degradation
+the operator has explicitly accepted is recorded as accepted, with no blocking
+compliance finding; it is cited as the reason for the run's "not fully achieved"
+state.
 
 ## 6. Process-compliance summary
 Pass/fail against goal setting, methodology use and delegation, including the
@@ -98,9 +100,9 @@ is a template non-conformance.
 |---|---|---|---|---|---|---|---|---|---|
 
 Tally the rows by origin beneath the table, so a reviewer sees the regressions
-and the newly discovered items at a glance. Origin is one
-of the tags the process defines: regression against baseline, newly discovered,
-introduced this run, or process compliance. Input findings belong to §7.
+and the newly discovered items at a glance. The five origin tags are input
+finding, regression against baseline, newly discovered, introduced this run, and
+process compliance; the tally covers both the §7 and the §9 rows.
 
 ## 10. Summary of all changes
 The substantive changes, grouped so a reviewer can follow them.
