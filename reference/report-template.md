@@ -63,6 +63,9 @@ state.
 ## 6. Process-compliance summary
 Pass/fail against goal setting, methodology use and delegation, including the
 capability declaration in §3; the findings this raised, and their remediation.
+A check satisfied only because an accepted degradation is recorded in §5 is
+reported as "passed with a recorded accepted degradation", not as a pass, and is
+named here as the reason the run is "not fully achieved".
 
 ## 7. Triage table
 The backlog as triaged: the input findings (mode B) and the reconnaissance-derived
