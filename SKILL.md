@@ -188,12 +188,14 @@ falsified, not the goal itself: satisfying them while the Gate is shut does not
 achieve the goal, and the goal stays open. Arm the harness goal with that
 objective and leave it active across rounds. Close the harness goal when the run
 ends - on Gate satisfaction, or as "pending review" / "not fully achieved" when
-it does not - but only once the merge the run made is complete and covers exactly
-the revision the Gate approved, or once the change-sets have landed when there is
-no merge target. If the Gate's revision is voided after the goal closed and the
-loop re-enters, reopen the goal before the next action step. The
-report's section 1 records the closing state and that it came after the merge (or
-the change-set landing). At minimum:
+it does not. On Gate satisfaction, close it only once the merge covers exactly
+the revision the Gate approved - or the change-sets have landed when there is no
+merge target; when the run ends "pending review" or "not fully achieved", there
+is no approved revision and no merge to wait for, so close it in that state. If
+the Gate's revision is voided after the goal closed and the loop re-enters, reopen
+the goal before the next action step. The report's section 1 records the closing
+state, and for a Gate-satisfied close that it came after the merge (or the
+change-set landing). At minimum:
 
 - [ ] Every input finding is triaged, reproduced or explicitly marked
       non-reproducible with reasoning, fixed where valid, and covered by a
