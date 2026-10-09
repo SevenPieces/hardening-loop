@@ -160,7 +160,7 @@ follow-up action, or decision-required item.
   its identity - the revision when the target has one, otherwise a manifest of
   file hashes - and for a version-controlled target record whether the tree was
   dirty. Record that identity before running any probe that executes the target.
-- Run the Phase 0 probe sequence in `reference/capabilities.md` for all seven
+- Run the Phase 0 probe sequence in `reference/capabilities.md` for all eight
   capabilities, and emit the capability declaration table. A capability that is
   present makes its "if present" column mandatory; an absent or inconclusive one
   takes the default or escalation recorded in that file. The declaration is evidence -
@@ -265,7 +265,9 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
 
 - Confirm the batch ran under the required methodology and delegation (when
   present), and log the evidence.
-- Confirm it advances one or more exit criteria, and name which.
+- Confirm it advances one or more exit criteria, and name which. The same check
+  confirms the goal is still open: a round that closes the objective while the
+  Gate is unopened is a finding.
 - Scan the target, every diff, the read-only inputs and the input findings files
   for private or sensitive information - secrets, tokens, credentials, PII,
   internal URLs, private data - and exclude, remove or redact it.

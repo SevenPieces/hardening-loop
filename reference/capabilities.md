@@ -15,6 +15,7 @@ to be holding.
 | Methodology framework (for example Superpowers) | A skill index or skill list is available | Enumerate it; map skills to the steps they serve; invoke them; log the evidence; no-skip rule applies | Follow the built-in process in `SKILL.md`; log the unavailability |
 | Subagents / delegation | A delegation API is available | Delegation-first; independent reviewer and verifier roles kept apart from implementation; log the evidence | The orchestrator (the main agent) performs those roles in separate independent passes; log why |
 | Production / real-workload mode | A production-mode entry point exists | Run an isolated production-like workload as part of every verification step | Run the closest representative workload, in isolation |
+| Goal tracking | The harness exposes a goal primitive (create / get / update goal) | Arm the goal from Phase 1 before Phase 2 and keep it active until the Gate; record its id and final state in the report | The goal lives in the report and the round log; log the unavailability |
 | Delivered / published artifacts | Artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint | Treat it as read-only; never disturb it | Mark not applicable |
 | Reference artifacts | One or more paths or directories were provided at invocation | Read-only evidence for triage and reproduction | Build sanitized fixtures from samples |
 | Input findings | One or more files, or a directory of them, was provided and the resolved mode is findings-driven | Triage them as the minimum backlog - mode B still includes mode A's scope | Baseline scope comes from reconnaissance |
@@ -38,6 +39,7 @@ and coverage outside the target.
 | 5 | Reference artifacts | Read the `refs=` field of the invocation; check that every path exists and is readable. A directory contributes its contents, recursively. | At least one path is readable. | Treat the paths that could not be read as none for this run and record which; the readable ones remain evidence. Build sanitized fixtures from samples only when nothing was readable. |
 | 6 | Input findings | Read the `findings=` field; open each path - a directory contributes its `.md` files - and count the findings. | At least one path is readable and holds at least one finding, and the invocation resolved to findings-driven. | **Stop and ask** - it decides the mode, and this case is not covered by the mode default. A named path that will not open, or a directory that yields no findings file, is what makes this row inconclusive. |
 | 7 | Test suite / runner | Find the test entry point (test script, tests directory, CI config) and run it once, keeping any output, cache or coverage it produces outside the target. Phase 0 records only whether a runner exists and what it reported. | A runnable suite exists and produces a result. | Treat as absent and record it as an open item; whether to add a runner is a Phase 1 decision, not a Phase 0 one. |
+| 8 | Goal tracking | Check whether the session exposes a goal primitive. Do not create a goal during a probe. | A goal tool is exposed. | Record the error and treat as absent; the goal lives in the report. |
 
 Note on row 6: a run resolved to baseline never declares this capability present,
 whatever paths were supplied - an explicit `mode=baseline` together with readable
@@ -67,6 +69,9 @@ Rules for the declaration:
   the plan delegates and a dispatch succeeds, upgrade the row then, and say so in
   the report. A plan that ends up delegating nothing while delegation is present
   is a process-compliance finding, not a lingering `present-unexercised` row.
+- A declared-present goal capability that Phase 1 never arms is a
+  process-compliance finding, exactly like a skipped skill. The declaration's
+  evidence column carries the goal's id once it is armed.
 
 ## Rules that follow from detection
 
