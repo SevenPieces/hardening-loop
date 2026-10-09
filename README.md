@@ -176,7 +176,9 @@ does not push.
   holding another role.
 - **No silent deferral.** An open item is closed or documented - never dropped.
 - **Process compliance is itself graded.** An unmet requirement is a finding,
-  and it blocks the Gate like any other.
+  and it blocks the Gate like any other - except a degradation the declaration
+  records and the operator has explicitly accepted, which closes its compliance
+  finding and leaves the run "not fully achieved".
 - **Read-only means read-only.** Reference, delivered and production artifacts
   are never disturbed, and nothing is copied out of them unsanitized.
 
