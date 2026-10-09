@@ -88,10 +88,11 @@ the same kind of contradiction: resolve it with the operator before Phase 0;
 `findings=` takes one path, several comma-separated paths, or a directory of
 findings files. Every path given is part of the backlog; a directory contributes
 its `.md` files (not recursive, in name order); and all of them merge into one
-triage table. Qualify each finding's ID with its file when more than one source
-is given, and treat the same finding reported in two files as one entry naming
-both sources. A path that will not open, or a directory that yields no findings
-file, is asked about rather than silently skipped.
+triage table. Record each finding's source file in the Source column when more
+than one source is given; the ID stays a single sequence shared by section 7 and
+section 9, never a per-source prefix. Treat the same finding reported in two
+files as one entry naming both sources. A path that will not open, or a
+findings file that will not open, is asked about rather than silently skipped.
 
 `refs=` takes one path, several comma-separated paths, or a directory, and every
 path given is read-only evidence. A directory contributes its contents,
@@ -292,8 +293,10 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
   tests, fixtures, commits or reports without sanitization.
 - Ensure tests and coverage are updated, including the regression tests tied to
   input findings - designed and run by the independent test-design role where
-  delegation is present (see `reference/capabilities.md`), otherwise by a pass
-  separate from the implementation. Where the target has no test suite, add a
+  delegation is present (see `reference/capabilities.md`); where it is not, the
+  role is recorded as the self-held degradation the capability declaration names
+  and the Gate raises as a process-compliance finding. No pass separate from the
+  implementation closes it. Where the target has no test suite, add a
   runner if one is feasible: a test that would have caught the finding is the
   deliverable, not a justification for skipping it. Only when that is genuinely
   infeasible, record the absence as an open item.
