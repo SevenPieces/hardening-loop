@@ -250,7 +250,7 @@ commit per batch (the set of related fixes one action step carries) and the
 no-rewriting rule apply when the target is under version control. When it is not - or `branch=none` was stated explicitly - the
 declaration records that, the Phase 0 baseline identity (the manifest of file
 hashes recorded for a target with no revision) is the as-found reference, and
-each fix lands as one discrete described change-set in place of a commit; Phase 7
+each batch lands as one discrete described change-set in place of a commit; Phase 7
 records the applied change-sets and that identity in place of a branch and a
 merge.
 
