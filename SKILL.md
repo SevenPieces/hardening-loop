@@ -322,7 +322,9 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
   implementation closes it. Where the target has no test suite, add a runner if
   one is feasible: a test that would have caught the finding is the deliverable,
   not a justification for skipping it. Only when that is genuinely infeasible,
-  record the absence as an open item.
+  record the absence as an open item; a runner-phase decision that leaves the
+  runner absent must close the Phase 0 open item as a recorded justification, or
+  carry it as an open item with a closure attempt.
 - Make each batch its own follow-up commit on the isolated work branch or
   worktree, and **close the batch before leaving this step**: every change the
   batch contains is committed, the worktree is clean, and no implementation for
