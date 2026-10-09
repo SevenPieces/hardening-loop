@@ -201,8 +201,10 @@ the change-set landing). At minimum:
       the absence is justified and recorded.
 - [ ] No known issue or finding at any severity, including process compliance.
 - [ ] No open item remains. If one cannot be closed, it is documented under
-      §13, which marks the run "pending review" and leaves this criterion not
-      fully met.
+      §13 and the run ends "pending review", which leaves this criterion not
+      fully met. An accepted gap against an exit criterion ends differently: it
+      is "not fully achieved", not "pending review" - the operator has accepted
+      the gap rather than left the item open.
 - [ ] Conditional-capability requirements are met, with evidence.
 - [ ] The baseline still holds - no regression against the state recorded in Phase 0.
 - [ ] Production, delivered artifacts and schedules were untouched, and no
@@ -333,6 +335,10 @@ Verification step, per action step:
   evidence. Take the revision now (the commit id, or the manifest of file hashes
   when the target has no version control) and verify **that** revision; every
   result is reported against it.
+
+  The baseline verification is the exception: there is no preceding batch, so the
+  gate records "no preceding batch" and the revision it verifies is the as-found
+  identity Phase 0 recorded; there is nothing to commit and nothing to wait for.
 
   If the check does not pass, do not start verification: return to the action
   step and let it finish the commit, or wait for the in-flight implementation to
