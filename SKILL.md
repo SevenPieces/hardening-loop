@@ -153,8 +153,8 @@ follow-up action, or decision-required item.
 - Never silently defer, hide or ignore one.
 - If one cannot be closed within the stated constraints, document it for review
   with: ID, description, severity, category, reason unresolved, impact,
-  attempted fixes, workaround, recommendation, next action, and the decision
-  needed.
+  attempted fixes, closure attempt, workaround, recommendation, next action, and
+  the decision needed.
 - High-severity, blocking, security or privacy, data-loss, production
   disturbance, and decision-required items are escalated immediately and are
   never merged or pushed past silently.
@@ -263,8 +263,10 @@ candidate - a latent issue exposed only by real runtime behaviour stays in
 scope even when an isolated run cannot reproduce it; record the regression test
 that would have caught it (the Phase 4 action step adds it, under independent
 test design where delegation is present), or record why none can be written and
-what check replaces it. Mode B does not stop at the file: it then runs the mode A derivation
-below and adds those candidates to the backlog.
+what check replaces it. Mode B does not stop at the file: it then runs the mode A
+derivation below and carries those candidates downstream as work to examine, not
+as backlog rows; only candidates that are defects at triage join the backlog
+(report section 7).
 
 Mode A: derive the reconnaissance-derived backlog from reconnaissance gaps, known
 weaknesses, undocumented behavior, an adversarial hypothesis list (abuse cases,
@@ -399,9 +401,10 @@ finding introduced by this run's own fixes, or a process-compliance finding -
 return to the action step, fix it - as recommended where the finding carries a
 recommendation, otherwise as the next round's action step decides - and repeat
 the verification step. Re-entering the action step is a full action step: the new
-batch carries every obligation below, including the sensitive-information scan,
-the sanitization check, the test update and the batch closure. "Fix it" means the
-finding is closed in this run, or escalated as a decision under Stop
+batch carries every obligation above (the action step's bullets), including the
+sensitive-information scan, the sanitization check, the test update and the batch
+closure. "Fix it" means the finding is closed in this run, or escalated as a
+decision under Stop
 conditions. A finding may not be carried to the Gate unresolved because closing
 it would invalidate earlier verification - re-running that verification is what
 the loop exists to do. Continue until no finding of any level remains.
