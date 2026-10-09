@@ -9,7 +9,7 @@ verification step is not reused as a sweep result. Phase 2's coverage matrix is
 built from here, and the Gate reads the exit criteria against it: an area left
 unexamined is a gap to state, not a silence to keep.
 
-Coverage is grouped into three coverage passes, and regression closes:
+Coverage is grouped into three coverage passes, and regression plus the production workload close it:
 
 1. **Behaviour** - what the target does.
 2. **Non-functional** - the properties it must hold while doing it.
@@ -25,7 +25,9 @@ as a gap. The real workload closes Pass 1's functional-correctness category and
 Pass 3's production-isolation category. In the baseline verification the
 production workload is deliberately absent; functional correctness and production
 isolation are recorded there as deferred to the first verification step after the
-baseline verification, not as open items.
+baseline verification, not as open items. The production workload is part of
+every post-baseline traversal: it runs as part of each verification step after
+the baseline verification and once more in the Gate's extra pass.
 
 Regression is the closing check, not a fourth pass: everything that worked
 before still works.
