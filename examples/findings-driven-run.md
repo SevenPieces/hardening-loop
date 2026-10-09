@@ -37,9 +37,9 @@ including the process-compliance ones - with the `v0.4.2` behavior intact.*
 The harness goal is armed with that objective as `goal:hardening-0.5`, and the
 declaration records the id. The goal stays active until the Gate opens - every
 round below re-checks that it is still open. This run satisfies the Gate, so the
-goal is closed as achieved after the Gate's extra pass and the goal check both
-pass, and the report records that closing state and that it came before the
-merge.
+goal is closed as achieved once the Gate's extra pass and the goal check both
+pass and the Phase 7 merge is complete, and the report records that closing state
+and that it followed the merge.
 
 Exit criteria as the checklist from `SKILL.md`, plus two run-specific ones:
 the two scripts keep their documented exit codes, and the sample deliverable is
@@ -196,8 +196,10 @@ and only that revision is what Phase 7 merges.
 The revision the Gate approved - `d4f0a15`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
-along. The report lists the exact push command(s) and waits for approval.
-Read-only inputs are unmodified and uncommitted.
+along, and a re-entry reopens the harness goal before the next action step. With
+the merge complete, the run closes the goal as achieved. The report lists the
+exact push command(s) and waits for approval. Read-only inputs are unmodified and
+uncommitted.
 
 ## What the loop actually caught
 
