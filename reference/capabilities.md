@@ -171,8 +171,8 @@ smaller plan.
 the evidence it must return and its constraints - including the read-only and
 sensitivity rules for anything it touches. Every verification,
 adversarial-sweep and test-design delegation names the exact revision or
-snapshot it covers - the commit id, or the manifest of file hashes when the
-target has no version control - and returns it with its evidence. A
+snapshot it covers - the commit id, or the change-set's manifest of file hashes
+when there is no commit id - and returns it with its evidence. A
 pass without a named revision covers nothing.
 
 **Context isolation.** A verifier or adversary receives the target, the change

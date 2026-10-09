@@ -344,13 +344,14 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
 
 Verification step, per action step:
 - **Close-of-batch gate.** Before verifying anything: the batch from the last
-  action step must be committed on the work branch and nothing may be mid-flight
-  - no uncommitted changes belonging to that batch, no implementation delegate
-  or job for this batch still running. Independent roles with nothing to land may
-  keep running through the check, and their results attach to the round's
-  evidence. Take the revision now (the commit id, or the manifest of file hashes
-  when the target has no version control) and verify **that** revision; every
-  result is reported against it.
+  action step must be committed on the work branch, or landed as the per-batch
+  change-set when the target has no version control or `branch=none` was stated,
+  and nothing may be mid-flight - no uncommitted changes belonging to that batch,
+  no implementation delegate or job for this batch still running. Independent
+  roles with nothing to land may keep running through the check, and their results
+  attach to the round's evidence. Take the revision now (the commit id, or the
+  change-set's manifest of file hashes when there is no commit id) and verify
+  **that** revision; every result is reported against it.
 
   The baseline verification is the exception: there is no preceding batch, so the
   gate records "no preceding batch" and the revision it verifies is the as-found
@@ -425,7 +426,7 @@ precedes it is full over the revision it named, and nothing runs between them -
 but it must assert the input the close-of-batch gate exists to protect: the
 revision this sweep is about to attack is the revision the immediately preceding
 verification step verified clean. Take that revision (the commit id, or the
-manifest of file hashes when the target has no version control), attack it, and
+change-set's manifest of file hashes when there is no commit id), attack it, and
 report every finding against it. If anything landed after the verified revision,
 the sweep does not start: the loop re-enters at the action step, and the new
 state is verified before it is attacked. The check is one sentence because the
