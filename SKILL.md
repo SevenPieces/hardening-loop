@@ -14,8 +14,12 @@ gap against a criterion or role - no known issue or finding at any severity,
 every open item closed, the baseline still holds, and process compliance is
 verifiable); pending review (open items documented with closure attempts,
 nothing pushed); or not fully achieved (an unmet criterion whose gap is
-accepted). An unachieved ending - pending review or not fully achieved -
-documents its gap and pushes nothing.
+accepted). Any unachieved ending documents its gap, and the two differ in what
+else happens. A "not fully achieved" run whose gap the operator accepted still
+has the Gate satisfied: it merges the revision the Gate approved locally and
+carries the pending push command(s) like any other Gate-satisfied run. A
+"pending review" run is the one that pushes nothing and has no approved revision
+to merge.
 
 The loop is the point. Every finding - input finding, regression, newly
 discovered, introduced by this run's own fixes, or process-compliance - returns
