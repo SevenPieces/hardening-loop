@@ -35,7 +35,7 @@ its own documented behavior, and leave no known finding at any severity -
 including the process-compliance ones - with the `v0.4.2` behavior intact.*
 
 The harness goal is armed with that objective as `goal:hardening-0.5`, and the
-declaration records the id. The goal stays active until the Gate opens - every
+declaration records the id. The goal stays active until the run ends - every
 round below re-checks that it is still open. This run satisfies the Gate, so the
 goal is closed as achieved once the Gate's extra pass and the goal check both
 pass and the Phase 7 merge is complete, and the report records that closing state
