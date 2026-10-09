@@ -568,6 +568,6 @@ long, and the report is the handoff back.
 | File | Contents |
 |---|---|
 | `reference/capabilities.md` | Capability detection and the Phase 0 probe sequence, the default framework, the delegation roles and their independence, and the rules that follow |
-| `reference/coverage.md` | Coverage as three coverage passes plus regression and the production workload: fourteen categories with what closes each, that the real workload closes functional correctness and production isolation, how to sample, and which technique tests which claim |
+| `reference/coverage.md` | Coverage as three coverage passes plus regression and the production workload: fourteen category rows - thirteen across the three coverage passes plus the regression row - with what closes each, that the real workload closes functional correctness and production isolation, how to sample, and which technique tests which claim |
 | `reference/report-template.md` | The full reporting template |
 | `examples/findings-driven-run.md` | A condensed worked run, from input findings to the Gate |
