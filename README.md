@@ -19,7 +19,7 @@ pushed.
 |---|---|
 | A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, sensitive-information scan, and the exact push command(s) pending approval |
 | Regression tests | One per input finding - or a recorded justification where none can be written; added to the target's suite, or to a runner added for the purpose where none existed and one was feasible |
-| A locally merged branch | All commits merged locally to the branch the invocation names - `main` when it names none - and never pushed; a target that is not under version control records its baseline identity and the applied change-sets instead |
+| A locally merged branch | The revision the Gate approved - the one the extra pass verified - merged locally to the branch the invocation names - `main` when it names none - and never pushed; anything landing after that pass voids the Gate and re-enters the loop, and a target that is not under version control records its baseline identity and the applied change-sets instead |
 
 The skill writes its report, its findings and any scratch state into the working
 directory the run is pointed at - never into the skill's own directory - and
@@ -61,10 +61,11 @@ daily-news-briefing skill until nothing is left" resolves to
 `target=skills/daily-news-briefing mode=baseline branch=main`. Either form is
 normalized into the target declaration and stated back before the run starts.
 
-The work is merged back to the branch the invocation named - `main` when it
-named none - and is never pushed. A target that is not under version control has
-no branch to merge into: its baseline identity and the applied change-sets are
-recorded instead.
+The revision the Gate approved - the one the extra pass verified - is merged back
+to the branch the invocation named - `main` when it named none - and is never
+pushed; anything landing after that pass re-enters the loop. A target that is not
+under version control has no branch to merge into: its baseline identity and the
+applied change-sets are recorded instead.
 
 Two entry modes:
 
@@ -162,9 +163,9 @@ does not push.
 
 - **Evidence over assertion.** Every claim in the report traces to a command,
   log, diff or output.
-- **Independence.** A change is verified by a different party than the one that
-  implemented it: a subagent where delegation is available, or a separate pass
-  that re-reads the target from disk where it is not.
+- **Independence.** A change is verified by an agent that did not implement it
+  and holds no other role; where delegation is unavailable the separate-pass
+  fallback is recorded as a degradation and raises a Gate compliance finding.
 - **No silent deferral.** An open item is closed or documented - never dropped.
 - **Process compliance is itself graded.** An unmet requirement is a finding,
   and it blocks the Gate like any other.

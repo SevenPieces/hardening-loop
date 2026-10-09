@@ -113,7 +113,7 @@ findings against an unexamined target is not a finished run.
 3. Isolation - verification never disturbs production, delivered artifacts, schedules or state.
 4. No leftovers - temp files, processes, state, branches and side effects are cleaned up.
 5. No silent deferral - every open item is closed or documented for review.
-6. Independence - review and verification are done by different parties, or by separate passes, than implementation.
+6. Independence - every role is staffed by an agent that holds no other role, and review and verification are never done by the agent that implemented the change; when delegation is unavailable the separate-pass fallback is recorded as a degradation with a Gate compliance finding.
 7. Verifiable compliance - process requirements are logged, and an unmet requirement is itself a finding.
 8. Falsifiable goal - the run's goal has checkable exit criteria and a stopping
 rule.
@@ -326,11 +326,13 @@ Verification step, per action step:
   batch's actual state, and escalate under the Stop conditions. A wait with no
   bound is a hung round, not a closed batch, and it is the one way this gate can
   stop the loop from making progress at all.
-- Delegate to independent verification: a subagent, or - when delegation is
-  genuinely unavailable - the separate-pass fallback, which the declaration
-  records as a degradation. The orchestrator never verifies its own
-  implementation; when the orchestrator implemented a change, an independent pass
-  over that revision is what closes it.
+- Delegate to independent verification: the role is staffed by an agent that did
+  not implement the change and holds no other role. The orchestrator never
+  verifies its own implementation, and no role is closed by the agent that
+  implemented the change; when delegation is genuinely unavailable, the
+  separate-pass fallback is recorded as a degradation with a Gate compliance
+  finding, and if no other agent exists the run escalates under Stop conditions.
+  What closes a change is an independent pass over that revision.
 - Run the pass against the coverage in `reference/coverage.md`: it defines what a
   verification must reach, and the report records the matrix the pass produced.
 - Run the production-mode workload named in the plan and the capability

@@ -13,7 +13,7 @@ to be holding.
 | Capability | Detection | If present | Fallback |
 |---|---|---|---|
 | Methodology framework (for example Superpowers) | A skill index or skill list is available | Enumerate it; map skills to the steps they serve; invoke them; log the evidence; no-skip rule applies | Follow the built-in process in `SKILL.md`; log the unavailability |
-| Subagents / delegation | A delegation API is available | Delegation-first; independent reviewer and verifier roles kept apart from implementation; log the evidence | The orchestrator (the main agent) performs those roles in separate independent passes; log why |
+| Subagents / delegation | A delegation API is available | Delegation-first; every role is staffed by its own agent, and no agent holds more than one role; log the evidence | When delegation is unavailable, the run records each role as a self-held degradation with a Gate compliance finding and escalates under Stop conditions; log which |
 | Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. **The probe records the exact command line and the exact input set a real run would use, and they must be executable by this session as written; "there is a real entry point" is not the probe result.** Read-only probes may send output to stdout or to a scratch path outside the target. | **If present:** Run the target's real workload - its own entry point, on real inputs, against its real dependencies, in an isolated instance - as part of every verification step. Production-like means the real path, not a subset of it. | **Fallback:** Only when the real entry point cannot run at all. The fallback is the real entry point restricted by a named constraint, never a different path: name the constraint, name what it removes from the run, and record the nearest executable subset of the same entry point. A test suite is not the closest-to-production workload; it is a different path. |
 | Goal tracking | The harness exposes a goal primitive (create / get / update goal) | Arm the goal from Phase 1 before Phase 2 and keep it active until the Gate; record its id and final state in the report | The goal lives in the report and the round log; log the unavailability |
 | Delivered / published artifacts | Artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint | Treat it as read-only; never disturb it | Mark not applicable |
@@ -33,7 +33,7 @@ and coverage outside the target.
 | # | Capability | Probe (what the agent does) | Present when | If the probe is inconclusive |
 |---|---|---|---|---|
 | 1 | Methodology framework | List the skills this session exposes. The list the harness dispatches from is authoritative; a skills-root listing on disk is corroboration. | At least one skill other than this one is listed. | Re-check once; if it is still unreadable, treat as absent and record the failure. When the two sources disagree in count or content, record both and note the discrepancy. |
-| 2 | Subagents / delegation | Check whether the session exposes a delegation tool. | The session exposes a delegation tool. | Record the error and treat as absent; independence falls back to separate passes. |
+| 2 | Subagents / delegation | Check whether the session exposes a delegation tool. | The session exposes a delegation tool. | Record the error and treat as absent; every role becomes a self-held degradation with a Gate compliance finding, and the run escalates under Stop conditions. |
 | 3 | Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. Read-only probes may send output to stdout or to a scratch path outside the target. | A documented entry point exists, starts, and the run can state the exact command and the inputs it would execute with. | Treat as absent; name the entry point that could not be established, run it restricted by that named constraint where one exists, or record the blocking constraint and escalate. Never substitute a different path, a test suite or a representative subset. If the target's real workload is not runnable at all - a procedure or a document - record absent and name the exercise that stands in for it. |
 | 4 | Delivered / published artifacts | Look for artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint, a published output directory. Files merely tracked in the repo, including committed examples and samples, are fixtures. | Any such artifact exists. | **Treat as present** - do not write anywhere near it - and record that the check was inconclusive. |
 | 5 | Reference artifacts | Read the `refs=` field of the invocation; check that every path exists and is readable. A directory contributes its contents, recursively. | At least one path is readable. | Treat the paths that could not be read as none for this run and record which; the readable ones remain evidence. Build sanitized fixtures from samples only when nothing was readable. |
@@ -97,9 +97,9 @@ names are negotiable; the independence they exist to create is not.
 **Independence constraints.** With delegation present, implementer is not
 verifier, not test designer and not adversary: a change the orchestrator
 implemented is verified by another party, under the context isolation below.
-With delegation absent, independence degrades to separate passes - the
-orchestrator re-reads the target from disk and verifies it in a pass separate
-from the implementation - and the degradation is recorded.
+With delegation absent, every role is recorded as a self-held degradation and
+raises a Gate compliance finding; no role is closed by the agent that implemented
+the change. If no other agent exists, the run escalates under Stop conditions.
 
 | Role | Runs in | Owns |
 |---|---|---|
@@ -136,10 +136,13 @@ Gate, and nothing else. Holding a role itself is a degradation that the
 declaration records with its reason, and the Gate treats it as a
 process-compliance finding - it is never a permitted alternative.
 
-When the orchestrator does implement - delegation genuinely absent, or a change
-too small to split - every commit it lands carries a named independent
-verification over that revision before the Gate may open, and the declaration
-records which role was self-held and why.
+When the orchestrator does implement - delegation genuinely absent, or the
+implementation role could not be staffed separately - that is a self-held role
+the declaration records with its reason, and the Gate raises it as a
+process-compliance finding. Every commit it lands still needs a named independent
+verification over that revision before the Gate may open, run by an agent that
+holds no other role; when the run has no such agent to free, it escalates under
+Stop conditions rather than closing the role itself. See **Independence rule**.
 
 **Instruction-budget note.** The cost of this rule is more agents, not more
 rounds: every role can run against one frozen batch, and a role with nothing to
@@ -204,13 +207,17 @@ loop.
 Anything sharing mutable state, or that must observe another role's output, runs
 in order.
 
-**No-solo rule.** A role in the plan that was neither delegated nor explicitly
-merged is a process-compliance finding, exactly like a skipped skill.
+**No-solo rule.** A role in the plan that was neither delegated to its own agent
+nor recorded as a degradation with a Gate compliance finding is a
+process-compliance finding, exactly like a skipped skill; a merge into another
+role is that violation, not a remedy.
 
 **Independence rule.** The constraints above hold whenever delegation is
-present. When it is absent, the baseline verification and each verification step
-run as separate passes with the target re-read from disk, not as a re-reading of
-the implementation notes.
+present. When it is absent, every role is recorded as a self-held degradation and
+raises a Gate compliance finding; no role is closed by the agent that implemented
+the change - not by a separate pass that re-reads the target from disk, and not
+by an agent already staffing another role. If no other agent exists, the run
+escalates under Stop conditions.
 
 **Read-only rule.** Reference artifacts and delivered artifacts are inputs, not
 workspaces. Nothing is written to them, and nothing from them is copied into
