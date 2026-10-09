@@ -35,9 +35,11 @@ skipped skill, with reason and remediation.
 | Role | Phase | Isolation | Task | Inputs | Outputs | Landing point |
 |---|---|---|---|---|---|---|
 "Isolation" records whether the delegate had inherited context - a fresh agent,
-or a continuation of the implementer. List any required role that was not
-delegated, every merge of one role into another, and any delegate that failed or
-returned nothing, each with reason and remediation.
+or a continuation of the implementer - and the agent that staffed the role, so
+the table shows which agent staffed which role. List any required role that was
+not delegated, every role the run could not staff separately - with the agent
+that held it, the reason, and the Gate's compliance finding - and any delegate
+that failed or returned nothing, each with reason and remediation.
 
 ## 6. Process-compliance summary
 Pass/fail against goal setting, methodology use and delegation, including the
@@ -48,6 +50,10 @@ The backlog as triaged: the input findings (mode B) and the reconnaissance-deriv
 candidates - mode A derives them from reconnaissance, and a mode B run derives
 and adds them to this table after triage. Defects discovered later, while working
 the backlog, belong in §9.
+
+Findings carry one ID scheme across the whole report: a single sequence, never
+per-source prefixes. §7 and §9 share the sequence; an item that moves between
+them keeps its ID.
 
 | ID | Source | Description | Severity | Origin | Root cause | Reproduction | Fix | Regression test | Status |
 |---|---|---|---|---|---|---|---|---|---|
@@ -62,6 +68,16 @@ Every finding this run produced or carried that is not in the backlog triaged in
 §7 - one row each: regressions against the baseline,
 issues discovered during the run, anything introduced by this run's own fixes,
 and process-compliance findings.
+
+Findings carry one ID scheme across the whole report: a single sequence, never
+per-source prefixes. §7 and §9 share the sequence; an item that moves between
+them keeps its ID.
+
+§9 is a table with one row per finding, as §7 is. Candidates derived during
+Phase 0-3 reconciliation belong to §7; findings produced after triage - while
+working the backlog, by the adversarial sweep, by this run's own fixes, and any
+process-compliance finding - belong to §9. A prose summary instead of the table
+is a template non-conformance.
 
 | ID | Source | Description | Severity | Origin | Root cause | Reproduction | Fix | Regression test | Status |
 |---|---|---|---|---|---|---|---|---|---|
@@ -89,6 +105,9 @@ Gate's extra pass, the repeated-execution simulation and the independent
 verifier, with the commands and their output.
 
 ## 13. Open item log
+Open items are not findings and do not take finding IDs; they are identified by
+their §13 row order or a distinct prefix.
+
 | ID | Description | Severity | Category | Reason unresolved | Impact | Attempted fixes | Workaround | Recommendation | Next action | Decision needed |
 |---|---|---|---|---|---|---|---|---|---|---|
 
