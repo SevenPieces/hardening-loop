@@ -286,7 +286,9 @@ loop runs rounds until a verification step is clean.
 target as it was found: `reference/coverage.md` defines what that pass must
 reach. Its findings join the backlog, and anything already broken here is
 recorded as a finding rather than a regression. A run whose backlog is empty
-still starts here, so every run verifies at least once.
+still starts here, so every run verifies at least once. The baseline verification
+does not include the production workload - it runs first as found; the declared
+production run starts with the first post-batch verification step.
 
 Action step, per batch. Batches come from the triaged input findings (mode B),
 the reconnaissance-derived backlog (mode A), and the baseline verification.
