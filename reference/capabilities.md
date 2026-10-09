@@ -213,9 +213,10 @@ Re-delegation is bounded: after the second failure the run reports the role's
 outcome as a known gap with a compliance finding, rather than dispatching in a
 loop.
 
-**Parallelism.** Independent workstreams run concurrently where that is safe.
-Anything sharing mutable state, or that must observe another role's output, runs
-in order.
+**Parallelism.** Independent workstreams within one role's scope run concurrently
+where that is safe; the role table is fixed, so concurrency never shares an agent
+between roles. Anything sharing mutable state, or that must observe another
+role's output, runs in order.
 
 **No-solo rule.** A role in the plan that was neither delegated to its own agent
 nor recorded as a degradation with a Gate compliance finding is a

@@ -328,15 +328,18 @@ Verification step, per action step:
 - **Close-of-batch gate.** Before verifying anything: the batch from the last
   action step must be committed on the work branch and nothing may be mid-flight
   - no uncommitted changes belonging to that batch, no implementation delegate
-  or job still running. Take the revision now (the commit id, or the manifest of
-  file hashes when the target has no version control) and verify **that**
-  revision; every result is reported against it.
+  or job for this batch still running. Independent roles with nothing to land may
+  keep running through the check, and their results attach to the round's
+  evidence. Take the revision now (the commit id, or the manifest of file hashes
+  when the target has no version control) and verify **that** revision; every
+  result is reported against it.
 
   If the check does not pass, do not start verification: return to the action
   step and let it finish the commit, or wait for the in-flight implementation to
   settle and commit. Verifying a moving tree, or verifying "the batch" without a
   revision attached, is a process-compliance finding - the point of the check is
-  that verification and implementation can never overlap in one round.
+  that verification and implementation of the same batch can never overlap in one
+  round.
 
   The wait is bounded. If the batch cannot be closed because implementation will
   not settle - a delegate that stalls, a job that will not finish, an
