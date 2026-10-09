@@ -88,9 +88,10 @@ concurrent execution, resumption after interruption, and documentation claims
 that overstate behaviour - are derived as candidates. None of them is a defect at
 triage time, so none becomes a §7 row: the five input findings remain the
 backlog's rows, and the derivation's candidates are carried into Phase 4, where
-the verification step examines them against the Reliability and the
-Runtime/repeated-execution categories. That examination is what turns the
-concurrency and the "always" claim into the §9 findings 7 and 8 - verification
+the verification step examines them against the Reliability, the
+Runtime/repeated-execution and the Documentation and maintainability categories.
+That examination is what turns the concurrency and the "always" claim into the
+§9 findings 7 and 8 - verification
 findings, and the Phase 5 sweep re-attacks both.
 
 ## Phase 4 - Verification-action loop
