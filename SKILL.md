@@ -117,9 +117,10 @@ findings against an unexamined target is not a finished run.
 5. No silent deferral - every open item is closed or documented for review.
 6. Independence - every role is staffed by an agent that holds no other role,
    and review and verification are never done by the agent that implemented the
-   change. When delegation is unavailable the declaration records each role as a
-   self-held degradation with its reason, and escalates under Stop conditions; no
-   role is closed by a separate pass or by any agent holding another role.
+   change. When delegation is unavailable the capability declaration (report
+   section 3) records each role as a self-held degradation with its reason, and
+   escalates under Stop conditions; no role is closed by a separate pass or by
+   any agent holding another role.
 7. Verifiable compliance - process requirements are logged, and an unmet requirement is itself a finding.
 8. Falsifiable goal - the run's goal has checkable exit criteria and a stopping
 rule.
@@ -162,8 +163,9 @@ follow-up action, or decision-required item.
 ### Phase 0 - Reconnaissance
 - Learn the target: purpose, interfaces, entry points, dependencies, configs,
   state, outputs, and known constraints.
-- Treat the declaration's description of the target as a claim to check, not a
-  fact: reconcile it against what is actually there, and record any difference.
+- Treat the target declaration's description of the target as a claim to check,
+  not a fact: reconcile it against what is actually there, and record any
+  difference.
 - State concretely what "no regression" means against the baseline. With no
   explicit `baseline=`, that is the target's state as found at Phase 0: record
   its identity - the revision when the target has one, otherwise a manifest of
