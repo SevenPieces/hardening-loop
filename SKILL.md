@@ -250,9 +250,9 @@ commit per batch (the set of related fixes one action step carries) and the
 no-rewriting rule apply when the target is under version control. When it is not - or `branch=none` was stated explicitly - the
 declaration records that, the Phase 0 baseline identity (the manifest of file
 hashes recorded for a target with no revision) is the as-found reference, and
-each batch lands as one discrete described change-set in place of a commit; Phase 7
-records the applied change-sets and that identity in place of a branch and a
-merge.
+each batch lands as one applied per-batch change-set (the no-version-control
+substitute for a commit) in place of a commit; Phase 7 records those applied
+change-sets and that identity in place of a branch and a merge.
 
 ### Phase 3 - Triage (mode B) or scope scan (mode A)
 
@@ -485,8 +485,8 @@ count. Feed every finding back into the loop.
   - a recorded experiment whose negative result is the evidence (a test design
     that cannot reach the check, a probe that cannot be made to answer);
   - a blocking constraint from the Stop-conditions list (missing access,
-    ambiguous requirements, a high-severity or blocking risk, a
-    decision-required item).
+    ambiguous requirements, a high-severity risk, a blocking open item, or an
+    open item that requires a decision).
 - An item with a known, executable recommendation that the run did not attempt is
   **not** pending review: it is an unmet goal, the run is not complete, and the
   action step resumes. "The attempt would be expensive" and "it would invalidate
@@ -509,7 +509,7 @@ count. Feed every finding back into the loop.
   (`reference/capabilities.md`); record the equivalence in §12.
 - When there is no branch to merge into - the target is not under version
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
-  the applied change-sets and the baseline identity there instead.
+  the applied per-batch change-sets and the baseline identity there instead.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
