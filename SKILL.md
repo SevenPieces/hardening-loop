@@ -489,17 +489,18 @@ count. Feed every finding back into the loop.
 - Leave read-only inputs untouched and uncommitted.
 - Finalize the report (see `reference/report-template.md`) for review before any
   push. Its Gate-facing sections - §2 scorecard, §3 capability declaration, §6
-  compliance summary, §13 open-item log, §14 sensitive-information scan - are
-  drafted as their evidence is produced and are checked at the Gate; §11 is
-  completed after the local merge, or after the change-sets land when there is
-  no branch.
+  compliance summary, §13 open-item log, §14 sensitive-information scan, §16
+  coverage matrix - are drafted as their evidence is produced and are checked at
+  the Gate; §11 is completed after the local merge, or after the change-sets land
+  when there is no branch.
 
 ## Reporting
 
 Every run ends in a report following `reference/report-template.md`. The
 capability declaration, the exit-criteria scorecard, the compliance summary, the
-open-item log and the sensitive-information scan result are what make the Gate
-checkable; omit none of them on the grounds that a section "obviously passes".
+open-item log, the coverage matrix and the sensitive-information scan result are
+what make the Gate checkable; omit none of them on the grounds that a section
+"obviously passes".
 
 ## Stop conditions
 

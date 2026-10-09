@@ -3,9 +3,10 @@
 The report is the deliverable of a hardening run and the artifact the Gate's
 checks are recorded in and that the reviewer checks. It precedes any push. Its
 Gate-facing sections - §2 scorecard, §3 capability declaration, §6 compliance
-summary, §13 open-item log, §14 sensitive-information scan - are drafted as
-their evidence is produced and are checked at the Gate; §11 is completed after
-the local merge, or after the change-sets land when there is no branch (see
+summary, §13 open-item log, §14 sensitive-information scan, §16 coverage matrix
+- are drafted as their evidence is produced and are checked at the Gate; §11 is
+completed after the local merge, or after the change-sets land when there is no
+branch (see
 `SKILL.md` Phases 6 and 7). Fill every section; where a section is genuinely not
 applicable, write "not applicable" and the reason rather than deleting the
 heading.
