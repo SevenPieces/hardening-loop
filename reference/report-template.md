@@ -45,7 +45,10 @@ covered (commit id, or the manifest of file hashes) and the agent that ran it; a
 pass without a named revision is recorded as covering nothing. List any required
 role that was not delegated, every role the run could not staff separately - with
 the agent that held it, the reason, and the Gate's compliance finding - and any
-delegate that failed or returned nothing, each with reason and remediation.
+delegate that failed or returned nothing, each with reason and remediation. Each
+such degradation is raised as a process-compliance finding in this run, with the
+next ID in the single §7 / §9 sequence; it blocks the Gate until remediated or
+explicitly escalated as a decision.
 
 ## 6. Process-compliance summary
 Pass/fail against goal setting, methodology use and delegation, including the

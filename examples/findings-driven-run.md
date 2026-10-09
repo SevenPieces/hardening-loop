@@ -36,8 +36,10 @@ including the process-compliance ones - with the `v0.4.2` behavior intact.*
 
 The harness goal is armed with that objective as `goal:hardening-0.5`, and the
 declaration records the id. The goal stays active until the Gate opens - every
-round below re-checks that it is still open, and it is closed only after the
-Gate's extra pass and the goal check both pass.
+round below re-checks that it is still open. This run satisfies the Gate, so the
+goal is closed as achieved after the Gate's extra pass and the goal check both
+pass, and the report records that closing state and that it came before the
+merge.
 
 Exit criteria as the checklist from `SKILL.md`, plus two run-specific ones:
 the two scripts keep their documented exit codes, and the sample deliverable is

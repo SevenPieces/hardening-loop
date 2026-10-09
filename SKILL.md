@@ -181,8 +181,10 @@ passes, the adversarial sweep over the final state is clean, and the extra
 verification pass is clean. The exit criteria below are how the goal is
 falsified, not the goal itself: satisfying them while the Gate is shut does not
 achieve the goal, and the goal stays open. Arm the harness goal with that
-objective and leave it active across rounds; do not close it before the Gate
-opens. At minimum:
+objective and leave it active across rounds. Close the harness goal when the run
+ends - on Gate satisfaction, or as "pending review" / "not fully achieved" when
+it does not - and record the closing state and whether it was closed before or
+after the merge. At minimum:
 
 - [ ] Every input finding is triaged, reproduced or explicitly marked
       non-reproducible with reasoning, fixed where valid, and covered by a
