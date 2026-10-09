@@ -137,9 +137,10 @@ was scanned, what was found, what was excluded, removed or redacted.
 Confirmation that read-only inputs were untouched and uncommitted.
 
 ## 16. Test coverage summary
-The matrix from `reference/coverage.md` - category, covered by, technique,
-outcome, closing evidence - with the areas that remain untested named rather
-than implied and the negative results recorded.
+The matrix from `reference/coverage.md` - the category rows and, once changes
+exist, the change-set block (one row per changed behaviour) - with columns
+category, covered by, technique, outcome, closing evidence; the areas that remain
+untested are named rather than implied, and the negative results are recorded.
 
 ## 17. Deliverable and environment integrity
 Confirmation that production, delivered artifacts and schedules were untouched,
