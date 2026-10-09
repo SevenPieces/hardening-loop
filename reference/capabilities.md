@@ -14,7 +14,7 @@ to be holding.
 |---|---|---|---|
 | Methodology framework (for example Superpowers) | A skill index or skill list is available | Enumerate it; map skills to the steps they serve; invoke them; log the evidence; no-skip rule applies | Follow the built-in process in `SKILL.md`; log the unavailability |
 | Subagents / delegation | A delegation API is available | Delegation-first; independent reviewer and verifier roles kept apart from implementation; log the evidence | The orchestrator (the main agent) performs those roles in separate independent passes; log why |
-| Production / real-workload mode | A production-mode entry point exists | Run an isolated production-like workload as part of every verification step | Run the closest representative workload, in isolation |
+| Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. **The probe records the exact command line and the exact input set a real run would use, and they must be executable by this session as written; "there is a real entry point" is not the probe result.** Read-only probes may send output to stdout or to a scratch path outside the target. | Run an isolated production-like workload as part of every verification step | Run the closest representative workload, in isolation |
 | Goal tracking | The harness exposes a goal primitive (create / get / update goal) | Arm the goal from Phase 1 before Phase 2 and keep it active until the Gate; record its id and final state in the report | The goal lives in the report and the round log; log the unavailability |
 | Delivered / published artifacts | Artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint | Treat it as read-only; never disturb it | Mark not applicable |
 | Reference artifacts | One or more paths or directories were provided at invocation | Read-only evidence for triage and reproduction | Build sanitized fixtures from samples |
@@ -34,7 +34,7 @@ and coverage outside the target.
 |---|---|---|---|---|
 | 1 | Methodology framework | List the skills this session exposes. The list the harness dispatches from is authoritative; a skills-root listing on disk is corroboration. | At least one skill other than this one is listed. | Re-check once; if it is still unreadable, treat as absent and record the failure. When the two sources disagree in count or content, record both and note the discrepancy. |
 | 2 | Subagents / delegation | Check whether the session exposes a delegation tool. | The session exposes a delegation tool. | Record the error and treat as absent; independence falls back to separate passes. |
-| 3 | Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. Read-only probes may send output to stdout or to a scratch path outside the target. | A documented entry point exists and starts. | Treat as absent; run the closest representative workload and say which. If the target's real workload is not runnable at all - a procedure or a document - record absent and name the exercise that stands in for it. |
+| 3 | Production / real-workload mode | Look for a documented way to run the target on real inputs - README, Makefile, package scripts, CLI help, service unit. Read-only probes may send output to stdout or to a scratch path outside the target. | A documented entry point exists, starts, and the run can state the exact command and the inputs it would execute with. | Treat as absent; run the closest representative workload and say which. If the target's real workload is not runnable at all - a procedure or a document - record absent and name the exercise that stands in for it. |
 | 4 | Delivered / published artifacts | Look for artifacts shipped to a consumer outside the repository - a release, a package, a published remote or registry entry, a deployed endpoint, a published output directory. Files merely tracked in the repo, including committed examples and samples, are fixtures. | Any such artifact exists. | **Treat as present** - do not write anywhere near it - and record that the check was inconclusive. |
 | 5 | Reference artifacts | Read the `refs=` field of the invocation; check that every path exists and is readable. A directory contributes its contents, recursively. | At least one path is readable. | Treat the paths that could not be read as none for this run and record which; the readable ones remain evidence. Build sanitized fixtures from samples only when nothing was readable. |
 | 6 | Input findings | Read the `findings=` field; open each path - a directory contributes its `.md` files - and count the findings. | At least one path is readable and holds at least one finding, and the invocation resolved to findings-driven. | **Stop and ask** - it decides the mode, and this case is not covered by the mode default. A named path that will not open, or a directory that yields no findings file, is what makes this row inconclusive. |
@@ -72,6 +72,11 @@ Rules for the declaration:
 - A declared-present goal capability that Phase 1 never arms is a
   process-compliance finding, exactly like a skipped skill. The declaration's
   evidence column carries the goal's id once it is armed.
+- For production mode the declaration carries the command and the inputs, not just
+  the word `present`. A row that cannot name an executable command and its inputs
+  is `inconclusive`, never `present`.
+- A `present` production capability whose workload was not executed, with no
+  declared constraint, blocks the Gate as a compliance finding.
 
 ## Rules that follow from detection
 

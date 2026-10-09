@@ -208,7 +208,10 @@ implementation order; test strategy and coverage matrix
 built from `reference/coverage.md`, including one regression test per input
 finding or its recorded justification; verification strategy - the baseline
 verification before any change, then isolated production-like executions plus
-repeated-execution simulation where feasible; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
+repeated-execution simulation where feasible; the production-mode run, quoted
+verbatim: the exact command and the exact inputs from the capability
+declaration - a plan that names no production run, and no blocking constraint
+preventing one, is a plan for an unverified change-set; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
 isolated work branch or worktree the changes will be made on, one follow-up
 commit per fix, with no rewriting of existing history; open-item handling; and
 risks, rollback and cleanup.
@@ -291,6 +294,12 @@ Verification step, per action step:
 - Delegate to independent verification - a subagent, or a separate pass.
 - Run the pass against the coverage in `reference/coverage.md`: it defines what a
   verification must reach, and the report records the matrix the pass produced.
+- Run the production-mode workload the plan named. Not running it is a
+  process-compliance finding, not a fallback: either the workload ran, or a
+  blocking constraint is named and escalated as a decision at the Gate. "The
+  workload is agentic", "it takes too long" and "the tests cover that layer" are
+  not constraints; a constraint is missing access, an unowned input, or a target
+  that cannot be run at all.
 - Run the target in its closest real-world or production-like mode, in isolation.
 - Do not disturb delivered artifacts, and do not trigger or change scheduled
   jobs, cadences or other external triggers.
