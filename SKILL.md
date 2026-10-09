@@ -332,13 +332,15 @@ Verification step, per action step:
   over that revision is what closes it.
 - Run the pass against the coverage in `reference/coverage.md`: it defines what a
   verification must reach, and the report records the matrix the pass produced.
-- Run the production-mode workload the plan named. Not running it is a
-  process-compliance finding, not a fallback: either the workload ran, or a
+- Run the production-mode workload named in the plan and the capability
+  declaration - the target's own entry point, on its real inputs - in isolation.
+  A subset, a test suite or a representative path never satisfies this bullet;
+  when it cannot run, name the blocking constraint and escalate. Not running it
+  is a process-compliance finding, not a fallback: either the workload ran, or a
   blocking constraint is named and escalated as a decision at the Gate. "The
   workload is agentic", "it takes too long" and "the tests cover that layer" are
   not constraints; a constraint is missing access, an unowned input, or a target
   that cannot be run at all.
-- Run the target in its closest real-world or production-like mode, in isolation.
 - Do not disturb delivered artifacts, and do not trigger or change scheduled
   jobs, cadences or other external triggers.
 - Leave no leftovers: redirect outputs to sandbox paths and clean up.
