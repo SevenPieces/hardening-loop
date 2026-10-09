@@ -25,7 +25,7 @@ applies.
 
 | Output | Purpose |
 |---|---|
-| A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, coverage and change-set matrices (section 16), sensitive-information scan, and the exact push command(s) pending approval when a branch or remote exists; a run with no merge target records "no push target" instead |
+| A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, coverage and change-set matrices (section 16), sensitive-information scan, and the exact push command(s) pending approval when a branch or remote exists; a run with no branch or remote to push to records "no push target" instead, and a run with no merge target records "no merge target" in section 11 and section 19 |
 | Regression tests | One per input finding - or a recorded justification where none can be written; added to the target's suite, or to a runner added for the purpose where none existed and one was feasible |
 | A locally merged branch | The revision the Gate approved - the one the extra pass verified - merged locally to the branch the invocation names - `main` when it names none - and never pushed; anything landing after that pass voids the Gate and re-enters the loop, and a target that is not under version control records its baseline identity and the applied change-sets instead |
 
