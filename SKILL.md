@@ -318,7 +318,11 @@ is what establishes which behaviors those are.
 finding introduced by this run's own fixes, or a process-compliance finding -
 return to the action step, fix it - as recommended where the finding carries a
 recommendation, otherwise as the next round's action step decides - and repeat
-the verification step. Continue until no finding of any level remains.
+the verification step. "Fix it" means the finding is closed in this run, or
+escalated as a decision under Stop conditions. A finding may not be carried to
+the Gate unresolved because closing it would invalidate earlier verification -
+re-running that verification is what the loop exists to do. Continue until no
+finding of any level remains.
 
 ### Phase 5 - Adversarial sweep
 Once the loop is quiet, attack the target and the accumulated changes
@@ -356,7 +360,21 @@ count. Feed every finding back into the loop.
 - A criterion that passes only because a remaining item is documented leaves the
   goal not fully achieved: the run ends as "pending review" and does not push.
 - If an open item remains that cannot reasonably be closed, mark it "pending
-  review", document it, and do not push.
+  review", document it, and do not push - **and the documentation must carry a
+  closure attempt: what was tried, what it produced, and why it failed.** One of
+  the following is required, and the run records which:
+  - a reproduction showing the item is not closable in this environment;
+  - a recorded experiment whose negative result is the evidence (a test design
+    that cannot reach the check, a probe that cannot be made to answer);
+  - a blocking constraint from the Stop-conditions list (missing access,
+    ambiguous requirements, a high-severity or blocking risk, a
+    decision-required item).
+- An item with a known, executable recommendation that the run did not attempt is
+  **not** pending review: it is an unmet goal, the run is not complete, and the
+  action step resumes. "The attempt would be expensive" and "it would invalidate
+  the sweep" are not failed attempts.
+- The Gate's open-item check and the goal check are the same check: an item that
+  keeps the Gate shut keeps the goal open.
 
 ### Phase 7 - Completion
 - Merge all commits back to the branch named in the declaration - `main` when
