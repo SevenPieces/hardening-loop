@@ -277,8 +277,10 @@ report: the goal, its exit criteria and the stopping rule belong to the run. A
 **batch** is the set of related fixes that one action step carries, so one round
 verifies one batch. A **verification step** (also written "verification pass") is
 one traversal of the whole of `reference/coverage.md` - all three coverage passes
-plus regression; it runs as the baseline verification, after each batch, and once
-more as the Gate's extra pass. An **execution** is one
+plus regression and the production workload named in the plan - except the
+baseline verification, which runs the same traversal as found and omits the
+production workload. It runs as the baseline verification, after each batch, and
+once more as the Gate's extra pass. An **execution** is one
 execution of the target, as in a repeated, concurrent or scheduled execution. The
 loop runs rounds until a verification step is clean.
 
