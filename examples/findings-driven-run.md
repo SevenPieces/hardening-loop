@@ -85,10 +85,11 @@ raised: it is triaged here like any other input finding.
 Mode B does not stop at the file: the mode A derivation follows. Reconnaissance
 gaps and the adversarial hypothesis list - state-file contention under
 concurrent execution, resumption after interruption, and documentation claims
-that overstate behaviour - are added to the backlog. None of them is a separate
-defect at triage time, so the five input findings remain the backlog's findings;
-the derivation's candidates are carried into Phase 4 and the Phase 5 sweep,
-which is what turns the concurrency and the "always" claim into findings.
+that overstate behaviour - are derived as candidates. None of them is a defect at
+triage time, so none becomes a §7 row: the five input findings remain the
+backlog's rows, and the derivation's candidates are carried into Phase 4 and the
+Phase 5 sweep, which is what turns the concurrency and the "always" claim into
+the §9 findings 7 and 8.
 
 ## Phase 4 - Verification-action loop
 
@@ -101,8 +102,9 @@ from the backlog.
 
 The five input findings are one batch: no other defect has joined the backlog,
 the run is too small to split them, and one verification step closes them
-together. The derivation's candidates are not separate fixes: they are carried
-into that same pass and into the Phase 5 sweep.
+together. The derivation's candidates are not separate fixes and not §7 rows:
+they are carried into that same pass and into the Phase 5 sweep, and recorded
+with the findings they produce.
 
 Actions: finding 1 changes one reference file to name the other as normative;
 finding 2 adds an argument check and a non-zero exit; finding 3 records the run

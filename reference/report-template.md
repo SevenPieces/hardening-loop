@@ -66,9 +66,12 @@ capability declaration in §3; the findings this raised, and their remediation.
 
 ## 7. Triage table
 The backlog as triaged: the input findings (mode B) and the reconnaissance-derived
-candidates - mode A derives them from reconnaissance, and a mode B run derives
-and adds them to this table after triage. Defects discovered later, while working
-the backlog, belong in §9.
+candidates that became defects at triage - mode A derives them from
+reconnaissance, and a mode B run derives them after triage. Derived candidates
+with no defect at triage time are carried downstream and recorded with the
+findings they produce, not as section 7 rows; only input findings and triaged
+defects become backlog rows. Defects discovered later, while working the backlog,
+belong in §9.
 
 Findings carry one ID scheme across the whole report: a single sequence, never
 per-source prefixes. §7 and §9 share the sequence; an item that moves between
