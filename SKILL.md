@@ -113,7 +113,11 @@ findings against an unexamined target is not a finished run.
 3. Isolation - verification never disturbs production, delivered artifacts, schedules or state.
 4. No leftovers - temp files, processes, state, branches and side effects are cleaned up.
 5. No silent deferral - every open item is closed or documented for review.
-6. Independence - every role is staffed by an agent that holds no other role, and review and verification are never done by the agent that implemented the change; when delegation is unavailable the separate-pass fallback is recorded as a degradation with a Gate compliance finding.
+6. Independence - every role is staffed by an agent that holds no other role,
+   and review and verification are never done by the agent that implemented the
+   change. When delegation is unavailable the declaration records each role as a
+   self-held degradation with its reason, and escalates under Stop conditions; no
+   role is closed by a separate pass or by any agent holding another role.
 7. Verifiable compliance - process requirements are logged, and an unmet requirement is itself a finding.
 8. Falsifiable goal - the run's goal has checkable exit criteria and a stopping
 rule.

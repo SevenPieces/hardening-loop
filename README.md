@@ -11,7 +11,10 @@ repeats on every finding it produces, including the ones its own fixes create
 and the process-compliance findings it raises against itself. A Gate - goal
 check, compliance check, no open item, and one extra clean verification step -
 decides when the run is done. The output is a report for review, and nothing is
-pushed.
+pushed. A run either satisfies the Gate or ends as "pending review" with the
+remaining open items documented; a pending-review report carries documented open
+items that are not findings closed, and the reason each one stays open with the
+closure attempt that was made.
 
 ## What a run produces
 
@@ -83,7 +86,7 @@ long, and the report is the handoff back.
 | Parameter | Canonical key | Required | Default when omitted | Meaning | Example |
 |---|---|---|---|---|---|
 | target | `target=` | yes | - | What is being hardened: a name, a path, or a `kind:name` identifier | `target=skills/daily-news-briefing`, `target=repo:payments-service` |
-| mode | `mode=` | no | `baseline` | `baseline` derives scope from reconnaissance; `findings-driven` starts from the input findings | `mode=findings-driven` |
+| mode | `mode=` | no | `baseline` | `baseline` derives scope from reconnaissance; `findings-driven` starts from the input findings and still derives the reconnaissance-derived backlog after triage, so mode B includes mode A's scope | `mode=findings-driven` |
 | input findings | `findings=` | no | `none` | One or more findings files, or a directory of them, that seed the backlog; naming any makes the run findings-driven unless `mode=` was stated explicitly, in which case the conflict is resolved with the operator first. Several paths are comma-separated, and a directory contributes its `.md` files | `findings=findings/2026-10-01.md,findings/2026-10-02.md` or `findings=findings/` |
 | reference artifacts | `refs=` | no | `none` | One or more paths or directories of read-only evidence - prior runs, outputs, delivered artifacts - used for triage and reproduction. Several paths are comma-separated, a directory contributes its contents recursively, and nothing under any of them is written to | `refs=runs/2026-10-01/,runs/2026-10-02/` or `refs=runs/` |
 | baseline / milestone | `baseline=` | no | the target's state as found at Phase 0 | The revision that "no regression" is measured against: a commit, a tag or a version. Without one, Phase 0 records the as-found identity - a revision, or a manifest of file hashes that stands in for it | `baseline=v1.4.0` |
@@ -164,8 +167,10 @@ does not push.
 - **Evidence over assertion.** Every claim in the report traces to a command,
   log, diff or output.
 - **Independence.** A change is verified by an agent that did not implement it
-  and holds no other role; where delegation is unavailable the separate-pass
-  fallback is recorded as a degradation and raises a Gate compliance finding.
+  and holds no other role; where delegation is unavailable the declaration
+  records each role as a self-held degradation with its reason and escalates
+  under Stop conditions - no role is closed by a separate pass or by any agent
+  holding another role.
 - **No silent deferral.** An open item is closed or documented - never dropped.
 - **Process compliance is itself graded.** An unmet requirement is a finding,
   and it blocks the Gate like any other.
