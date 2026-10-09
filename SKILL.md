@@ -32,7 +32,10 @@ Do not use it for a single bug fix, a one-shot review of a small diff, or as a
 substitute for ordinary feature work. If the target is small enough that a
 single ordinary review settles its whole scope - one bug fix, one small diff,
 one file - say so and do that review instead of running the full loop; a
-coverage-complete verification pass is not that review.
+coverage-complete verification pass is not that review. This is a consequence of
+the loop's independence floor, not a stylistic preference: the floor costs more
+agents than such a change warrants, so a target small enough to settle in one
+review is out of scope for this skill.
 
 ## Target declaration
 
@@ -200,8 +203,11 @@ record an open item.
 Produce a concise plan covering: goal, exit criteria, non-goals and stopping
 rule; the methodology-framework discovery result and Skill Usage Plan (when
 present, including any skills named by `skills=`); the Delegation Plan - each
-role, the phase it runs in, and its independence from implementation (when
-delegation is present); the triage plan (mode B) or scope-scan plan (mode A),
+role, the phase it runs in, and its independence (when delegation is present),
+the staffing check included: which agent fills each role, and the rule that no
+agent fills more than one. Any role the run could not staff separately - held by
+the orchestrator, or by an agent already staffing another role - is recorded as a
+degradation; the triage plan (mode B) or scope-scan plan (mode A),
 including the hypothesised root cause behind each input finding; scope - the
 input findings and a re-audit of the target as it actually behaves;
 implementation order; test strategy and coverage matrix
@@ -283,15 +289,47 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
   runner if one is feasible: a test that would have caught the finding is the
   deliverable, not a justification for skipping it. Only when that is genuinely
   infeasible, record the absence as an open item.
-- Make each fix its own follow-up commit on the isolated work branch or worktree.
-  Where the target has no version control, or `branch=none` was stated
-  explicitly, land it as the discrete described change-set Phase 2 defines
-  instead. Keep each change scoped and descriptive,
-  and reference the finding IDs and the exit criteria it advances. Never amend,
-  rebase or otherwise rewrite existing history.
+- Make each batch its own follow-up commit on the isolated work branch or
+  worktree, and **close the batch before leaving this step**: every change the
+  batch contains is committed, the worktree is clean, and no implementation for
+  this batch is still running anywhere - no background job, no delegate, no
+  editor. The batch's scope is fixed here and does not grow afterwards. (Where
+  the target has no version control, or `branch=none` was stated explicitly,
+  land the batch as the discrete described change-set Phase 2 defines and record
+  the change-set's identity in the same way.)
+
+  The commit is what the next step verifies. A batch handed to verification
+  uncommitted, or with work still landing, has no revision to verify, and any
+  result from that step describes a tree that no longer exists. Keep each change
+  scoped and descriptive, and reference the finding IDs and the exit criteria it
+  advances. Never amend, rebase or otherwise rewrite existing history.
 
 Verification step, per action step:
-- Delegate to independent verification - a subagent, or a separate pass.
+- **Close-of-batch gate.** Before verifying anything: the batch from the last
+  action step must be committed on the work branch and nothing may be mid-flight
+  - no uncommitted changes belonging to that batch, no implementation delegate
+  or job still running. Take the revision now (the commit id, or the manifest of
+  file hashes when the target has no version control) and verify **that**
+  revision; every result is reported against it.
+
+  If the check does not pass, do not start verification: return to the action
+  step and let it finish the commit, or wait for the in-flight implementation to
+  settle and commit. Verifying a moving tree, or verifying "the batch" without a
+  revision attached, is a process-compliance finding - the point of the check is
+  that verification and implementation can never overlap in one round.
+
+  The wait is bounded. If the batch cannot be closed because implementation will
+  not settle - a delegate that stalls, a job that will not finish, an
+  interruption that leaves work uncommitted - do not wait indefinitely:
+  re-delegate or abandon that work as **Failed delegation** requires, record the
+  batch's actual state, and escalate under the Stop conditions. A wait with no
+  bound is a hung round, not a closed batch, and it is the one way this gate can
+  stop the loop from making progress at all.
+- Delegate to independent verification: a subagent, or - when delegation is
+  genuinely unavailable - the separate-pass fallback, which the declaration
+  records as a degradation. The orchestrator never verifies its own
+  implementation; when the orchestrator implemented a change, an independent pass
+  over that revision is what closes it.
 - Run the pass against the coverage in `reference/coverage.md`: it defines what a
   verification must reach, and the report records the matrix the pass produced.
 - Run the production-mode workload the plan named. Not running it is a
@@ -325,6 +363,19 @@ re-running that verification is what the loop exists to do. Continue until no
 finding of any level remains.
 
 ### Phase 5 - Adversarial sweep
+The sweep does not need its own close-of-batch gate - the verification step that
+precedes it is full over the revision it named, and nothing runs between them -
+but it must assert the input the close-of-batch gate exists to protect: the
+revision this sweep is about to attack is the revision the immediately preceding
+verification step verified clean. Take that revision (the commit id, or the
+manifest of file hashes when the target has no version control), attack it, and
+report every finding against it. If anything landed after the verified revision,
+the sweep does not start: the loop re-enters at the action step, and the new
+state is verified before it is attacked. The check is one sentence because the
+state it guards was already fixed by the previous step; the alternative is a
+sweep that attacks a tree it never named, which is the same defect as verifying
+one.
+
 Once the loop is quiet, attack the target and the accumulated changes
 independently. Where a verification step asks whether the target meets
 `reference/coverage.md`, the adversarial sweep asks how it breaks: assume the
@@ -377,8 +428,14 @@ count. Feed every finding back into the loop.
   keeps the Gate shut keeps the goal open.
 
 ### Phase 7 - Completion
-- Merge all commits back to the branch named in the declaration - `main` when
-  the invocation named none - locally.
+- Merge the revision the Gate approved - the revision the extra pass verified -
+  and only it, back to the branch named in the declaration - `main` when the
+  invocation named none - locally. If anything lands between that pass and the
+  merge, the Gate's result is void for the new revision and the run re-enters the
+  loop: the action step commits the change, then the verification step over the
+  new revision, then the adversarial sweep over that state, then the extra pass,
+  then the Gate again. A merge of a revision no pass covered is a compliance
+  finding.
 - When there is no branch to merge into - the target is not under version
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied change-sets and the baseline identity there instead.

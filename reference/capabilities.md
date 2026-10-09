@@ -114,27 +114,60 @@ from the implementation - and the degradation is recorded.
 Phase 5's adversarial sweep is staffed by the Adversarial review role: "the
 adversary" below means that role, and "the verifier" means the Verification role.
 
-**Smallest independent set.** Implementation plus verification, always.
-Adversarial review runs on every run, staffed by a role separate from
-implementation; it must additionally be an independently staffed role whenever
-the change touches security, data integrity or external input. Independent test
-design likewise runs wherever a regression test is required. The
-independence-bearing roles - verification, independent test
-design and adversarial review - never merge into implementation; triage, the
-security/privacy scan, independent test design and regression may merge into each
-other, into verification or into the adversarial review. Every merge is recorded
-with its reason, per the delegation contract below.
+**Independent roles, no more than one role per agent.** Every role in the
+delegation plan is staffed by its own agent: no agent holds more than one role,
+and no role is merged into another. Implementation, verification, independent
+test design and adversarial review are four separate agents, and the
+orchestrator is none of them. Independence is a property of how the roles are
+staffed, not of the plan's good intentions - two roles in one agent are one
+role, however the plan words it.
+
+The supporting roles - triage, the security/privacy scan, and regression and
+cross-effects - are independent roles too, and are staffed by separate agents on
+the same rule: no agent holds more than one of them, and none of them shares an
+agent with implementation or with any of the four independent roles. They exist
+to keep one agent's attention and one agent's blind spots out of another role's
+work, so folding one into a role it exists to check defeats it. When a supporting
+role has nothing to do on a batch, it is still staffed and records that outcome
+as its result; it is never dropped.
+
+The orchestrator keeps coordination, integration, conflict resolution and the
+Gate, and nothing else. Holding a role itself is a degradation that the
+declaration records with its reason, and the Gate treats it as a
+process-compliance finding - it is never a permitted alternative.
+
+When the orchestrator does implement - delegation genuinely absent, or a change
+too small to split - every commit it lands carries a named independent
+verification over that revision before the Gate may open, and the declaration
+records which role was self-held and why.
+
+**Instruction-budget note.** The cost of this rule is more agents, not more
+rounds: every role can run against one frozen batch, and a role with nothing to
+do on a given batch records that as its result rather than being dropped. The
+security/privacy scan stays a mandatory role rather than an "if present" one:
+the skill already requires it whenever the change touches security, data
+integrity or external input, and its default must not shrink to fit a smaller
+plan.
 
 **Delegation contract.** Give each role a scope, its inputs, its deliverables,
 the evidence it must return and its constraints - including the read-only and
-sensitivity rules for anything it touches. A role merges into another only when
-the run is too small to split it, and the merge is recorded with its reason.
+sensitivity rules for anything it touches. Every verification,
+adversarial-sweep and test-design delegation names the exact revision or
+snapshot it covers - the commit id, or the manifest of file hashes when the
+target has no version control - and returns it with its evidence. A
+pass without a named revision covers nothing.
 
 **Context isolation.** A verifier or adversary receives the target, the change
 and the exit criteria - never the implementer's notes, hunches or
 self-assessment. Use an agent with no inherited context: a verifier that
 continues the implementer's conversation inherits its blind spots, and the
 independence is only nominal.
+
+A pass expires when the thing it verified changes. Any change - a follow-up fix,
+a documentation edit, a generated artifact, a merge commit - invalidates
+recorded passes over the changed paths, and the Gate may not open on a stale
+pass. A pass whose revision cannot be shown to be the revision under review is a
+finding.
 
 **Adversary brief.** The adversary is told to break it, on the assumption that
 the change is wrong, and returns either the input that proves it or the attacks
@@ -153,6 +186,19 @@ index - is serialized or split so that only one writer touches it.
 **Failed delegation.** A delegate that fails, stalls or returns nothing is
 re-delegated or logged as an open item. The orchestrator does not silently
 absorb the work and continue as though the role had been exercised.
+
+A failed, stalled or empty delegate is re-delegated, not absorbed: the role is
+re-dispatched to an agent that holds no other role in this run, or the run
+escalates the failure as an open item under the Stop conditions. No role is
+taken over by the orchestrator, by the implementer's agent, or by any agent
+already staffing another role. The only staffings that satisfy the independence
+rule are a separate agent for the role, or a recorded degradation with a
+Gate-visible compliance finding; "the role was folded into another delegation"
+is no longer available, because no agent holds more than one role.
+
+Re-delegation is bounded: after the second failure the run reports the role's
+outcome as a known gap with a compliance finding, rather than dispatching in a
+loop.
 
 **Parallelism.** Independent workstreams run concurrently where that is safe.
 Anything sharing mutable state, or that must observe another role's output, runs
