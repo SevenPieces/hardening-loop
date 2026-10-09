@@ -51,7 +51,7 @@ it is classified by its impact like any other finding.
 
 | Category | Applies when | What closes it |
 |---|---|---|
-| Security and privacy | always | the target, every diff, every read-only input and the input findings files scanned for secrets, credentials, PII, internal URLs and private data; injection surfaces and unsafe logging checked |
+| Security and privacy | always | the target, every diff, every read-only input, the input findings files, and every delegate's returned evidence and report text scanned for secrets, credentials, PII, internal URLs and private data; injection surfaces and unsafe logging checked |
 | Performance and resources | the target has a runtime cost or writes files | a measured execution - wall time, peak memory, temp-file count, and storage delta across consecutive executions - reported as a measurement; a budget varies too much between targets to be fixed here, so state one only when the invocation supplied it, through `constraints=`, and say so |
 | Compatibility | the target declares versions, platforms or toolchains | the declared combinations are exercised rather than read; a declared platform or version that cannot be exercised in this environment is recorded as a gap, not counted as covered |
 

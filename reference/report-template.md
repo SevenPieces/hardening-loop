@@ -136,8 +136,9 @@ template non-conformance.
 |---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## 14. Sensitive-information scan result
-The target, the diffs, the read-only inputs, and the input findings files: what
-was scanned, what was found, what was excluded, removed or redacted.
+The target, the diffs, the read-only inputs, the input findings files, and every
+delegate's returned evidence and report text: what was scanned, what was found,
+what was excluded, removed or redacted.
 
 ## 15. Read-only input integrity
 Confirmation that read-only inputs were untouched and uncommitted.

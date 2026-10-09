@@ -294,9 +294,10 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
 - Confirm it advances one or more exit criteria, and name which. The same check
   confirms the goal is still open: a round that closes the objective while the
   Gate is unopened is a finding.
-- Scan the target, every diff, the read-only inputs and the input findings files
-  for private or sensitive information - secrets, tokens, credentials, PII,
-  internal URLs, private data - and exclude, remove or redact it.
+- Scan the target, every diff, the read-only inputs, the input findings files and
+  every delegate's returned evidence and report text for private or sensitive
+  information - secrets, tokens, credentials, PII, internal URLs, private data -
+  and exclude, remove or redact it.
 - Confirm nothing from a read-only input was copied verbatim into the target,
   tests, fixtures, commits or reports without sanitization.
 - Ensure tests and coverage are updated, including the regression tests tied to
