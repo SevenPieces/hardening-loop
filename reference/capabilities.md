@@ -74,7 +74,9 @@ Rules for the declaration:
   evidence column carries the goal's id once it is armed.
 - For production mode the declaration carries the command and the inputs, not just
   the word `present`. A row that cannot name an executable command and its inputs
-  is `inconclusive`, never `present`.
+  is `inconclusive`, never `present`. A command that is nameable but was not shown
+  to start is inconclusive; if the declared command later cannot run as written,
+  the row is re-probed and downgraded before the Gate.
 - A `present` production capability whose workload was not executed, with no
   declared constraint, blocks the Gate as a compliance finding.
 
