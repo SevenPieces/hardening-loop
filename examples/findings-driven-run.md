@@ -75,7 +75,7 @@ The IDs are one sequence for the whole report, as
 `reference/report-template.md` requires: no per-source prefixes. This table and
 the §9 finding log share the sequence, and an item that moves between them keeps
 its ID - which is why the regression found in Round 1 is 6, not `V1`, and the
-two sweep findings are 7 and 8.
+findings that verification pass produced after it are 7 and 8.
 
 Finding 3 is marked *reproducible with instrumentation*: the script is run with a
 patched clock, and the window end is shown to move with the clock. Finding 5 is a
@@ -87,24 +87,29 @@ gaps and the adversarial hypothesis list - state-file contention under
 concurrent execution, resumption after interruption, and documentation claims
 that overstate behaviour - are derived as candidates. None of them is a defect at
 triage time, so none becomes a §7 row: the five input findings remain the
-backlog's rows, and the derivation's candidates are carried into Phase 4 and the
-Phase 5 sweep, which is what turns the concurrency and the "always" claim into
-the §9 findings 7 and 8.
+backlog's rows, and the derivation's candidates are carried into Phase 4, where
+the verification step examines them against the Reliability and the
+Runtime/repeated-execution categories. That examination is what turns the
+concurrency and the "always" claim into the §9 findings 7 and 8 - verification
+findings, and the Phase 5 sweep re-attacks both.
 
 ## Phase 4 - Verification-action loop
 
 **Baseline verification.** Before any change, the whole target is run against the
 coverage matrix in `reference/coverage.md`: the five input findings reproduce as
 recorded and nothing else appears, so the baseline is measured and clean apart
-from the backlog.
+from the backlog. The derivation's candidates are examined here too, against the
+same categories; none holds against the found tree, because the two that later
+produce findings depend on behaviour the batch itself introduces.
 
 ### Round 1
 
 The five input findings are one batch: no other defect has joined the backlog,
 the run is too small to split them, and one verification step closes them
 together. The derivation's candidates are not separate fixes and not §7 rows:
-they are carried into that same pass and into the Phase 5 sweep, and recorded
-with the findings they produce.
+they are carried into that same pass, which examines them against the Reliability
+and the Runtime/repeated-execution categories, and records the findings they
+produce.
 
 Actions: finding 1 changes one reference file to name the other as normative;
 finding 2 adds an argument check and a non-zero exit; finding 3 records the run
@@ -129,19 +134,31 @@ Verification (against the same matrix and the same revision): the independent
 test-design agent writes the regression tests for findings 1, 2 and 3, and the
 verification agent runs them - designed and run by agents that did not implement
 them. The verifier then runs the scripts in a scratch directory outside the
-target, twice in a row, and runs the declared production-mode workload - the
-documented sample-regeneration command, on the shipped sample inputs - in that
-scratch directory; the delivered artifacts from the baseline execution are
-byte-identical. **Finding 6 (Medium):** the second execution of the script
-rewrites a state file it should only read, so the two executions disagree - a
-regression introduced by the finding-3 fix.
+target - once, twice in a row, and twice at the same time - and runs the declared
+production-mode workload - the documented sample-regeneration command, on the
+shipped sample inputs - in that scratch directory; the delivered artifacts from
+the baseline execution are byte-identical. Three findings come out of that pass,
+each introduced by the batch's own fixes:
+
+- **Finding 6 (Medium):** the second execution of the script rewrites a state
+  file it should only read, so the two executions disagree - a regression
+  introduced by the finding-3 fix (Runtime and repeated-execution behaviour).
+- **Finding 7 (Medium):** a concurrent execution of the two scripts interleaves
+  on that state file, so the result depends on which execution finishes first -
+  the concurrency candidate, holding now that the finding-3 fix writes the file
+  (Reliability).
+- **Finding 8 (Low):** the "always" wording the finding-1 reconciliation added to
+  the reference file is false for the empty-input case this same pass exercises
+  (Documentation and maintainability).
 
 ### Round 2
 
-Action: the finding-3 fix now writes its derived state to the scratch path and
-leaves the input state file untouched. A regression test asserts two consecutive
-executions produce the same derived state. The step closes the batch as commit
-`b7e4410`; the close-of-batch gate took `b7e4410`, and verification reports
+Action: findings 6, 7 and 8 are one batch. The finding-3 fix now writes its
+derived state to the scratch path and leaves the input state file untouched; the
+state file gains a lock file and a test for the concurrent case; the "always"
+wording is corrected to name the empty-input exception. A regression test asserts
+two consecutive executions produce the same derived state. The step closes the
+batch as commit `b7e4410`; the close-of-batch gate took `b7e4410`, and verification reports
 against it, clean - and Phase 5 still has to run before the Gate, so this is not
 yet the last pass. The security/privacy agent re-scans the new diff and records
 nothing found.
@@ -158,38 +175,25 @@ would have produced evidence for a revision that never existed.
 ## Phase 5 - Adversarial sweep
 
 The sweep attacks `b7e4410`, the revision the Round-2 verification reported
-clean, and reports every finding against it. Findings: a concurrent execution of
-the two scripts interleaves on the state file (Medium, finding 7); a
-documentation claim about "always" was false for the empty-input case (Low,
-finding 8); no privilege, injection or logging-hygiene issues found.
-
-## Loop re-entry - Round 3
-
-Both findings return to the action step. The state file gains a lock file and a
-test for the concurrent case, and the "always" claim is reworded. The step closes
-the batch as commit `d4f0a15`; the close-of-batch gate took `d4f0a15` and the
-verification step is clean. The security/privacy agent re-scans the new diff and
-records nothing found.
-
-## Phase 5 re-run - Adversarial sweep
-
-The adversarial sweep runs again, because the fix is new attack surface: it
-attacks `d4f0a15`, the revision the Round-3 verification reported clean. This
-time it comes back clean: the lock file holds under a concurrent run, and no new
-assumption fails.
+clean, and reports every finding against it. It re-attacks both candidates that
+verification turned into findings 7 and 8 - a concurrent execution of the two
+scripts, and the empty-input case against the corrected wording - and both
+attacks fail: the lock holds under concurrency and the wording now matches every
+case exercised. No other assumption fails, and no privilege, injection or
+logging-hygiene issue is found.
 
 ## Phase 6 - Gate
 
 The last finding is behind us and the adversarial sweep that followed it is
 clean, so per the Gate rule one extra full verification step runs over the final
-revision `d4f0a15`: the malformed-argument case, the consecutive-execution case,
+revision `b7e4410`: the malformed-argument case, the consecutive-execution case,
 the concurrent case and the sample regeneration. Clean again, so the Gate opens -
 and only that revision is what Phase 7 merges.
 
 | Criterion | Result | Evidence |
 |---|---|---|
 | Input findings triaged, reproduced, fixed, regression-tested | Pass | Triage table; regression tests for findings 1, 2 and 3, a link check for finding 4 and the rendering/link check for finding 5's process-text edit |
-| No known finding at any severity | Pass | Round 3 verification, the sweep re-run and the extra pass after them, all clean over `d4f0a15` |
+| No known finding at any severity | Pass | The Round-2 verification, the sweep and the extra pass after them, all clean over `b7e4410` |
 | No open item remains | Pass | Open item log is empty |
 | Capability requirements met | Pass | Skill usage log, delegation log |
 | Baseline holds | Pass | The pre-change behaviours re-run: the reference files read the same, the scripts keep their exit codes, and the sample still regenerates |
@@ -199,18 +203,21 @@ and only that revision is what Phase 7 merges.
 
 ## Phase 7 - Completion
 
-The revision the Gate approved - `d4f0a15`, the one the extra pass verified - is
+The revision the Gate approved - `b7e4410`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
 along, and a re-entry reopens the harness goal before the next action step. Once
-the merge is verified to cover exactly `d4f0a15`, the run closes the goal as
+the merge is verified to cover exactly `b7e4410`, the run closes the goal as
 achieved. The report lists the exact push command(s) and waits for approval.
 Read-only inputs are unmodified and uncommitted.
 
 ## What the loop actually caught
 
-Three of the eight findings - 6, the concurrency issue, and the false "always" -
-were invisible in the input findings: finding 6 surfaced when the verification
-step ran again after a fix, and the other two turned into findings only under the
-adversarial sweep. That is the loop's whole value: the second finding is usually
-created by the fix for the first.
+Three of the eight findings - 6, the concurrency issue and the false "always" -
+were invisible in the input findings. All three surfaced in the verification step
+that followed the first batch, because the batch's own fixes introduced them: the
+state write the finding-3 fix added rewrote the file on a second execution and
+interleaved under a concurrent one, and the wording the finding-1 reconciliation
+added overstated the behaviour for the empty-input case. The sweep then
+re-attacked both and failed to break them. That is the loop's whole value: the
+second finding is usually created by the fix for the first.
