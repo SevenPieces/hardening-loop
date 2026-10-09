@@ -109,13 +109,17 @@ with the findings they produce.
 Actions: finding 1 changes one reference file to name the other as normative;
 finding 2 adds an argument check and a non-zero exit; finding 3 records the run
 start and derives the window end from it; finding 4 fixes the link; finding 5
-adds a Gate line requiring the verification record. Finding 4 is a documentation
-link with no behaviour to test - a link check closes it - and finding 5 is a
-process gap closed by the Gate line it adds; those two are recorded as justified
-rather than silently skipped. The security/privacy agent scans the target, the
-diffs and the reference artifacts for credentials and machine-specific values;
-one absolute path in a fixture is replaced with the `$HOME`-relative form, and
-the replacement is named in the diff so the sanitization can be checked.
+ties the target's Gate to the verification record - each pass recorded with the
+agent that ran it and the revision the close-of-batch gate took, the mechanism
+the hardening loop itself uses, without which a pass nobody ran can count as
+covered. Finding 4 is a documentation link with no behaviour to test, and finding
+5 edits process text with no behaviour to execute: both are documentation-only
+changes, closed by the rendering, link and example check `reference/coverage.md`
+requires for one, and recorded as justified rather than silently skipped. The
+security/privacy agent scans the target, the diffs and the reference artifacts
+for credentials and machine-specific values; one absolute path in a fixture is
+replaced with the `$HOME`-relative form, and the replacement is named in the diff
+so the sanitization can be checked.
 
 The action step closed the batch as commit `a1c9f02`; the close-of-batch gate took
 `a1c9f02` - the tree was clean and no implementation was still running - and
@@ -184,7 +188,7 @@ and only that revision is what Phase 7 merges.
 
 | Criterion | Result | Evidence |
 |---|---|---|
-| Input findings triaged, reproduced, fixed, regression-tested | Pass | Triage table; regression tests for findings 1, 2 and 3, a link check for finding 4, the Gate line for finding 5 |
+| Input findings triaged, reproduced, fixed, regression-tested | Pass | Triage table; regression tests for findings 1, 2 and 3, a link check for finding 4 and the rendering/link check for finding 5's process-text edit |
 | No known finding at any severity | Pass | Round 3 verification, the sweep re-run and the extra pass after them, all clean over `d4f0a15` |
 | No open item remains | Pass | Open item log is empty |
 | Capability requirements met | Pass | Skill usage log, delegation log |
