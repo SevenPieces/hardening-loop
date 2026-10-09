@@ -126,8 +126,13 @@ covering nothing.
 Open items are not findings and do not take finding IDs; they are identified by
 their §13 row order or a distinct prefix.
 
-| ID | Description | Severity | Category | Reason unresolved | Impact | Attempted fixes | Workaround | Recommendation | Next action | Decision needed |
-|---|---|---|---|---|---|---|---|---|---|---|
+The Closure attempt column records which of the three methods `SKILL.md` Phase 6
+requires - reproduction, recorded experiment, or blocking constraint - applies to
+the row, and the artifact that shows it; a pending-review row without one is a
+template non-conformance.
+
+| ID | Description | Severity | Category | Reason unresolved | Impact | Attempted fixes | Closure attempt | Workaround | Recommendation | Next action | Decision needed |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## 14. Sensitive-information scan result
 The target, the diffs, the read-only inputs, and the input findings files: what
