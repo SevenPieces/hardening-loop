@@ -110,7 +110,7 @@ the change. If no other agent exists, the run escalates under Stop conditions.
 | Implementation | Phase 4 | the fixes and the hardening changes |
 | Independent test design | Phase 4 | the regression tests, and the coverage matrix that Phase 2 planned |
 | Adversarial review | Phase 5 | logic, robustness, abuse cases, boundary and failure behaviour |
-| Security / privacy scan | Phases 4-5 | secrets, credentials, PII, internal URLs, injection surfaces, unsafe logging, leakage |
+| Security / privacy scan | Phases 4 and 6 - on every batch, the baseline verification and the Gate's extra pass | secrets, credentials, PII, internal URLs, injection surfaces, unsafe logging, leakage |
 | Verification | Phases 4 and 6 | the baseline verification, each verification step, and the Gate's extra pass - the isolated production-like executions and the repeated-execution simulation |
 | Regression and cross-effects | Phases 4 and 6 | the recorded baseline still holds at every verification step, and nothing outside the changed area moved |
 
