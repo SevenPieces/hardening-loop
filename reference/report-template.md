@@ -156,7 +156,7 @@ what was excluded, removed or redacted.
 ## 15. Read-only input integrity
 Confirmation that read-only inputs were untouched and uncommitted.
 
-## 16. Test coverage summary
+## 16. Coverage matrix
 The matrix from `reference/coverage.md` - the category rows and the change-set
 block (a "nothing to verify yet" row before any change exists, one row per
 changed behaviour after) - with columns
