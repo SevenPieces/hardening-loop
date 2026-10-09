@@ -120,8 +120,9 @@ adversary" below means that role, and "the verifier" means the Verification role
 **Independent roles, no more than one role per agent.** Every role in the
 delegation plan is staffed by its own agent: no agent holds more than one role,
 and no role is merged into another. Implementation, verification, independent
-test design and adversarial review are four separate agents, and the
-orchestrator is none of them. Independence is a property of how the roles are
+test design and adversarial review are four separate agents - the four
+independent roles this document refers to - and the orchestrator is none of
+them. Independence is a property of how the roles are
 staffed, not of the plan's good intentions - two roles in one agent are one
 role, however the plan words it.
 
