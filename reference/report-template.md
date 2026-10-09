@@ -103,11 +103,12 @@ Findings carry one ID scheme across the whole report: a single sequence, never
 per-source prefixes. §7 and §9 share the sequence; an item that moves between
 them keeps its ID.
 
-§9 is a table with one row per finding, as §7 is. Candidates derived during
-Phase 0-3 reconciliation belong to §7; findings produced after triage - while
-working the backlog, by the adversarial sweep, by this run's own fixes, and any
-process-compliance finding - belong to §9. A prose summary instead of the table
-is a template non-conformance.
+§9 is a table with one row per finding, as §7 is. Findings produced after triage -
+while working the backlog, by the adversarial sweep, by this run's own fixes, and
+any process-compliance finding - belong to §9, and a derived candidate that is not
+a defect at triage time takes no row of its own there: it is carried downstream
+and reported only with the finding it later produces, which is what takes the §9
+row. A prose summary instead of the table is a template non-conformance.
 
 | ID | Source | Description | Severity | Origin | Root cause | Reproduction | Fix | Regression test | Status |
 |---|---|---|---|---|---|---|---|---|---|
