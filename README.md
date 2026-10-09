@@ -30,8 +30,9 @@ The skill writes its report, its findings and any scratch state into the working
 directory the run is pointed at - never into the skill's own directory - and
 defines no fixed file name for them: the `.gitignore` patterns for those
 artifacts are a speculative safety net for a stray in-tree run, not a naming
-convention the run follows. It has no dependencies, no scripts and no network
-requirements of its own.
+convention the run follows. It ships no dependencies, scripts or network
+requirements of its own; the mandatory methodology framework comes from the
+harness's exposed skills, as `reference/capabilities.md` requires.
 
 ## Requirements
 
