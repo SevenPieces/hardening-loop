@@ -189,9 +189,10 @@ falsified, not the goal itself: satisfying them while the Gate is shut does not
 achieve the goal, and the goal stays open. Arm the harness goal with that
 objective and leave it active across rounds. Close the harness goal when the run
 ends - on Gate satisfaction, or as "pending review" / "not fully achieved" when
-it does not - but only once the merge the run made is complete, or once the
-change-sets have landed when there is no merge target. If the Gate's revision is
-voided and the loop re-enters, reopen the goal before the next action step. The
+it does not - but only once the merge the run made is complete and covers exactly
+the revision the Gate approved, or once the change-sets have landed when there is
+no merge target. If the Gate's revision is voided after the goal closed and the
+loop re-enters, reopen the goal before the next action step. The
 report's section 1 records the closing state and that it came after the merge (or
 the change-set landing). At minimum:
 
@@ -465,12 +466,16 @@ count. Feed every finding back into the loop.
 ### Phase 7 - Completion
 - Merge the revision the Gate approved - the revision the extra pass verified -
   and only it, back to the branch named in the declaration - `main` when the
-  invocation named none - locally. If anything lands between that pass and the
-  merge, the Gate's result is void for the new revision and the run re-enters the
-  loop: the action step commits the change, then the verification step over the
-  new revision, then the adversarial sweep over that state, then the extra pass,
-  then the Gate again. A merge of a revision no pass covered is a compliance
-  finding.
+  invocation named none - locally. Then verify that the merge result covers
+  exactly that revision, and close the harness goal only once it does; if the
+  merge covers anything else, keep the goal open and re-enter the loop before
+  closing it. If anything lands between that pass and the merge, the Gate's
+  result is void for the new revision and the run re-enters the loop: the action
+  step commits the change, then the verification step over the new revision, then
+  the adversarial sweep over that state, then the extra pass, then the Gate
+  again. A merge of a revision no pass covered is a compliance finding. A
+  content-preserving integration commit does not void the pass the Gate approved
+  (`reference/capabilities.md`); record the equivalence in §12.
 - When there is no branch to merge into - the target is not under version
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied change-sets and the baseline identity there instead.

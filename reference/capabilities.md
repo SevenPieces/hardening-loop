@@ -175,10 +175,12 @@ continues the implementer's conversation inherits its blind spots, and the
 independence is only nominal.
 
 A pass expires when the thing it verified changes. Any change - a follow-up fix,
-a documentation edit, a generated artifact, a merge commit - invalidates
-recorded passes over the changed paths, and the Gate may not open on a stale
-pass. A pass whose revision cannot be shown to be the revision under review is a
-finding.
+a documentation edit, a generated artifact - invalidates recorded passes over the
+changed content, and the Gate may not open on a stale pass. A content-preserving
+integration commit does not invalidate a pass: a fast-forward, a rebase-free
+merge, or a merge commit whose tree equals the approved revision's tree, provided
+the equivalence is recorded in section 12. A pass whose revision cannot be shown
+to be the revision under review is a finding.
 
 **Adversary brief.** The adversary is told to break it, on the assumption that
 the change is wrong, and returns either the input that proves it or the attacks

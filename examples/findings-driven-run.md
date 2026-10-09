@@ -196,10 +196,10 @@ and only that revision is what Phase 7 merges.
 The revision the Gate approved - `d4f0a15`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
-along, and a re-entry reopens the harness goal before the next action step. With
-the merge complete, the run closes the goal as achieved. The report lists the
-exact push command(s) and waits for approval. Read-only inputs are unmodified and
-uncommitted.
+along, and a re-entry reopens the harness goal before the next action step. Once
+the merge is verified to cover exactly `d4f0a15`, the run closes the goal as
+achieved. The report lists the exact push command(s) and waits for approval.
+Read-only inputs are unmodified and uncommitted.
 
 ## What the loop actually caught
 
