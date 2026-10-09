@@ -51,14 +51,20 @@ the reference files and the two scripts - against its documented behaviour.
 
 | ID | Finding | Severity | Reproduction |
 |---|---|---|---|
-| F1 | Two reference files state different defaults for the same option | Medium | Both files read; delivered sample shows the losing value |
-| F2 | A script exits 0 on a malformed argument | High | `script.mjs --broken` -> exit 0, no diagnostic |
-| F3 | The coverage window ends at generation time, not run start | Medium | Not reproducible from the sample alone; mechanism located in the script |
-| F4 | A worked example links to a renamed file | Trivial | Link target missing |
-| F5 | The Gate could pass with an unrun verification step | Medium (process) | Read of the process text; no stop condition tied to the verification record |
+| 1 | Two reference files state different defaults for the same option | Medium | Both files read; delivered sample shows the losing value |
+| 2 | A script exits 0 on a malformed argument | High | `script.mjs --broken` -> exit 0, no diagnostic |
+| 3 | The coverage window ends at generation time, not run start | Medium | Not reproducible from the sample alone; mechanism located in the script |
+| 4 | A worked example links to a renamed file | Trivial | Link target missing |
+| 5 | The Gate could pass with an unrun verification step | Medium (process) | Read of the process text; no stop condition tied to the verification record |
 
-F3 is marked *reproducible with instrumentation*: the script is run with a
-patched clock, and the window end is shown to move with the clock. F5 is a
+The IDs are one sequence for the whole report, as
+`reference/report-template.md` requires: no per-source prefixes. This table and
+the §9 finding log share the sequence, and an item that moves between them keeps
+its ID - which is why the regression found in Round 1 is 6, not `V1`, and the
+two sweep findings are 7 and 8.
+
+Finding 3 is marked *reproducible with instrumentation*: the script is run with a
+patched clock, and the window end is shown to move with the clock. Finding 5 is a
 process-compliance finding that arrived in the input backlog, not one this run
 raised: it is triaged here like any other input finding.
 
