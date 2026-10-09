@@ -150,10 +150,14 @@ Stop conditions rather than closing the role itself. See **Independence rule**.
 
 An escalated degradation stays a compliance finding until the operator
 explicitly accepts the degradation or supplies a separate agent. An accepted
-degradation is recorded in section 1 as "not fully achieved" and does not by
-itself block the Gate, since the Gate's compliance check is against the declared
-staffing, not against a satisfied independence floor; supplying a separate agent
-remediates the role and removes the degradation.
+degradation is recorded in section 1 as "not fully achieved" and, for the roles
+the independence rule does not bind, does not by itself block the Gate, since the
+Gate's compliance check is against the declared staffing, not against a satisfied
+independence floor; supplying a separate agent remediates the role and removes
+the degradation. Acceptance closes the compliance finding, but it does not waive
+report section 5: a revision produced under an accepted implementation or
+context-isolation degradation still needs a clean pass by an agent holding no
+other role, or the run stays open and escalates.
 
 **Instruction-budget note.** The cost of this rule is more agents, not more
 rounds: every role can run against one frozen batch, and a role with nothing to
