@@ -41,13 +41,13 @@ Covers the detected methodology framework and any skills named by `skills=`. Any
 skipped skill, with reason and remediation.
 
 ## 5. Delegation log
-| Role | Phase | Isolation | Task | Inputs | Outputs | Landing point |
-|---|---|---|---|---|---|---|
+| Role | Agent | Phase | Isolation | Task | Inputs | Outputs | Landing point |
+|---|---|---|---|---|---|---|---|
 "Isolation" records whether the delegate was a fresh agent; a delegate that
-continues the implementer's context is a self-held-role degradation, recorded
-with its reason and the Gate's compliance finding - never a normal isolation
-value. The table also records the agent that staffed the role, so it shows
-which agent staffed which role. Each pass names the revision it covered - the
+continues the implementer's context is a context-isolation degradation
+(independence only nominal), recorded with its reason and the Gate's compliance
+finding - never a normal isolation value. The Agent column records which agent
+staffed which role. Each pass names the revision it covered - the
 commit id, or the manifest of file hashes that stands in for one - together
 with the agent that ran it; a pass without a named revision is recorded as
 covering nothing. List any required role that was not delegated, every role the
@@ -151,8 +151,9 @@ what was excluded, removed or redacted.
 Confirmation that read-only inputs were untouched and uncommitted.
 
 ## 16. Test coverage summary
-The matrix from `reference/coverage.md` - the category rows and, once changes
-exist, the change-set block (one row per changed behaviour) - with columns
+The matrix from `reference/coverage.md` - the category rows and the change-set
+block (a "nothing to verify yet" row before any change exists, one row per
+changed behaviour after) - with columns
 category, covered by, technique, outcome, closing evidence; the areas that remain
 untested are named rather than implied, and the negative results are recorded.
 
