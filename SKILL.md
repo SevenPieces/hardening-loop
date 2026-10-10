@@ -245,7 +245,7 @@ isolated from production, plus repeated-execution simulation where feasible; the
 verbatim: the exact command and the exact inputs from the capability
 declaration - a plan that names no production workload, and no blocking constraint
 preventing one, is a plan for an unverified change-set; handling of read-only inputs (immutability, sanitization, no leakage into commits); the
-isolated work branch or worktree the changes will be made on, one follow-up
+isolated work branch or worktree the run creates for the changes, one follow-up
 commit per batch (the set of related fixes one action step carries), with no
 rewriting of existing history; open-item handling; and
 risks, rollback and cleanup.
@@ -524,17 +524,22 @@ count. Feed every finding back into the loop.
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied per-batch change-sets and the baseline identity there instead.
 - Tear down the isolation this run created, before the goal is closed: once the
-  merge is verified, remove any worktree the run made first - a branch checked
-  out in a worktree cannot be deleted - then delete the work branch the run
-  created, when it is not the merge target, with the safe delete that refuses an
-  unmerged branch (`git branch -d`, never `-D`). The merge target branch itself
-  is never deleted. Record in §11 the worktree path removed and the branch
-  deleted, and confirm both in §17. When the target is not under version
-  control, or `branch=none` was stated, or the run created no worktree and no
-  work branch, there is no isolation to tear down and §11 says so. A run that
-  ends "pending review" keeps its isolation as the review material for the
-  unmerged revision: §11 names the worktree and branch kept, and §17 records
-  that deliberate leftover.
+  merge is verified, remove any worktree the run made first (`git worktree
+  remove`, or `git worktree prune` when its directory is already gone) - a branch
+  checked out in a worktree cannot be deleted - then delete the work branch the
+  run created, when it is not the merge target, with the safe delete that refuses
+  an unmerged branch (`git branch -d`, never `-D`). The merge target branch
+  itself is never deleted. Record in §11 the worktree path removed and the branch
+  deleted, and confirm both in §17. When the target is not under version control,
+  or `branch=none` was stated, or the run created no worktree and no work branch,
+  there is no isolation to tear down and §11 says so. A run that ends "pending
+  review" keeps its isolation as the review material for the unmerged revision:
+  §11 names the worktree and branch kept, and §17 records that deliberate
+  leftover.
+- If the teardown cannot complete - a worktree that will not remove, a safe
+  delete that refuses the branch - do not force it: record the failure and its
+  remediation in §11 and §13, keep the goal open until it is resolved, and end
+  the run "pending review" if it stays open.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
