@@ -18,8 +18,9 @@ accepted). Any unachieved ending documents its gap, and the two differ in what
 else happens. A "not fully achieved" run whose gap the operator accepted still
 has the Gate satisfied: it merges the revision the Gate approved locally and
 carries the pending push command(s) like any other Gate-satisfied run. A
-"pending review" run is the one that pushes nothing and has no approved revision
-to merge.
+"pending review" run pushes nothing: it either has no approved revision to merge,
+or an open item found after the Gate opened and the merge landed, which §1
+records next to the goal's own state.
 
 The loop is the point. Every finding - input finding, regression, newly
 discovered, introduced by this run's own fixes, or process-compliance - returns
@@ -196,8 +197,10 @@ ends, in the state the run ended in. On Gate satisfaction - achieved, or "not
 fully achieved" when a gap against a criterion has been accepted - close it only
 once the merge covers exactly the revision the Gate approved, or the change-sets
 have landed when there is no merge target. An accepted gap still leaves the Gate
-satisfied, so the goal is closed the same way; only "pending review" has no
-approved revision and no merge to wait for, so it is closed in that state. If
+satisfied, so the goal is closed the same way. A "pending review" run is closed
+in that state: either it never reached a merge, or its open item came after one -
+like a teardown that could not complete - and the goal's state as it closed is
+recorded next to the run's. If
 the Gate's revision is voided after the goal closed and the loop re-enters, reopen
 the goal before the next action step. The report's section 1 records the closing
 state, and for a Gate-satisfied close that it came after the merge (or the
@@ -523,24 +526,24 @@ count. Feed every finding back into the loop.
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied per-batch change-sets and the baseline identity there instead.
 - Tear down the isolation this run created: once the merge is verified, remove
-  any worktree the run made first (`git worktree remove`, or `git worktree prune`
-  when its directory is already gone) - a branch checked out in a worktree cannot
-  be deleted - then delete the work branch the run created, when it is not the
-  merge target, with the safe delete that refuses an unmerged branch (`git branch
-  -d`, never `-D`). The merge target branch itself is never deleted. Run it as
-  evidence, not as a claim: §11 records, when there was isolation to tear down,
-  the exact command(s), their output, and the worktree path and branch removed,
-  and §17 is confirmed from that output. When the target is not under version
-  control, or `branch=none` was stated, or the run created no work branch and no
-  worktree, there is no isolation to tear down and §11 says so. A run that ends
-  "pending review" keeps its isolation as the review material for the unmerged
-  revision: §11 names the worktree and branch kept, and §17 records that
-  deliberate leftover.
+  any worktree the run made first (`git worktree remove <path>`, or `git worktree
+  prune` only once `git worktree list` shows the run's own is the only prunable
+  entry, when its directory is already gone) - a branch checked out in a worktree
+  cannot be deleted - then delete the work branch the run created, when it is not
+  the merge target, with the safe delete that refuses an unmerged branch (`git
+  branch -d`, never `-D`). The merge target branch itself is never deleted. Run it
+  and record it as evidence, not as a claim: §11 records, when there was isolation
+  to tear down, the exact command(s), their output, and the worktree path and
+  branch removed, and §17 is confirmed from that output. When the target is not
+  under version control, or the run created no work branch and no worktree, there
+  is no isolation to tear down and §11 says so. A run that ends "pending review"
+  keeps its isolation as the review material for the unmerged revision: §11 names
+  the worktree and branch kept, and §17 records that deliberate leftover.
 - If the teardown cannot complete - a worktree that will not remove, a safe
   delete that refuses the branch - do not force it: record the failure and its
   remediation in §11 and §13 as an open item with a closure attempt, name what
-  could not be removed in §17, and let the open-item rule (Phase 6) decide the
-  ending.
+  could not be removed in §17, and do not end the run "achieved": it ends
+  "pending review", with §1 recording the goal's state next to the run's.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one

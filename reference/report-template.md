@@ -20,10 +20,12 @@ state (achieved, pending review, or not fully achieved). When the Gate opened,
 note that it closed only once the local merge covered the approved revision - or
 once the change-sets had landed when there is no merge target. An accepted gap
 still leaves the Gate satisfied, so a "not fully achieved" run is closed the same
-way, once that merge or landing covers the approved revision; only a "pending
-review" run closes in that state, with no approved revision and no merge to wait
-for. When goal tracking was absent, write "not applicable" and where the goal
-lived instead.
+way, once that merge or landing covers the approved revision; a "pending review"
+run closes in that state, either because it never reached a merge or because its
+open item came after one. A teardown that could not complete is an open item found after the Gate
+opened and the merge landed: the run ends "pending review", and the goal's own
+state is recorded as it closed next to it. When goal tracking was absent, write
+"not applicable" and where the goal lived instead.
 
 ## 2. Exit criteria scorecard
 | Criterion | Pass / Fail | Evidence |
@@ -129,13 +131,13 @@ whether the tree was dirty at Phase 0 when the target is under version control),
 the commits in order, and the files touched. When the target has no branch to
 merge into, write "no merge target" and list the applied per-batch change-sets
 - the no-version-control substitute for a commit - and the baseline identity in
-place of the branch and the commits. Record the teardown as evidence: the exact
-command(s) and their output, the work branch deleted and the worktree path removed
-when one was made, with the merge target branch left in place - or, when the
-target has no version control, `branch=none` was stated, or the run created no
-worktree and no work branch, that there was no isolation to tear down. A run that
-ends "pending review" names the worktree and branch it kept
-there instead.
+place of the branch and the commits. Record the teardown as evidence - the exact
+command(s) and their output, or why no teardown was run - with either the work
+branch deleted and the worktree path removed when one was made, the merge target
+branch left in place, or the failure that left isolation in place, or, when the
+target has no version control, or the run created no worktree and no work branch,
+that there was no isolation to tear down. A run that ends "pending review" names
+the worktree and branch it kept there instead.
 
 ## 12. Verification and adversarial sweep evidence
 Including the baseline verification, each adversarial sweep and its re-runs, the
