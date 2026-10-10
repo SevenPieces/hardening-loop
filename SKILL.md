@@ -378,7 +378,8 @@ Verification step, per action step:
   The wait is bounded. If the batch cannot be closed because implementation will
   not settle - a delegate that stalls, a job that will not finish, an
   interruption that leaves work uncommitted - do not wait indefinitely:
-  re-delegate or abandon that work as **Failed delegation** requires, record the
+  re-delegate or abandon that work as **Failed delegation** in
+  `reference/capabilities.md` requires, record the
   batch's actual state, and escalate under the Stop conditions. A wait with no
   bound is a hung round, not a closed batch, and it is the one way this gate can
   stop the loop from making progress at all.
@@ -540,7 +541,7 @@ count. Feed every finding back into the loop.
   branch removed, and §17 is confirmed from that output. When the target is not
   under version control, or the run created no work branch and no worktree, there
   is no isolation to tear down and §11 says so. A run that ends "pending review"
-  keeps its isolation as the review material for the unmerged revision: §11 names
+  keeps its isolation as its review material: §11 names
   the worktree and branch kept, and §17 records that deliberate leftover.
 - If the teardown cannot complete - a worktree that will not remove, a safe
   delete that refuses the branch - do not force it: record the failure and its

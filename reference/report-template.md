@@ -52,9 +52,10 @@ skipped skill, with reason and remediation.
 continues the implementer's context is a context-isolation degradation
 (independence only nominal), recorded with its reason and the Gate's compliance
 finding - never a normal isolation value. An accepted context-isolation
-degradation records that the role's independence is nominal and is never counted
-as an independent pass; the revision it produced still requires a clean pass by
-an agent that holds no other role before the Gate. The Agent column records
+degradation records that the role's independence is nominal; a revision
+produced under an accepted implementation or context-isolation degradation is
+never counted as an independent pass, and it still requires a clean pass by an
+agent that holds no other role before the Gate. The Agent column records
 which agent staffed which role. Each pass names the revision it covered - the
 commit id, or the manifest of file hashes that stands in for one - together
 with the agent that ran it; a pass without a named revision is recorded as
