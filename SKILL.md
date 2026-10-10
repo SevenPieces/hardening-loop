@@ -434,7 +434,7 @@ the loop exists to do. Continue until no finding of any level remains.
 
 ### Phase 5 - Adversarial sweep
 The sweep does not need its own close-of-batch gate - the verification step that
-precedes it is full over the revision it named, and nothing runs between them -
+precedes it has verified the revision it named clean, and nothing runs between them -
 but it must assert the input the close-of-batch gate exists to protect: the
 revision this sweep is about to attack is the revision the immediately preceding
 verification step verified clean. Take that revision (the commit id, or the
