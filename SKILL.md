@@ -216,7 +216,8 @@ change-set landing). At minimum:
 - [ ] Conditional-capability requirements are met, with evidence.
 - [ ] The baseline still holds - no regression against the state recorded in Phase 0.
 - [ ] Production, delivered artifacts and schedules were untouched, and no
-      leftovers remain.
+      leftovers remain - including the isolation this run created: the work branch
+      it worked on and any worktree made for it are gone.
 
 Then define "done" in observable terms (the specific evidence required, not
 adjectives), the non-goals and out-of-scope items, and the stopping rule: the
@@ -521,12 +522,15 @@ count. Feed every finding back into the loop.
 - When there is no branch to merge into - the target is not under version
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied per-batch change-sets and the baseline identity there instead.
-- Tear down the isolation this run created: once the merge is verified, delete
-  the isolated work branch and remove any worktree made for it, leaving nothing
-  this run created behind. The branch the declaration named is the merge target
-  and is never deleted. Record the teardown in §11 and confirm it in §17. When
-  the target is not under version control, or `branch=none` was stated, there is
-  no isolation to tear down and §11 says so.
+- Tear down the isolation this run created: once the merge is verified, remove
+  any worktree made for it first - a branch checked out in a worktree cannot be
+  deleted - then delete the isolated work branch, the branch the run created to
+  work on when it is not the merge target, with the safe delete that refuses an
+  unmerged branch (`git branch -d`, never `-D`). The merge target branch itself
+  is never deleted. Record in §11 the worktree path removed and the branch
+  deleted, and confirm both in §17. When the target is not under version
+  control, or the work was done on the merge target itself, or `branch=none` was
+  stated, there is no isolation to tear down and §11 says so.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
@@ -536,8 +540,8 @@ count. Feed every finding back into the loop.
   push. Its Gate-facing sections - §2 scorecard, §3 capability declaration, §6
   compliance summary, §13 open-item log, §14 sensitive-information scan, §16
   coverage matrix - are drafted as their evidence is produced and are checked at
-  the Gate; §11 is completed after the local merge, or after the change-sets land
-  when there is no branch.
+  the Gate; §11 is completed after the local merge is verified and the isolation
+  is torn down, or after the change-sets land when there is no branch.
 
 ## Reporting
 

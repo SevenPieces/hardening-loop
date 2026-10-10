@@ -5,8 +5,8 @@ checks are recorded in and that the reviewer checks. It precedes any push. Its
 Gate-facing sections - §2 scorecard, §3 capability declaration, §6 compliance
 summary, §13 open-item log, §14 sensitive-information scan, §16 coverage matrix
 - are drafted as their evidence is produced and are checked at the Gate; §11 is
-completed after the local merge, or after the change-sets land when there is no
-branch (see
+completed after the local merge is verified and the isolation is torn down, or
+after the change-sets land when there is no branch (see
 `SKILL.md` Phases 6 and 7). Fill every section; where a section is genuinely not
 applicable, write "not applicable" and the reason rather than deleting the
 heading.
@@ -129,10 +129,10 @@ whether the tree was dirty at Phase 0 when the target is under version control),
 the commits in order, and the files touched. When the target has no branch to
 merge into, write "no merge target" and list the applied per-batch change-sets
 - the no-version-control substitute for a commit - and the baseline identity in
-place of the branch and the commits. Record the teardown of the isolated work
-branch and of any worktree made for it - the branch the declaration named stays
-in place as the merge target - or, when the target has no version control or
-`branch=none` was stated, that there was no isolation to tear down.
+place of the branch and the commits. Record the teardown: the worktree path
+removed and the isolated work branch deleted, with the merge target branch left
+in place - or, when the target has no version control or `branch=none` was
+stated, that there was no isolation to tear down.
 
 ## 12. Verification and adversarial sweep evidence
 Including the baseline verification, each adversarial sweep and its re-runs, the

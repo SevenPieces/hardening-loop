@@ -200,7 +200,7 @@ is checked against the evidence it returned - a conclusion without its evidence
 is a finding, not an input.
 
 **Writer discipline.** Concurrent delegates take disjoint write scopes. Anything
-sharing a mutable path - a state file, a fixture directory, the work branch's
+sharing a mutable path - a state file, a fixture directory, a worktree's
 index - is serialized or split so that only one writer touches it.
 
 **Failed delegation.** A failed, stalled or empty delegate is re-delegated, not
