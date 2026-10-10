@@ -212,12 +212,12 @@ The revision the Gate approved - `b7e4410`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
 along, and a re-entry reopens the harness goal before the next action step. Once
-the merge is verified to cover exactly `b7e4410`, the isolation is torn down - the
-worktree is removed first, then the branch the run created, `harden/release-0.5`,
-leaving `release/0.5` - the merge target - in place and nothing this run created
-behind - and only then does the run close the goal as achieved. The report lists
-the exact push command(s) and waits for approval; it records the worktree path
-and the branch deleted in section 11 and confirms both in section 17.
+the merge is verified to cover exactly `b7e4410`, the run closes the goal as
+achieved and tears down the isolation: the worktree is removed first, then the
+branch the run created, `harden/release-0.5`, leaving `release/0.5` - the merge
+target - in place and nothing this run created behind. The report lists the exact
+push command(s) and waits for approval; it records the worktree path and the
+branch deleted in section 11 and confirms both in section 17.
 Read-only inputs are unmodified and uncommitted.
 
 ## What the loop actually caught

@@ -17,9 +17,8 @@ non-goals and out-of-scope items; the stopping rule.
 
 Goal: the harness goal's id, the objective it was armed with, and its final
 state (achieved, pending review, or not fully achieved). When the Gate opened,
-note that it closed only once the local merge covered the approved revision and
-the run's isolation was torn down - or once the change-sets had landed when there
-is no merge target. An accepted gap
+note that it closed only once the local merge covered the approved revision - or
+once the change-sets had landed when there is no merge target. An accepted gap
 still leaves the Gate satisfied, so a "not fully achieved" run is closed the same
 way, once that merge or landing covers the approved revision; only a "pending
 review" run closes in that state, with no approved revision and no merge to wait
@@ -130,10 +129,11 @@ whether the tree was dirty at Phase 0 when the target is under version control),
 the commits in order, and the files touched. When the target has no branch to
 merge into, write "no merge target" and list the applied per-batch change-sets
 - the no-version-control substitute for a commit - and the baseline identity in
-place of the branch and the commits. Record the teardown: the worktree path
-removed and the work branch deleted, with the merge target branch left in place
-- or, when the target has no version control, `branch=none` was stated, or the
-run created no worktree and no work branch, that there was no isolation to tear
+place of the branch and the commits. Record the teardown: the work branch deleted
+and the worktree path removed when one was made, with the merge target branch left
+in place - or, when the target has no version control, `branch=none` was stated,
+or the run created no worktree and no work branch, that there was no isolation to
+tear
 down. A run that ends "pending review" names the worktree and branch it kept
 there instead.
 
@@ -177,7 +177,7 @@ untested are named rather than implied, and the negative results are recorded.
 Confirmation that production, delivered artifacts and schedules were untouched,
 and that no leftovers remain - temp files, processes, branches, worktrees, state
 or side effects; a run that ends "pending review" names the isolation it kept as
-review material as the one deliberate exception.
+review material, and a teardown that could not complete names what it left.
 
 ## 18. Residual risks and decisions made
 What remains uncertain, and the decisions taken where the requirement was open.
