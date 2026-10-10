@@ -130,9 +130,11 @@ the commits in order, and the files touched. When the target has no branch to
 merge into, write "no merge target" and list the applied per-batch change-sets
 - the no-version-control substitute for a commit - and the baseline identity in
 place of the branch and the commits. Record the teardown: the worktree path
-removed and the isolated work branch deleted, with the merge target branch left
-in place - or, when the target has no version control or `branch=none` was
-stated, that there was no isolation to tear down.
+removed and the work branch deleted, with the merge target branch left in place
+- or, when the target has no version control, `branch=none` was stated, or the
+run created no worktree and no work branch, that there was no isolation to tear
+down. A run that ends "pending review" names the worktree and branch it kept
+there instead.
 
 ## 12. Verification and adversarial sweep evidence
 Including the baseline verification, each adversarial sweep and its re-runs, the
@@ -173,7 +175,8 @@ untested are named rather than implied, and the negative results are recorded.
 ## 17. Deliverable and environment integrity
 Confirmation that production, delivered artifacts and schedules were untouched,
 and that no leftovers remain - temp files, processes, branches, worktrees, state
-or side effects.
+or side effects; a run that ends "pending review" names the isolation it kept as
+review material as the one deliberate exception.
 
 ## 18. Residual risks and decisions made
 What remains uncertain, and the decisions taken where the requirement was open.
