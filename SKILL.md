@@ -589,7 +589,7 @@ Prompts that resolve to the same declarations:
 
 - "harden the daily-news-briefing skill until nothing is left" ->
   `target=skills/daily-news-briefing mode=baseline branch=main`
-- "close out findings/issues/q3-audit.md against the auth adapter plugin and
+- "close out issues/q3-audit.md against the auth adapter plugin and
   land it on release/0.5" ->
   `target=plugin:auth-adapter mode=findings-driven findings=issues/q3-audit.md branch=release/0.5`
 

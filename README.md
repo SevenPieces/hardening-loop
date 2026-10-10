@@ -145,7 +145,10 @@ Reconnaissance -> Goal (falsifiable exit criteria) -> Plan
       -> Report
 ```
 
-The baseline verification runs even when the backlog is empty. Every `fix` arrow
+The baseline verification runs even when the backlog is empty. When the backlog is
+empty and the baseline verification finds nothing, no batch lands, so the baseline
+verification is followed directly by the adversarial sweep and the Gate's extra
+pass. Every `fix` arrow
 returns to Action, and Action is followed by Verification, the Adversarial sweep
 and the Extra pass, so a finding from any check - Verification, the Adversarial
 sweep, the Extra pass or the Gate - is re-gated only after the verification step,
