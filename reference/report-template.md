@@ -129,7 +129,10 @@ whether the tree was dirty at Phase 0 when the target is under version control),
 the commits in order, and the files touched. When the target has no branch to
 merge into, write "no merge target" and list the applied per-batch change-sets
 - the no-version-control substitute for a commit - and the baseline identity in
-place of the branch and the commits.
+place of the branch and the commits. Record the teardown of the isolated work
+branch and of any worktree made for it - the branch the declaration named stays
+in place as the merge target - or, when the target has no version control or
+`branch=none` was stated, that there was no isolation to tear down.
 
 ## 12. Verification and adversarial sweep evidence
 Including the baseline verification, each adversarial sweep and its re-runs, the
@@ -169,8 +172,8 @@ untested are named rather than implied, and the negative results are recorded.
 
 ## 17. Deliverable and environment integrity
 Confirmation that production, delivered artifacts and schedules were untouched,
-and that no leftovers remain - temp files, processes, branches, state or side
-effects.
+and that no leftovers remain - temp files, processes, branches, worktrees, state
+or side effects.
 
 ## 18. Residual risks and decisions made
 What remains uncertain, and the decisions taken where the requirement was open.

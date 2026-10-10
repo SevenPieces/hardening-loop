@@ -119,7 +119,7 @@ findings against an unexamined target is not a finished run.
 1. Goal before plan, plan before act.
 2. Evidence over assertion - every claim is backed by a command, log, diff or output.
 3. Isolation - verification never disturbs production, delivered artifacts, schedules or state.
-4. No leftovers - temp files, processes, state, branches and side effects are cleaned up.
+4. No leftovers - temp files, processes, state, branches, worktrees and side effects are cleaned up.
 5. No silent deferral - every open item is closed or documented for review.
 6. Independence - every role is staffed by an agent that holds no other role,
    and review and verification are never done by the agent that implemented the
@@ -521,6 +521,12 @@ count. Feed every finding back into the loop.
 - When there is no branch to merge into - the target is not under version
   control, or `branch=none` - record "no merge target" in §11 and §19 and list
   the applied per-batch change-sets and the baseline identity there instead.
+- Tear down the isolation this run created: once the merge is verified, delete
+  the isolated work branch and remove any worktree made for it, leaving nothing
+  this run created behind. The branch the declaration named is the merge target
+  and is never deleted. Record the teardown in §11 and confirm it in §17. When
+  the target is not under version control, or `branch=none` was stated, there is
+  no isolation to tear down and §11 says so.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
