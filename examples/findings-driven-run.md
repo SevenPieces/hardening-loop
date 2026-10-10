@@ -68,7 +68,7 @@ the reference files and the two scripts - against its documented behaviour.
 | 1 | Two reference files state different defaults for the same option | Medium | Both files read; delivered sample shows the losing value |
 | 2 | A script exits 0 on a malformed argument | High | `script.mjs --broken` -> exit 0, no diagnostic |
 | 3 | The coverage window ends at generation time, not run start | Medium | Not reproducible from the sample alone; mechanism located in the script |
-| 4 | A worked example links to a renamed file | Trivial | Link target missing |
+| 4 | A worked example links to a renamed file | Low | Link target missing |
 | 5 | The Gate could pass with an unrun verification step | Medium (process) | Read of the process text; no stop condition tied to the verification record |
 
 The IDs are one sequence for the whole report, as
