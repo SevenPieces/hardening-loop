@@ -527,17 +527,20 @@ count. Feed every finding back into the loop.
   when its directory is already gone) - a branch checked out in a worktree cannot
   be deleted - then delete the work branch the run created, when it is not the
   merge target, with the safe delete that refuses an unmerged branch (`git branch
-  -d`, never `-D`). The merge target branch itself is never deleted. Record in
-  §11 the worktree path removed and the branch deleted, and confirm both in §17.
-  When the target is not under version control, or `branch=none` was stated, or
-  the run created no work branch and no worktree, there is no isolation to tear
-  down and §11 says so. A run that ends "pending review" keeps its isolation as
-  the review material for the unmerged revision: §11 names the worktree and
-  branch kept, and §17 records that deliberate leftover.
+  -d`, never `-D`). The merge target branch itself is never deleted. Run it as
+  evidence, not as a claim: §11 records, when there was isolation to tear down,
+  the exact command(s), their output, and the worktree path and branch removed,
+  and §17 is confirmed from that output. When the target is not under version
+  control, or `branch=none` was stated, or the run created no work branch and no
+  worktree, there is no isolation to tear down and §11 says so. A run that ends
+  "pending review" keeps its isolation as the review material for the unmerged
+  revision: §11 names the worktree and branch kept, and §17 records that
+  deliberate leftover.
 - If the teardown cannot complete - a worktree that will not remove, a safe
   delete that refuses the branch - do not force it: record the failure and its
-  remediation in §11 and §13 as an open item, name what could not be removed in
-  §17, and leave the ending to the open-item rule.
+  remediation in §11 and §13 as an open item with a closure attempt, name what
+  could not be removed in §17, and let the open-item rule (Phase 6) decide the
+  ending.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
