@@ -211,7 +211,9 @@ and only that revision is what Phase 7 merges.
 The revision the Gate approved - `b7e4410`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
-along, and a re-entry reopens the harness goal before the next action step. Once
+along, and a re-entry reopens the harness goal before the next action step. A
+content-preserving integration commit does not void the pass the Gate approved
+(`reference/capabilities.md`); the run records the equivalence in section 12. Once
 the merge is verified to cover exactly `b7e4410`, the run tears down the
 isolation: the worktree is removed first, then the branch the run created,
 `harden/release-0.5`, leaving `release/0.5` - the merge target - in place and
