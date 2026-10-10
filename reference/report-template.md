@@ -151,8 +151,9 @@ hashes) and the agent that ran it; a pass without a named revision is recorded a
 covering nothing.
 
 ## 13. Open item log
-Open items are not findings and do not take finding IDs; they are identified by
-their §13 row order or a distinct prefix.
+An open item that is also a finding keeps that finding's row and ID in §7/§9
+as well as its §13 row; an open item that is not a finding takes no finding ID
+and is identified by its §13 row order or a distinct prefix.
 
 The Closure attempt column records which of the three methods `SKILL.md` Phase 6
 requires - reproduction, recorded experiment, or blocking constraint - applies to

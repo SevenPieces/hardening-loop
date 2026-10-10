@@ -29,7 +29,7 @@ applies.
 |---|---|
 | A hardening report | The deliverable: goal, exit-criteria scorecard, triage table, compliance summary, finding and open-item logs, verification evidence, the coverage matrix, including its change-set block (section 16), sensitive-information scan, and the exact push command(s) pending approval when a branch or remote exists; a run with no branch or remote to push to records "no push target" instead, and a run with no merge target records "no merge target" in section 11 and section 19 |
 | Regression tests | One per input finding - or a recorded justification where none can be written; added to the target's suite, or to a runner added for the purpose where none existed and one was feasible |
-| A locally merged branch | The revision the Gate approved - the one the extra pass verified - merged locally to the branch the invocation names - `main` when it names none - and never pushed; anything landing after that pass voids the Gate and re-enters the loop, and a target that is not under version control records its baseline identity and the applied change-sets instead. The isolation the run created - the branch it worked on and any worktree - is torn down once the merge is verified |
+| A locally merged branch | The revision the Gate approved - the one the extra pass verified - merged locally to the branch the invocation names - `main` when it names none - and never pushed; anything landing after that pass voids the Gate and re-enters the loop, and a target that is not under version control, or a run invoked with `branch=none`, records its baseline identity and the applied change-sets instead. The isolation the run created - the branch it worked on and any worktree - is torn down once the merge is verified |
 
 The skill writes its report, its findings and any scratch state into the working
 directory the run is pointed at - never into the skill's own directory - and
@@ -76,8 +76,9 @@ normalized into the target declaration and stated back before the run starts.
 The revision the Gate approved - the one the extra pass verified - is merged back
 to the branch the invocation named - `main` when it named none - and is never
 pushed; anything landing after that pass re-enters the loop. A target that is not
-under version control has no branch to merge into: its baseline identity and the
-applied change-sets are recorded instead.
+under version control, or a run invoked with `branch=none`, has no branch to
+merge into: its baseline identity and the applied change-sets are recorded
+instead.
 
 Two entry modes:
 
