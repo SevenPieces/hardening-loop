@@ -36,10 +36,10 @@ including the process-compliance ones - with the `v0.4.2` behavior intact.*
 
 The harness goal is armed with that objective as `goal:hardening-0.5`, and the
 declaration records the id. The goal stays active until the run ends - every
-round below re-checks that it is still open. This run satisfies the Gate, so the
-goal is closed as achieved once the Gate's extra pass and the goal check both
-pass and the Phase 7 merge is complete, and the report records that closing state
-and that it followed the merge.
+round below re-checks that it is still open. This run satisfies the Gate, so once
+its extra pass and the goal check have both passed and its Phase 7 merge is
+verified, the run ends achieved and the goal is closed in that state; the report
+records that closing state and that it followed the merge.
 
 Exit criteria as the checklist from `SKILL.md`, plus two run-specific ones:
 the two scripts keep their documented exit codes, and the sample deliverable is
@@ -212,12 +212,13 @@ The revision the Gate approved - `b7e4410`, the one the extra pass verified - is
 merged locally on `release/0.5`, the branch the invocation named, and nothing is
 pushed; anything landing after that pass re-enters the loop rather than riding
 along, and a re-entry reopens the harness goal before the next action step. Once
-the merge is verified to cover exactly `b7e4410`, the run closes the goal as
-achieved and tears down the isolation: the worktree is removed first, then the
-branch the run created, `harden/release-0.5`, leaving `release/0.5` - the merge
-target - in place and nothing this run created behind. The report lists the exact
-push command(s) and waits for approval; it records the worktree path and the
-branch deleted in section 11 and confirms both in section 17.
+the merge is verified to cover exactly `b7e4410`, the run tears down the
+isolation: the worktree is removed first, then the branch the run created,
+`harden/release-0.5`, leaving `release/0.5` - the merge target - in place and
+nothing this run created behind. The run ends achieved, and the goal is closed in
+that state. The report lists the exact push command(s) and waits for approval; it
+records the worktree path and the branch deleted in section 11 and confirms both
+in section 17.
 Read-only inputs are unmodified and uncommitted.
 
 ## What the loop actually caught

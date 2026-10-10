@@ -295,8 +295,10 @@ plus regression and the production workload named in the plan - except the
 baseline verification, which runs the same traversal as found and omits the
 production workload. It runs as the baseline verification, after each batch, and
 once more as the Gate's extra pass. An **execution** - one execution of the
-target, as in a repeated, concurrent or scheduled execution - is also called the
-**production workload**; "run" alone always means the engagement. The loop runs
+target, as in a repeated, concurrent or scheduled execution - is the
+**production workload** only when it is the target's own entry point on its real
+inputs, or that entry point reduced only in inputs under a named constraint;
+"run" alone always means the engagement. The loop runs
 rounds until a verification step is clean.
 
 **Baseline verification.** Before any change, run one verification pass over the
@@ -329,10 +331,10 @@ the reconnaissance-derived backlog (mode A), and the baseline verification.
   input findings - designed and run by the independent test-design role where
   delegation is present (see `reference/capabilities.md`); where it is not, the
   role is recorded as the self-held degradation the capability declaration names
-  and the Gate raises as a process-compliance finding. No pass separate from the
-  implementation closes it. Where the target has no test suite, add a runner if
-  one is feasible: a test that would have caught the finding is the deliverable,
-  not a justification for skipping it. Only when that is genuinely infeasible,
+  and the Gate raises as a process-compliance finding. No separate pass closes
+  it. Where the target has no test suite, add a runner if one is feasible: a test
+  that would have caught the finding is the deliverable, not a justification for
+  skipping it. Only when that is genuinely infeasible,
   record the absence as an open item; a runner-phase decision that leaves the
   runner absent must close the Phase 0 open item as a recorded justification, or
   carry it as an open item with a closure attempt.
@@ -469,11 +471,11 @@ count. Feed every finding back into the loop.
   the Gate - except a degradation the declaration records and the operator has
   explicitly accepted. Accepting it closes its compliance finding; since this
   check is against the declared staffing rather than a satisfied independence
-  floor, for the roles the independence rule does not bind it does not by itself
-  block the Gate: the check is reported as "passed with a recorded accepted
-  degradation" rather than as a plain pass, and report §6 carries that wording and
-  names it as the reason the run is "not fully achieved"
-  (`reference/capabilities.md`). A revision produced under an accepted
+  floor, for a degradation other than an implementation or context-isolation one
+  it does not by itself block the Gate: the check is reported as "passed with a
+  recorded accepted degradation" rather than as a plain pass, and report §6
+  carries that wording and names it as the reason the run is "not fully
+  achieved" (`reference/capabilities.md`). A revision produced under an accepted
   implementation or context-isolation degradation is the exception: acceptance
   closes the compliance finding but not report §5, so the Gate stays blocked
   until a clean pass by an agent holding no other role exists, or the run stays
@@ -513,13 +515,14 @@ count. Feed every finding back into the loop.
 - Merge the revision the Gate approved - the revision the extra pass verified -
   and only it, back to the branch named in the declaration - `main` when the
   invocation named none - locally. Then verify that the merge result covers
-  exactly that revision, and close the harness goal only once it does; if the
-  merge covers anything else, keep the goal open and re-enter the loop before
-  closing it. If anything lands between that pass and the merge, the Gate's
-  result is void for the new revision and the run re-enters the loop: the action
-  step commits the change, then the verification step over the new revision, then
-  the adversarial sweep over that state, then the extra pass, then the Gate
-  again. A merge of a revision no pass covered is a compliance finding. A
+  exactly that revision, and close the harness goal only once it does, in the
+  state the run ends in; if the merge covers anything else, keep the goal open
+  and re-enter the loop before closing it. If anything lands between that pass
+  and the merge, the Gate's result is void for the new revision and the run
+  re-enters the loop: the action step commits the change, then the verification
+  step over the new revision, then the adversarial sweep over that state, then
+  the extra pass, then the Gate again. A merge of a revision no pass covered is a
+  compliance finding. A
   content-preserving integration commit does not void the pass the Gate approved
   (`reference/capabilities.md`); record the equivalence in §12.
 - When there is no branch to merge into - the target is not under version

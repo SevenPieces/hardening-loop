@@ -184,10 +184,11 @@ does not push.
 - **Process compliance is itself graded.** An unmet requirement is a finding,
   and it blocks the Gate like any other - except a degradation the declaration
   records and the operator has explicitly accepted, which closes its compliance
-  finding. For the roles the independence rule does not bind it leaves the run
-  "not fully achieved"; a revision produced under an accepted implementation or
-  context-isolation degradation still needs a clean pass by an agent holding no
-  other role before the Gate, or the run stays open and escalates.
+  finding. For a degradation other than an implementation or context-isolation
+  one it leaves the run "not fully achieved"; a revision produced under an
+  accepted implementation or context-isolation degradation still needs a clean
+  pass by an agent holding no other role before the Gate, or the run stays open
+  and escalates.
 - **Read-only means read-only.** Reference, delivered and production artifacts
   are never disturbed, and nothing is copied out of them unsanitized.
 
