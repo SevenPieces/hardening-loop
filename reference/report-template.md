@@ -103,9 +103,9 @@ Every finding this run produced or carried that is not in the backlog triaged in
 issues discovered during the run, anything introduced by this run's own fixes,
 and process-compliance findings.
 
-Findings carry one ID scheme across the whole report: a single sequence, never
-per-source prefixes. §7 and §9 share the sequence; an item that moves between
-them keeps its ID.
+The ID scheme §7 states governs this log unchanged: a single sequence, never a
+per-source prefix, that §7 and §9 share; an item that moves between them keeps
+its ID.
 
 §9 is a table with one row per finding, as §7 is. Findings produced after triage -
 while working the backlog, by the adversarial sweep, by this run's own fixes, and

@@ -28,7 +28,7 @@ production workload is deliberately absent; functional correctness and productio
 isolation are recorded there as deferred to the first verification step after the
 baseline verification, not as open items. The production workload is part of
 every post-baseline traversal: it runs as part of every verification step over a
-batch, and once more in the Gate's extra pass.
+batch, and in the Gate's extra pass (every time that pass runs).
 
 Regression is the closing check, not a fourth pass: everything that worked
 before still works.
