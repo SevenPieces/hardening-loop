@@ -146,7 +146,7 @@ the baseline execution are byte-identical. Three findings come out of that pass,
 each introduced by the batch's own fixes:
 
 - **Finding 6 (Medium):** the second execution of the script rewrites a state
-  file it should only read, so the two executions disagree - a regression
+  file it should only read, so the two executions disagree -
   introduced by the finding-3 fix (Runtime and repeated-execution behaviour).
 - **Finding 7 (Medium):** a concurrent execution of the two scripts interleaves
   on that state file, so the result depends on which execution finishes first -
