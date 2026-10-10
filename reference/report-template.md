@@ -22,9 +22,10 @@ once the change-sets had landed when there is no merge target. An accepted gap
 still leaves the Gate satisfied, so a "not fully achieved" run is closed the same
 way, once that merge or landing covers the approved revision; a "pending review"
 run closes in that state, either because it never reached a merge or because its
-open item came after one. A teardown that could not complete is an open item found after the Gate
-opened and the merge landed: the run ends "pending review", and the goal's own
-state is recorded as it closed next to it. When goal tracking was absent, write
+open item came after one. A teardown that could not complete is an open item found
+after the Gate opened and the merge landed: the run ends "pending review", and the
+goal's own state is recorded as it closed next to it. When goal tracking was
+absent, write
 "not applicable" and where the goal lived instead.
 
 ## 2. Exit criteria scorecard

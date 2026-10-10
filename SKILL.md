@@ -200,9 +200,9 @@ have landed when there is no merge target. An accepted gap still leaves the Gate
 satisfied, so the goal is closed the same way. A "pending review" run is closed
 in that state: either it never reached a merge, or its open item came after one -
 like a teardown that could not complete - and the goal's state as it closed is
-recorded next to the run's. If
-the Gate's revision is voided after the goal closed and the loop re-enters, reopen
-the goal before the next action step. The report's section 1 records the closing
+recorded next to the run's. If the Gate's revision is voided after the goal closed
+and the loop re-enters, reopen the goal before the next action step. The report's
+section 1 records the closing
 state, and for a Gate-satisfied close that it came after the merge (or the
 change-set landing). At minimum:
 
