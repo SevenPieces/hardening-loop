@@ -199,10 +199,10 @@ once the merge covers exactly the revision the Gate approved, or the change-sets
 have landed when there is no merge target. An accepted gap still leaves the Gate
 satisfied, so the goal is closed the same way. A "pending review" run is closed
 in that state: either it never reached a merge, or its open item came after one -
-like a teardown that could not complete - and the goal's state as it closed is
-recorded next to the run's. If the Gate's revision is voided after the goal closed
-and the loop re-enters, reopen the goal before the next action step. The report's
-section 1 records the closing
+like a teardown that could not complete - and the goal is closed in that state; §1
+records it next to the run's. If the Gate's revision is voided after the goal
+closed and the loop re-enters, reopen the goal before the next action step. The
+report's section 1 records the closing
 state, and for a Gate-satisfied close that it came after the merge (or the
 change-set landing). At minimum:
 
@@ -516,9 +516,10 @@ count. Feed every finding back into the loop.
 - Merge the revision the Gate approved - the revision the extra pass verified -
   and only it, back to the branch named in the declaration - `main` when the
   invocation named none - locally. Then verify that the merge result covers
-  exactly that revision, and close the harness goal only once it does, in the
-  state the run ends in; if the merge covers anything else, keep the goal open
-  and re-enter the loop before closing it. If anything lands between that pass
+  exactly that revision, and close the harness goal only once it does - an act
+  performed at the end of the run, after the teardown below, in the state the
+  run ends in; if the merge covers anything else, keep the goal open and
+  re-enter the loop before closing it. If anything lands between that pass
   and the merge, the Gate's result is void for the new revision and the run
   re-enters the loop: the action step commits the change, then the verification
   step over the new revision, then the adversarial sweep over that state, then
@@ -547,7 +548,8 @@ count. Feed every finding back into the loop.
   delete that refuses the branch - do not force it: record the failure and its
   remediation in §11 and §13 as an open item with a closure attempt, name what
   could not be removed in §17, and do not end the run "achieved": it ends
-  "pending review", with §1 recording the goal's state next to the run's.
+  "pending review", and the harness goal is closed in that state, with §1
+  recording that state next to the run's.
 - Do not push. "Push" means any publish to a remote or external consumer:
   `git push`, a package or image publish, or a deployment. None of it happens
   without explicit approval, and the report carries the exact command(s) when one
