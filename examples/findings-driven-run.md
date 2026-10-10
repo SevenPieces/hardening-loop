@@ -74,7 +74,7 @@ the reference files and the two scripts - against its documented behaviour.
 The IDs are one sequence for the whole report, as
 `reference/report-template.md` requires: no per-source prefixes. This table and
 the §9 finding log share the sequence, and an item that moves between them keeps
-its ID - which is why the regression found in Round 1 is 6, not `V1`, and the
+its ID - which is why the finding the first round introduced is 6, not `V1`, and
 findings that verification pass produced after it are 7 and 8.
 
 Finding 3 is marked *reproducible with instrumentation*: the script is run with a
